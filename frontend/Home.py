@@ -1,6 +1,15 @@
 from fasthtml.common import *
 
-def Home():
+def Page():
     return Main(
-        P('Hello World!'), hx_get="/change"
+        H1("This is heading 1"),
+        P("This is some text."),
+        Hr(),
+        H2("This is heading 2"),
+        P("This is some other text."),
+        Hr(),
+        H2("This is heading 2"),
+        P("This is some other text."),
+
+        A(Button("Click me"),href="/change")
     ) 
