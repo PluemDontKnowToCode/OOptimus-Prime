@@ -11,5 +11,5 @@ def Page():
         H2("This is heading 2"),
         P("This is some other text."),
 
-        A(Button("Click me"),href="/change")
+        A(Button("Click me"),href="/cart")
     ) 

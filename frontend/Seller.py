@@ -1,7 +1,8 @@
 from fasthtml.common import *
 
 def Page():
-    page = Container(
+    page = Title("Seller's Home - Teerawee Shop"),
+    Container(
         # หัวข้อหลัก
         H1("Style Examples", style="text-align: center; color: #2196f3; margin: 20px 0;"),
         
