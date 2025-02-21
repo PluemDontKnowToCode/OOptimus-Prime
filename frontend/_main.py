@@ -25,5 +25,7 @@ def get():
 @rt('/cart')
 def get():
     return Cart.Page()
-
+@rt('/purchase')
+def get():
+    return H1("404 haha Teerawee not found")
 serve()
