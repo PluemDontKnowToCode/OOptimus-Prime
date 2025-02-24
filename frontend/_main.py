@@ -1,9 +1,12 @@
 from fasthtml.common import *
 from Component import *
 import os
-from ..backend import lib255
+import sys
 
-from Object import *
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+
+from backend.lib255 import *
+
 from dotenv import load_dotenv
 load_dotenv()
 

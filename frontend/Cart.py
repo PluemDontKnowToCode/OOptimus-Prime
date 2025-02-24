@@ -1,5 +1,5 @@
 from fasthtml.common import *
-from Object import *
+from backend.lib255 import *
 from Component import *
 
 cart = [
