@@ -8,13 +8,12 @@ class Object:
     @property
     def id(self):
         return self.__id
-    
+
     def Equal(self, id):
         return self.__id == id
     
 #region Product
 class Product(Object):
-
     #image is list na
     def __init__(self, name, id, price, description, img1, category):
         super().__init__(id)
@@ -268,6 +267,7 @@ class Market():
     def __init__(self):
         self.__account_list = []
         self.__product_list = []
+        self.__unapprove_product_list = []
         self.__coupon_list = []
         self.__category_list = []
         #make it private nah
@@ -290,7 +290,7 @@ class Market():
     
     def add_account(self, account : Account):
         self.__account_list.append(account)
-        
+    
     def add_product(self, product : Product):
         self.__product_list.append(product)
 
