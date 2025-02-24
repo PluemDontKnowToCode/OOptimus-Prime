@@ -30,7 +30,8 @@ def CartPage():
                             Style="width:500px;"
                         ),
                         Div(
-                            p["price"]
+                            p["price"],
+                            Style="padding-top: 100px "
                         )
                     ),
                     Style="display: flex; justify-content: space-between; width: 750px;, boarder : solid;,align-items: center;"
