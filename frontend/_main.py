@@ -1,10 +1,10 @@
 from fasthtml.common import *
 from Component import *
 import os
+from ..backend import lib255
 
 from Object import *
 from dotenv import load_dotenv
-load_dotenv()
 
 market = Market()
 
