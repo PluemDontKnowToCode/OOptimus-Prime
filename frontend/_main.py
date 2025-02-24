@@ -17,7 +17,7 @@ import Login
 app,rt = fast_app(
     hdrs=[Style(':root { --pico-font-size: 100%; }')],
     id=int, title=str, done=bool, pk='id')
-#home page
+
 @rt('/')
 def get():
     return Home.Page()
