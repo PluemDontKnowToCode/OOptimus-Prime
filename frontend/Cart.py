@@ -1,15 +1,16 @@
 from fasthtml.common import *
 from backend.lib255 import *
 from Component import *
-
+from _main import app
 cart = [
    {"name": "Laptop", "description": "High performance laptop","price": 300},
    {"name": "Mouse", "description": "Wireless mouse","price": 600},
    {"name": "Keyboard", "description": "Mechanical keyboard XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX","price": 300}
 ]
 
-price = sum(item["price"] for item in cart)
+
 def CartPage():
+    price = sum(item["price"] for item in cart)
     page = Title("Cart - Teerawee Shop"), Main(
         Header(),
         Div(
@@ -33,6 +34,13 @@ def CartPage():
                             p["price"],
                             Style="padding-top: 100px "
                         )
+                    ),
+                    Div(
+                        #delete card
+                        Button("X",
+                            hx_delete=f"/cart/remove/{p['name']}"),
+                            hx_get=f"/cart",
+                            hx_swap="outerHTML",
                     ),
                     Style="display: flex; justify-content: space-between; width: 750px;, boarder : solid;,align-items: center;"
                 )
@@ -60,6 +68,13 @@ def CartPage():
         
     )
     return page
+#delete card code
+@app.delete("/cart/remove/{name}")
+async def Remove(name : str):
+    print(name + " : Click!!"), 
+    global cart
+    cart = [item for item in cart if item["name"] != name]
+
 
 def PurchasePage():
     page = Title("Cart - Teerawee Shop"), Main(

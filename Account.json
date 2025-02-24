@@ -1,2 +1,78 @@
-{"name":"Somphong",
- "gender":"Male"}
+{
+    "data": [
+        {
+            "name":"Somphong",
+            "gender":"Male"
+        },
+        {
+            "name": "Alice",
+            "password": "pass123",
+            "username": "alice01",
+            "image": "https://example.com/image1.png",
+            "money": 500
+        },
+        {
+            "name": "Bob",
+            "password": "securePass",
+            "username": "bob99",
+            "image": "https://example.com/image2.png",
+            "money": 1200
+        },
+        {
+            "name": "Charlie",
+            "password": "charliePass",
+            "username": "charlieC",
+            "image": "https://example.com/image3.png",
+            "money": 800
+        },
+        {
+            "name": "David",
+            "password": "davidKey",
+            "username": "davidKing",
+            "image": "https://example.com/image4.png",
+            "money": 1500
+        },
+        {
+            "name": "Eve",
+            "password": "eveSecret",
+            "username": "eve007",
+            "image": "https://example.com/image5.png",
+            "money": 200
+        },
+        {
+            "name": "Frank",
+            "password": "frankCode",
+            "username": "frankyF",
+            "image": "https://example.com/image6.png",
+            "money": 950
+        },
+        {
+            "name": "Grace",
+            "password": "gracePwd",
+            "username": "gracefulG",
+            "image": "https://example.com/image7.png",
+            "money": 3000
+        },
+        {
+            "name": "Hank",
+            "password": "hankSafe",
+            "username": "hankH",
+            "image": "https://example.com/image8.png",
+            "money": 700
+        },
+        {
+            "name": "Ivy",
+            "password": "ivyTop",
+            "username": "ivyLeaf",
+            "image": "https://example.com/image9.png",
+            "money": 600
+        },
+        {
+            "name": "Jack",
+            "password": "jackStrong",
+            "username": "jack123",
+            "image": "https://example.com/image10.png",
+            "money": 1800
+        }
+    ]
+}

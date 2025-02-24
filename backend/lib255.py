@@ -49,10 +49,9 @@ class Product(Object):
         self.__name = name
         self.__price = price
         self.__description = description
-        self.__commnet_list = []
         self.__img = img1
         self.__category = category
-        self.__comment = []
+        self.__commnet_list = []
     
     @property
     def make_detail(self): return [self.__name, self.id, self.__price, self.__description]
