@@ -11,7 +11,8 @@ class Object:
     
     def Equal(self, id):
         return self.__id == id
-#regiom Product
+    
+#region Product
 class Product(Object):
 
     #image is list na
@@ -56,7 +57,14 @@ class Product(Object):
     
     @property
     def category(self):
-        return 
+        return self.__category
+#endregion
+
+#region Coupon
+class Coupon(Object):
+    def __init__(self, id):
+        super().__init__(id)
+
 #endregion
 
 #region Categories
@@ -65,7 +73,7 @@ class Categories:
     #collect product as id
     def __init__(self,name):
         self.__name = name
-        self.__products = []
+        self.__products_id = []
 
     @property
     def name(self):
@@ -73,10 +81,10 @@ class Categories:
     
     @property
     def products(self):
-        return self.__products
+        return self.__products_id
     
     def add_product(self, product_id):
-        self.__products.append(product_id)
+        self.__products_id.append(product_id)
         
 #endregion
 #region Address
@@ -197,16 +205,28 @@ class Cart:
     def __init__(self):
         self.__product_List = []
 
-    def remove_product(self, product_id):
+    def remove_product(self, product : Product):
         for i in self.__product_List:
-            if i.Equal(product_id):
+            if i.Equal(product.id):
                 self.__product_List.remove(i)
-                return "Remove Complete"
-        return  "Product Id Not found"
+                return {
+                    "success" : True,
+                    "message" : "Remove Complete"
+                }
+            
+        return  {
+            "success" : False,
+            "message" : "Product Not found"
+        }
 
     @property
     def product_list(self):
         return self.__product_List
+    
+    def add_product(self, product : Product):
+        self.product_list.append(product)
+        return "success"
+
 #endregion
 
          
@@ -240,11 +260,16 @@ class Comment:
 #endregion
 #region Market
 class Market():
+    __account_list : Account
+    __product_list : Product
+    __coupon_list : Coupon
+    __category_list : Categories
+
     def __init__(self):
         self.__account_list = []
         self.__product_list = []
         self.__coupon_list = []
-
+        self.__category_list = []
         #make it private nah
         self.__exist_id = []
 
@@ -269,9 +294,17 @@ class Market():
     def add_product(self, product : Product):
         self.__product_list.append(product)
 
-    
+        for i in self.__category_list:
+            if(product.category == i.name):
+                i.add_product(product.id)
+
+    def add_category(self, name):
+        self.__category_list.append(Categories(name))
+        
     def purchase(self, user_id, address, coupon, money):
-        return
+        return {
+            "success" : True
+        }
     
     def get_account(self, user_id): 
         for i in self.__user_list:

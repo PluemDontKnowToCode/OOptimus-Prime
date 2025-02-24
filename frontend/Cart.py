@@ -1,23 +1,17 @@
 from fasthtml.common import *
-import Object
+from Object import *
+from Component import *
 
-from Object import Product
 cart = [
    {"name": "Laptop", "description": "High performance laptop","price": 300},
-   {"name": "Mouse", "description": "Wireless mouse","price": 300},
-   {"name": "Keyboard", "description": "Mechanical keyboard","price": 300}
+   {"name": "Mouse", "description": "Wireless mouse","price": 600},
+   {"name": "Keyboard", "description": "Mechanical keyboard XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX","price": 300}
 ]
 
 price = sum(item["price"] for item in cart)
-def Page():
+def CartPage():
     page = Title("Cart - Teerawee Shop"), Main(
-        Div(
-            A(
-                H1("Teerawee Shop"), 
-                href='/',
-            ),
-            Style="background-color: #1ff1ff; width: 100%; position: fixed; top: 0; left: 0; z-index: 1000; box-shadow: 0 2px 4px rgba(0, 0, 0, 1);"
-        ),
+        Header(),
         Div(
             Div(*
             [
@@ -31,19 +25,20 @@ def Page():
                         Div(
                             H3(p["name"]),
                         ),
-                        
-                        P("Description:"),
                         Div(
                             p["description"],
-                            Style="width:200px;"
+                            Style="width:500px;"
+                        ),
+                        Div(
+                            p["price"]
                         )
                     ),
-                    Style="display: flex; justify-content: space-between; width: 500px;, boarder : solid;"
-                
+                    Style="display: flex; justify-content: space-between; width: 750px;, boarder : solid;,align-items: center;"
                 )
                 for p in cart
             ],
             
+            cls="product_list",
             ),
             Div(
                 Card(
@@ -58,9 +53,17 @@ def Page():
                     f"Check Out ({len(cart)})"),href="/purchase"
                 ),
             ),
-            Style="padding-top: 120px; display: flex; justify-content: space-between; , boarder : solid;",
+            Style=" display: flex; justify-content: space-between; , boarder : solid;",
         ),
-        
+        Style="padding-top: 100px; background-color: #f5f5f5;"
         
     )
+    return page
+
+def PurchasePage():
+    page = Title("Cart - Teerawee Shop"), Main(
+        Header(),
+
+    )
+
     return page

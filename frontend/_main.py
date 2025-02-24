@@ -1,8 +1,12 @@
 from fasthtml.common import *
+from Component import *
 import os
 
+from Object import *
 from dotenv import load_dotenv
 load_dotenv()
+
+market = Market()
 
 import Admin
 import Home
@@ -24,8 +28,9 @@ def get():
 
 @rt('/cart')
 def get():
-    return Cart.Page()
+    return Cart.CartPage()
+
 @rt('/purchase')
 def get():
-    return H1("404 haha Teerawee not found")
+    return Cart.PurchasePage()
 serve()
