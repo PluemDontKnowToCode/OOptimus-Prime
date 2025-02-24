@@ -5,6 +5,7 @@ from ..backend import lib255
 
 from Object import *
 from dotenv import load_dotenv
+load_dotenv()
 
 market = Market()
 
