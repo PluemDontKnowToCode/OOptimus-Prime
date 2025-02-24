@@ -1,10 +1,13 @@
-from fasthtml.common import *
-from lib255 import *
+import sys
+import os
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
+from fasthtml.common import *
+from backend.lib255 import *
 app, rt = fast_app()
 
 market01 = set_up()
-user1 = User("Neeko", market01)
+user1 = Customer(name = "Neeko", market =market01)
 
 @rt('/')
 def get():
@@ -14,16 +17,16 @@ def get():
             Div(
                 Div(
                     H3(p.name), 
-                    P(p.des)), 
+                    P(p.description)), 
                 Div(
                     Form(
                         Button("view detail", type = "summit"),
                         method = "get",
-                        action = f"/detail/{p.get_id}"
+                        action = f"/detail/{p.id}"
                         )    
                     ),
                     Style = "display: block; justify-content: space-between;"), 
-            Img(src = p.source, Style = "width: 25%; height: auto;"), 
+            Img(src = p.image, Style = "width: 25%; height: auto;"), 
             Style = "display: flex; justify-content: space-between;") for p in plist]))
     # for i in plist:
     #     print(i.get_id)
