@@ -1,19 +1,22 @@
 from fasthtml.common import *
 from Component import *
 import os
-from ..backend import lib255
-
+import sys
 from Object import *
 from dotenv import load_dotenv
 load_dotenv()
-
-market = Market()
 
 import Admin
 import Home
 import Seller
 import Cart
 import Login
+
+h1 = "C://Main//Coding//Python//OOPKMITL//Lab9//OOptimus-Prime"
+sys.path.insert(0, h1)
+from backend.lib255 import *
+
+market = Market()
 
 app,rt = fast_app(
     hdrs=[Style(':root { --pico-font-size: 100%; }')],
@@ -34,4 +37,5 @@ def get():
 @rt('/purchase')
 def get():
     return Cart.PurchasePage()
+
 serve()
