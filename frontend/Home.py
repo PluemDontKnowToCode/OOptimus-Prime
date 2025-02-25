@@ -1,5 +1,5 @@
 from fasthtml.common import *
-
+from ItemDetail import *
 def Page():
     return Main(
         H1("This is heading 1"),

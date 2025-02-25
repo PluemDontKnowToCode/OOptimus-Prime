@@ -9,8 +9,8 @@ app, rt = fast_app()
 market01 = set_up()
 user1 = Customer(name = "Neeko", market =market01)
 
-@rt('/')
-def get():
+@property
+def slots():
     plist = market01.product_list
     page = Titled("Teerawee's Shop",
        Div(*[Card(
@@ -32,8 +32,7 @@ def get():
     #     print(i.get_id)
     return page
 
-@rt('/detail/{p_id}')
-def get(p_id: int):
+def view_detail(p_id: int):
     # print(f"ID: {p_id}, Type: {type(p_id)}")
     list1 = market01.view_product_detail(p_id)
     p, c = list1
