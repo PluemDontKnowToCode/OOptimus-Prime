@@ -17,6 +17,7 @@ import Home
 import Seller
 import Cart
 import Login
+import ItemDetail
 
 app,rt = fast_app(
     hdrs=[Style(':root { --pico-font-size: 100%; }')],
@@ -37,5 +38,13 @@ def get():
 @rt('/purchase')
 def get():
     return Cart.PurchasePage()
+
+@rt('/lobby')
+def get():
+    return ItemDetail.slots
+
+@rt('/detail/{p_id}')
+def get(p_id):
+    return ItemDetail.view_detail(p_id)
 
 serve()
