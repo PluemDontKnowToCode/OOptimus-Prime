@@ -16,6 +16,7 @@ def CartPage():
     
     page = Title("Cart - Teerawee Shop"), Main(
         Header(),
+        TitleHeader("Your Cart"),
         Div(
             UpdateCartUI(),
             Div(
@@ -37,10 +38,10 @@ def CartPage():
                     id ="lenCart"
                 ),
             ),
-            Style=" display: flex; justify-content: space-between; , boarder : solid; padding-top: 100px;",
+            Style=" display: flex; justify-content: space-between; , boarder : solid; padding-top: 20px;",
         ),
         #Style="background-color: #f5f5f5;"
-        
+        Style="padding:0;"
     )
     return page
 #delete card code
@@ -97,7 +98,8 @@ def UpdateCartUI():
             ],
             cls="product_list",
             id="product_list",
-            hx_swap_oob="true"
+            hx_swap_oob="true",
+            Style="margin-left: 5%;"
         )
     return Div("Nothing Here", 
                id="product_list",

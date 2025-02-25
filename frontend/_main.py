@@ -48,4 +48,4 @@ def get():
 def get(p_id):
     return ItemDetail.view_detail(p_id)
 
-serve()
+serve(port=3000)
