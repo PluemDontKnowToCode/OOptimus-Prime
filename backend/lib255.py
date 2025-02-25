@@ -263,6 +263,12 @@ class Cart:
         self.product_list.append(product)
         return "success"
 
+    def calculate_price(self):
+        return {   
+            "price" : sum(item.price for item in self.__product_List),
+            "len" : len(self.__product_List) 
+        }
+        
 #endregion
 
          
@@ -360,7 +366,7 @@ class Market():
     
     def search(self, name , tag):
         return
-
+    
 #endregion
 def create_json(list1, list2):
     res = {}
