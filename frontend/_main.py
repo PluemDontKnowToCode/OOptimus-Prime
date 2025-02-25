@@ -37,4 +37,5 @@ def get():
 @rt('/purchase')
 def get():
     return Cart.PurchasePage()
+
 serve()

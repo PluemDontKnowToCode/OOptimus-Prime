@@ -1,9 +1,9 @@
-import sys
-import os
-sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+import sys, os
 
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from fasthtml.common import *
 from backend.lib255 import *
+
 app, rt = fast_app()
 
 market01 = set_up()
