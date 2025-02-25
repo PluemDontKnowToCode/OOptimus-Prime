@@ -15,6 +15,8 @@ import Home
 import Seller
 import Cart
 import Login
+import ItemDetail
+import Purchase
 
 h1 = "C://Main//Coding//Python//OOPKMITL//Lab9//OOptimus-Prime"
 sys.path.insert(0, h1)
@@ -40,6 +42,14 @@ def get():
 
 @rt('/purchase')
 def get():
-    return Cart.PurchasePage()
+    return Purchase.PurchasePage()
 
-serve()
+@rt('/lobby')
+def get():
+    return ItemDetail.slots
+
+@rt('/detail/{p_id}')
+def get(p_id):
+    return ItemDetail.view_detail(p_id)
+
+serve(port=3000)
