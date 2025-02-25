@@ -96,6 +96,12 @@ def UpdateCartUI():
                 for p in cart
             ],
             cls="product_list",
+            id="product_list",
+            hx_swap_oob="true"
         )
-    return Div("Nothing Here", Style="align-items: center;")
+    return Div("Nothing Here", 
+               id="product_list",
+               Style="align-items: center;",
+               hx_swap_oob="true"
+            )
 
