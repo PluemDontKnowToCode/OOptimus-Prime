@@ -1,19 +1,28 @@
 from fasthtml.common import *
-styheader = "padding-top: 0px;"
-
+configHeader = "padding-top: 0px;"
+headerfontStyle = """   color: #ffffff
+                        """
+ButtonHeaderStyle = "margin-right: 10px;"
+CheckingStyle = "border: solid;"
 def Header():
     return Div(
             A(
-                H1("Teerawee Shop",
-                Style="""
-                   color: #ffffff
-                   """), 
-
+                H1(
+                    "Teerawee Shop",
+                    Style = headerfontStyle
+                ), 
                 href='/', 
                 Style="""
                     text-decoration: none;
                     margin-left: 20px;
-                """
+                """ + ButtonHeaderStyle
+            ),
+            A(
+                Button(
+                    "Cart"
+                ),
+                href = "/cart",
+                style = ButtonHeaderStyle
             ),
             Style="""
                 background-color: #073763; 
@@ -24,7 +33,7 @@ def Header():
                 display: flex; 
                 align-items: center;
                 """
-        ),
+        )
 
 def TitleHeader(text):
     return H1(text, 

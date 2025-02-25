@@ -3,22 +3,24 @@ from ItemDetail import *
 from Component import *
 def Page():
     head = Header()
-    body = Div(
-        H1("This is heading 1"),
-        P("This is some text."),
-        Hr(),
-        H2("This is heading 2"),
-        P("This is some other text."),
-        Hr(),
-        H2("This is heading 2"),
-        P("This is some other text."),
-
-        A(Button("Click me"),href="/cart")
+    body = Grid(
+        Div(
+            "Category",
+            style = CheckingStyle
+        ),
+        Grid(
+            *[Div(
+                f"subDiv {i}",
+                style = CheckingStyle
+            ) for i in range(50)],
+            style = "grid-template-columns: 1fr 1fr 1fr 1fr;"
+        ),
+        style = "grid-template-columns: 25% 75%"
     )
     page = Main(
         head,
         body,
-        style = styheader
+        style = configHeader
     )
     return page
     

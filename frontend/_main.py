@@ -13,7 +13,7 @@ load_dotenv()
 import Admin
 import Home
 import Seller
-import Cart
+import Cart as ca
 import Login
 import ItemDetail
 import Purchase
@@ -38,7 +38,7 @@ def get():
 
 @rt('/cart')
 def get():
-    return Cart.CartPage()
+    return ca.CartPage()
 
 @rt('/purchase')
 def get():
