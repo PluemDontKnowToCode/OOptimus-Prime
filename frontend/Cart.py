@@ -9,13 +9,13 @@ cart = [
    {"name": "Keyboard", "description": "Mechanical keyboard XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX","price": 300}
 ]
 
-
+price = sum(item["price"] for item in cart)
+lenCart = len(cart)
 
 def CartPage():
-    price = sum(item["price"] for item in cart)
-    lenCart = len(cart)
-    print(price)
-    page = Title("Cart - Teerawee Shop"), Main(
+    
+    page = Title("Cart - Teerawee Shop"), 
+    Main(
         Header(),
         Div(
             UpdateCartUI(),
@@ -38,9 +38,9 @@ def CartPage():
                     id ="lenCart"
                 ),
             ),
-            Style=" display: flex; justify-content: space-between; , boarder : solid;",
+            Style=" display: flex; justify-content: space-between; , boarder : solid; padding-top: 100px;",
         ),
-        Style="padding-top: 100px; background-color: #f5f5f5;"
+        #Style="background-color: #f5f5f5;"
         
     )
     return page
@@ -52,14 +52,15 @@ async def Remove(name : str):
     global cart
     
     cart = [item for item in cart if item["name"] != name]
-
-    new_price = sum(item["price"] for item in cart)
-    new_lenCart = len(cart)
+    price = sum(item["price"] for item in cart)
+    lenCart = len(cart)
 
     return Div(
-        Button(f"Check Out ({new_lenCart})", id="lenCart", hx_swap_oob="true"),
-        Div(f"Total: {new_price}", id="price", hx_swap_oob="true")
-    )
+        Button(f"Check Out ({lenCart})", id="lenCart", hx_swap_oob="true"),
+        Div(f"Total: {price}", id="price", hx_swap_oob="true"),
+        UpdateCartUI()
+    ),
+    
 def UpdateCartUI():
     if(len(cart) != 0):
         return Div(*
