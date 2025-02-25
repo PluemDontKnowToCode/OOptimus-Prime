@@ -92,7 +92,7 @@ def UpdateCartUI():
                         ),
                     ),
                     id = p["name"],
-                    Style="display: flex; justify-content: space-between; width: 750px; border: solid; align-items: center;"
+                    Style="display: flex; justify-content: space-between; width: 750px; border: ridge; align-items: center;"
                 )
                 for p in cart
             ],

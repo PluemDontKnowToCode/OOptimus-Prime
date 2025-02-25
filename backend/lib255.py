@@ -51,7 +51,7 @@ class Product(Object):
         self.__description = description
         self.__img = img1
         self.__category = category
-        self.__commnet_list = []
+        self.__comment_list = []
     
     @property
     def make_detail(self): return [self.__name, self.id, self.__price, self.__description]
@@ -59,7 +59,7 @@ class Product(Object):
     @property
     def get_comment_dict(self):
         res = []
-        for i in self.__commnet_list:
+        for i in self.__comment_list:
             res.append(i.convert_to_dict)
         return res
 
@@ -86,12 +86,36 @@ class Product(Object):
     def category(self):
         return self.__category
     
+    def to_json(self):
+        return {
+            "ID" : self.id,
+            "Name" : self.name,
+            "Price" : self.price,
+            "Description" : self.description,
+            "Image" : self.image,
+            "Category" : self.category,
+            "Comment" : self.__comment_list
+        }
     def add_comment(self, comment : Comment):
         res = ""
         if isinstance(comment, Comment):
-            self.__commnet_list.append(comment)
+            self.__comment_list.append(comment)
             res = "Done"
         return res
+    
+class DiscountProduct(Product):
+    def __init__(self, name, id, price, description, img1, category, discount_percent, expire_date):
+        super().__init__(name, id, price, description, img1, category)
+        self.__discount_percent = discount_percent
+        self.__expire_date = expire_date
+
+    @property
+    def price(self):
+        return super().__price * (100 - self.__discount_percent)
+    
+    @property
+    def expire_date(self):
+        return self.__expire_date
 #endregion
 
 #region Coupon
@@ -107,7 +131,7 @@ class Categories:
     #collect product as id
     def __init__(self,name):
         self.__name = name
-        self.__products_id = []
+        self.__product = []
 
     @property
     def name(self):
@@ -115,14 +139,21 @@ class Categories:
     
     @property
     def products(self):
-        return self.__products_id
+        return self.__product
     
-    def add_product(self, product_id : str):
-        if isinstance(product_id, list):
-            self.__products_id.extend(product_id)
+    def add_product(self, product : Product):
+        if isinstance(product, list):
+            self.__product.extend(product)
         else:
-            self.__products_id.append(product_id)
-        
+            self.__product.append(product)
+        return {
+            "success" : True
+        }   
+    def remove_product(self, product : Product):
+        self.__product.remove(product)
+        return {
+            "success" : True
+        }
 #endregion
 #region Address
 class Address:
@@ -164,7 +195,7 @@ class Account(Object):
     __address_list : Address
     def __init__(self, id = "", name = "", username = "", password ="", money = 0 ,image = "",market = None):
         super().__init__(id)
-         #use for login
+         #name use for login
         self.__name = name
         self.__password = password
 
@@ -173,14 +204,50 @@ class Account(Object):
         self.__money = money
         self.__market = market
         self.__address_list = []
-
+        
+    @property
+    def name(self):
+        return self.__name
+    
+    @property
+    def password(self):
+        return self.__password
+    
+    @property 
+    def username(self):
+        return self.__username
+    
+    @property
+    def image(self):
+        return self.__image
+    
+    @property
+    def money(self):
+        return self.__money
+    
+    @property
+    def market(self):
+        return self.__market
+    
+    @property
+    def address_list(self):
+        return self.__address_list
 
 class Customer(Account):
     def __init__(self, id= '', name = "", username = "", password ="", money = 0 ,image = "",market = None):
         super().__init__(id, name,username, password, money, image, market)
         self.__cart = Cart()
         self.__transaction = []
+        self.__coupon_list = []
         
+    @property
+    def cart(self):
+        return self.__cart
+    
+    @property
+    def cart_product(self):
+        return self.__cart.product_list
+    
     def add_transaction(self,product_id,datetime):
         self.__transaction.append(Transaction(id,product_id,datetime))
         return
@@ -191,17 +258,32 @@ class Customer(Account):
         
     def view_product_detail(self, product_id): return self.__market.view_product_detail(product_id)
 
-    @property
-    def cart(self):
-        return self.__cart
-    
-    
-    def cart_product(self):
-        return self.__cart.product_list
+    def to_json(self):
+        return {
+            "name" : super().name,
+            "username" : super().username,
+            "image" : super().image,
+            "money" : super().money,
+            "address" : super().address_list,
+            "cart" : self.cart,
+            "transaction" : self.__transaction,
+            "coupon" : self.__coupon_list
+        }
 
 class Seller(Account):
     def __init__(self, id):
         super().__init__(id)
+        self.__selling_product = []
+    
+    def create_product(self, product : Product):
+        self.__selling_product.append(product)
+
+    def delete_product(self, product : Product):
+        self.__selling_product.remove(product)
+
+    def delete_product(self, product_id : str):
+        product = super().market.get_product(product_id)
+        self.__selling_product.remove(product)
 
 class Admin(Account):
     def __init__():
@@ -312,9 +394,9 @@ class Market():
 
             category = self.get_categories(product.category)
             if(category != None):
-                category.add_product(product.id)
+                category.add_product(product)
             else:
-                newCate = self.add_category
+                self.add_category(product.category ,product)
             return "Done"
 
     def add_category(self, name):
@@ -324,7 +406,6 @@ class Market():
         newCate = Categories(name)
         newCate.add_product(product)
         self.__category_list.append(newCate)
-        return newCate
         
     def purchase(self, user_id, address, coupon, money):
         return {
@@ -332,7 +413,7 @@ class Market():
         }
     
     def get_account(self, user_id): 
-        for i in self.__user_list:
+        for i in self.__account_list:
             if i.Equal(user_id):
                 return i
         return None
@@ -353,8 +434,22 @@ class Market():
             if(name == i.name):
                 return i
         return None
-    
-    
+
+    def get_customer_cart(self,customer_id):
+        customer = self.get_account(customer_id)
+        if(customer == None):
+            return {
+                "success" : False,
+                "message" : "User Not Found"
+            }
+        existProduct = []
+        for c in customer.cart_product:
+            if(self.get_product(c)):
+                existProduct.append(c.to_json())
+        return {
+            "success" : "True",
+            "data" : existProduct
+        }   
     def get_product_detail(self, product): return product.detail
     
     def view_product_detail(self, product_id):
@@ -362,9 +457,12 @@ class Market():
         return self.get_product_detail(product)
     
     def search(self, name):
-        return [p for p in self.__product_list if name.lower() in p.name.lower()]
+        return [p.to_json() for p in self.__product_list if name.lower() in p.name.lower()]
     
     def search(self, name , tag):
+        return [p.to_json() for p in self.__product_list if name.lower() in p.name.lower()]
+    
+    def search(self,tag):
         return
     
 #endregion
