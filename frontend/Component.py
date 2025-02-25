@@ -1,4 +1,5 @@
 from fasthtml.common import *
+styheader = "padding-top: 0px;"
 
 def Header():
     return Div(
