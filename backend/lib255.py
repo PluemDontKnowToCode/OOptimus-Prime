@@ -120,8 +120,41 @@ class DiscountProduct(Product):
 
 #region Coupon
 class Coupon(Object):
-    def __init__(self, id):
+    def __init__(self, id,name,description, discount_percent,less_amount : float,product_count = 0,product_accord = []):
         super().__init__(id)
+        self.__name = name
+        self.__description = description
+        self.__discount_percent = discount_percent
+        self.__less_amount = less_amount
+        self.__product_count = product_count
+        self.__product_accord = product_accord
+    @property
+    def name(self):
+        return self.__name
+    
+    @property
+    def description(self):
+        return self.__description
+    @property
+    def discount_percent(self):
+        return self.__discount_percent
+    
+    @property
+    def less_amount(self):
+        return self.__less_amount
+    
+    @property
+    def product_count(self):
+        return self.__product_count
+    
+    @property
+    def product_accord(self):
+        return self.__product_accord
+    
+    def to_json(self):
+        return {
+            "name":self.__name
+        }
 
 #endregion
 
@@ -474,6 +507,7 @@ def create_json(list1, list2):
 
 def set_up():
     m = Market()
+
     user1 = Customer(name="Opor", market = m)
     p = [Product("Book", 
                  1,

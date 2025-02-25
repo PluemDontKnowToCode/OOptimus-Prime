@@ -13,13 +13,13 @@ load_dotenv()
 import Admin
 import Home
 import Seller
-import Cart as ca
+import CartPage
 import Login
 import ItemDetail
 import Purchase
 
-h1 = "C://Main//Coding//Python//OOPKMITL//Lab9//OOptimus-Prime"
-sys.path.insert(0, h1)
+# h1 = "C://Main//Coding//Python//OOPKMITL//Lab9//OOptimus-Prime"
+# sys.path.insert(0, h1)
 from backend.lib255 import *
 
 market = Market()
@@ -38,7 +38,7 @@ def get():
 
 @rt('/cart')
 def get():
-    return ca.CartPage()
+    return CartPage.Page()
 
 @rt('/purchase')
 def get():
