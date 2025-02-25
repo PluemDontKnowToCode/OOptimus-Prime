@@ -14,8 +14,7 @@ lenCart = len(cart)
 
 def CartPage():
     
-    page = Title("Cart - Teerawee Shop"), 
-    Main(
+    page = Title("Cart - Teerawee Shop"), Main(
         Header(),
         Div(
             UpdateCartUI(),
