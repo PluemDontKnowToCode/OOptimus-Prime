@@ -3,7 +3,7 @@ import datetime
 import json
 import os
 main_path = os.path.dirname(__file__)
-file_path = os.path.join(main_path, '../jsonData/Account.json')
+file_path = os.path.join(main_path, '../jsonData')
     
 class Object:
     def __init__(self, id):
@@ -11,7 +11,10 @@ class Object:
 
     @property
     def id(self):
+        # print("Sending my id")
         return self.__id
+
+    def set_id(self, id1): self.__id = id1
     
     def Equal(self, id):
         return self.__id == id
@@ -22,7 +25,6 @@ class Comment:
         self.__name = name
         self.__text = text
         self.__star = star
-        self.__sym = "✯"
     
     @property
     def convert_to_dict(self):
@@ -48,26 +50,30 @@ class Comment:
 class Product(Object):
 
     #image is list na
-    def __init__(self, name = '', id = '', price = 0, description = '', img1 = '', category = '', **kwargs):
-        super().__init__(id)
+    def __init__(self, name = '', id = '', price = 0, description = '', img1 = '', category = ''):
         self.__name = name
         self.__price = price
         self.__description = description
         self.__img = img1
         self.__category = category
         self.__comment_list = []
+        super().__init__(id)
     
     def load(self, d: dict):
         self.__name = d['name']
-        self.__id = d['id']
         self.__price = d['price']
         self.__description = d['description']
         self.__img = d['img']
         self.__category = d['category']
-        self.__comment_list = d['comment']
+        clist = []
+        for i in d['comment']:
+            c = Comment(i['name'], i['text'], i['star'])
+            clist.append(c)
+        self.__comment_list = clist
+        super().set_id(d['id'])
     
     @property
-    def make_detail(self): return [self.__name, self.id, self.__price, self.__description]
+    def make_detail(self): return [self.__name, self.__price, self.__description]
 
     @property
     def get_comment_dict(self):
@@ -244,7 +250,6 @@ class Account(Object):
          #name use for login
         self.__name = name
         self.__password = password
-
         self.__username = username
         self.__image = image
         self.__money = money
@@ -498,6 +503,9 @@ class Market():
         }   
     def get_product_detail(self, product): return product.detail
     
+    def get_product_image(self, p_id):
+        return self.get_product(p_id).image
+    
     def view_product_detail(self, product_id):
         product = self.get_product(product_id)
         return self.get_product_detail(product)
@@ -510,6 +518,13 @@ class Market():
     
     def search(self,tag):
         return
+    
+    @property
+    def update_product(self):
+        pjson = open(file_path + '/Product.json', 'w')
+        t1 = """{\n\t\t"data" : [\n\t\t\t"""
+        pass
+        
 
 
 #endregion
@@ -524,12 +539,16 @@ def set_up():
     m = Market()
     return m
 
-def create_product(**kwargs):
-    return Product(kwargs)
-
 def get_all_product():
-    with open(file_path, "r") as file01:
+    res = []
+    with open(file_path + '/Product.json', "r") as file01:
         product_json = json.loads(file01.read())
         for i in product_json["data"]:
-            for k, v in i.items():
-                pd = Product(v)
+            pd = Product()
+            pd.load(i)
+            res.append(pd)
+    return res
+
+market1 = Market()
+for i in get_all_product():
+    market1.add_product(i)

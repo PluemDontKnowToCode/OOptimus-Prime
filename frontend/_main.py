@@ -37,7 +37,7 @@ def get():
 
 @rt('/cart')
 def get():
-    return CartPage.CartPage()
+    return CartPage.Page()
 
 @rt('/purchase')
 def get():
@@ -49,6 +49,7 @@ def get():
 
 @rt('/detail/{p_id}')
 def get(p_id: int):
+    # print(p_id, type(p_id))
     return ItemDetail.view_detail(p_id)
 
 serve(port=3000)
