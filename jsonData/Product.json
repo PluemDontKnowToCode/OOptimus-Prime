@@ -6,7 +6,8 @@
             "price": 200,
             "description": "Book that everyone can read",
             "image": "https://cdn-icons-png.flaticon.com/512/8832/8832880.png",
-            "category": "Book"
+            "category": "Book",
+            "comment": []
         },
         {
             "name": "Book more cost",
@@ -14,7 +15,8 @@
             "price": 250,
             "description": "Book that rich guy can read",
             "image": "https://pngimg.com/uploads/book/book_PNG2114.png",
-            "category": "Book"
+            "category": "Book",
+            "comment": ""
         }
     ]
 }

@@ -29,7 +29,7 @@ class Comment:
         return {
             "name": self.__name, 
             "text": self.__text,
-            "star": self.__star * self.__sym
+            "star": self.__star
         }
     
     @property
@@ -64,7 +64,7 @@ class Product(Object):
         self.__description = d['description']
         self.__img = d['img']
         self.__category = d['category']
-        self.__comment_list = d['all_comment']
+        self.__comment_list = d['comment']
     
     @property
     def make_detail(self): return [self.__name, self.id, self.__price, self.__description]
@@ -101,14 +101,15 @@ class Product(Object):
     
     def to_json(self):
         return {
-            "ID" : self.id,
-            "Name" : self.name,
-            "Price" : self.price,
-            "Description" : self.description,
-            "Image" : self.image,
-            "Category" : self.category,
-            "Comment" : self.__comment_list
+            "name" : self.name,
+            "id" : self.id,
+            "price" : self.price,
+            "description" : self.description,
+            "img" : self.image,
+            "category" : self.category,
+            "comment" : [i.convert_to_dict for i in self.__comment_list]
         }
+        
     def add_comment(self, comment : Comment):
         res = ""
         if isinstance(comment, Comment):
