@@ -1,6 +1,10 @@
 import enum
 import datetime
-
+import json
+import os
+main_path = os.path.dirname(__file__)
+file_path = os.path.join(main_path, '../jsonData/Account.json')
+    
 class Object:
     def __init__(self, id):
         self.__id = id
@@ -44,7 +48,7 @@ class Comment:
 class Product(Object):
 
     #image is list na
-    def __init__(self, name, id, price, description, img1, category):
+    def __init__(self, name = '', id = '', price = 0, description = '', img1 = '', category = '', **kwargs):
         super().__init__(id)
         self.__name = name
         self.__price = price
@@ -52,6 +56,15 @@ class Product(Object):
         self.__img = img1
         self.__category = category
         self.__comment_list = []
+    
+    def load(self, d: dict):
+        self.__name = d['name']
+        self.__id = d['id']
+        self.__price = d['price']
+        self.__description = d['description']
+        self.__img = d['img']
+        self.__category = d['category']
+        self.__comment_list = d['all_comment']
     
     @property
     def make_detail(self): return [self.__name, self.id, self.__price, self.__description]
@@ -155,7 +168,6 @@ class Coupon(Object):
         return {
             "name":self.__name
         }
-
 #endregion
 
 #region Categories
@@ -497,8 +509,10 @@ class Market():
     
     def search(self,tag):
         return
-    
+
+
 #endregion
+
 def create_json(list1, list2):
     res = {}
     for i in range(len(list1)):
@@ -507,23 +521,14 @@ def create_json(list1, list2):
 
 def set_up():
     m = Market()
-
-    user1 = Customer(name="Opor", market = m)
-    p = [Product("Book", 
-                 1,
-                 200,
-                 "Book that everyone can read",
-                 "https://cdn-icons-png.flaticon.com/512/8832/8832880.png",
-                 "Book"),   
-         Product("Book more cost",
-                 2,
-                 250,
-                 "Book that rich guy can read",
-                 "https://pngimg.com/uploads/book/book_PNG2114.png",
-                 "Book")
-        ]
-    c = [Comment("Bruno", "This product is so good", 5)]
-    for i in p:
-        m.add_product(i)
-    p[0].add_comment(c[0])
     return m
+
+def create_product(**kwargs):
+    return Product(kwargs)
+
+def get_all_product():
+    with open(file_path, "r") as file01:
+        product_json = json.loads(file01.read())
+        for i in product_json["data"]:
+            for k, v in i.items():
+                pd = Product(v)

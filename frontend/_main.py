@@ -1,7 +1,6 @@
 from fasthtml.common import *
 from Component import *
-import os
-import sys
+import sys, os
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
@@ -38,7 +37,7 @@ def get():
 
 @rt('/cart')
 def get():
-    return CartPage.Page()
+    return CartPage.CartPage()
 
 @rt('/purchase')
 def get():
@@ -49,7 +48,7 @@ def get():
     return ItemDetail.slots
 
 @rt('/detail/{p_id}')
-def get(p_id):
+def get(p_id: int):
     return ItemDetail.view_detail(p_id)
 
 serve(port=3000)

@@ -1,10 +1,6 @@
 {
     "data": [
         {
-            "name":"Somphong",
-            "gender":"Male"
-        },
-        {
             "name": "Alice",
             "password": "pass123",
             "username": "alice01",
