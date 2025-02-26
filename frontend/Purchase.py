@@ -11,41 +11,92 @@ address = [
     {"district": "AXC","province":"Baan Opor","zip_code":"25410","phone":"0836694812"},
     {"district": "KKC","province":"Baan Opor","zip_code":"25410","phone":"0836694812"}
 ]
+
+coupon = {
+    
+}
 def PurchasePage():
     page = Title("Cart - Teerawee Shop"), Main(
         Header(),
-
+        TitleHeader("Purchase"),
         Div(
-            H1(
-                "Address",
-            ),
             Div(
-                Div(*
-                [
-                    Card(
-                        Div(f"district : {i['district']}"),
-                        Div(f"province : {i['province']}"),
-                        Div(f"zip code : {i['zip_code']}"),
-                        Div(f"phone : {i['phone']}"),
-                        Style=("width:200px;margin-left:10px;justify-content: space-between;border: solid;"),
-                        
-                    )
-                    for i in address
-                ],
-                #Style= ("width:900px; border: 1px solid black; display: flex; flex-direction: row; flex-wrap: wrap;"),
-                Style= ("width:900px; border: 1px solid black; display: flex; flex-direction: row;"),
-                id="box"
+                H3("Address",Style="margin-left:6%"),
+                Div(
+                    Div(*
+                    [
+                        Card(
+                            Div(f"district : {i['district']}"),
+                            Div(f"province : {i['province']}"),
+                            Div(f"zip code : {i['zip_code']}"),
+                            Div(f"phone : {i['phone']}"),
+                            Style="""
+                                width:200px; 
+                                margin-left:10px;
+                                justify-content: space-between;
+                                border: groove;
+                            """,
+                            
+                        )
+                        for i in address
+                    ],
+                        #Style= ("width:900px; border: 1px solid black; display: flex; flex-direction: row; flex-wrap: wrap;"),
+                        id="addressSlider",
+                        Style="""
+                            display: flex; 
+                            overflow-x: auto; 
+                            scroll-behavior: smooth; 
+                            white-space: nowrap; 
+                            border: outset;
+                            width: 80%;
+                        """
+                    ),
+                    
+                    Style=" display: flex; overflow: hidden; width: 48%;margin-left: 2%"
                 ),
-                Button("⬅", 
-                    onclick="scrollSlider(-1)", 
-                    Style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); z-index: 10;"
-                ),
-                cls="address-grid",
+                cls="address",
+                Style="padding-top: 1%;"
             ),
             
-            cls="address",
-            Style="padding-top: 100px;"
+            Div(
+                H3("Coupon",Style="margin-left:6%"),
+                Div(
+                    Div(*
+                    [
+                        Card(
+                            Div(f"district : {i['district']}"),
+                            Div(f"province : {i['province']}"),
+                            Div(f"zip code : {i['zip_code']}"),
+                            Div(f"phone : {i['phone']}"),
+                            Style="""
+                                width:200px; 
+                                margin-left:10px;
+                                justify-content: space-between;
+                                border: groove;
+                            """,
+                            
+                        )
+                        for i in address
+                    ],
+                        #Style= ("width:900px; border: 1px solid black; display: flex; flex-direction: row; flex-wrap: wrap;"),
+                        id="addressSlider",
+                        Style="""
+                            display: flex; 
+                            overflow-x: auto; 
+                            scroll-behavior: smooth; 
+                            white-space: nowrap; 
+                            border: outset;
+                            width: 80%;
+                        """
+                    ),
+                    
+                    Style=" display: flex; overflow: hidden; width: 48%;margin-left: 2%"
+                ),
+                cls="address",
+                Style="padding-top: 1%;"
+            ),
+        
         ),
-        #Style="background-color: #f5f5f5;"
+        Style="padding: 0px;",
     )
     return page

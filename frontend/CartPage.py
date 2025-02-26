@@ -12,7 +12,8 @@ cart = [
 price = sum(item["price"] for item in cart)
 lenCart = len(cart)
 
-def CartPage():
+def Page():
+    
     page = Title("Cart - Teerawee Shop"), Main(
         Header(),
         TitleHeader("Your Cart"),
