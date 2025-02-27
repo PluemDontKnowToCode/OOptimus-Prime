@@ -5,70 +5,80 @@
             "password": "pass123",
             "username": "alice01",
             "image": "https://example.com/image1.png",
-            "money": 500
+            "money": 500,
+            "cart" : []
         },
         {
             "name": "Bob",
             "password": "securePass",
             "username": "bob99",
             "image": "https://example.com/image2.png",
-            "money": 1200
+            "money": 1200,
+            "cart" : []
         },
         {
             "name": "Charlie",
             "password": "charliePass",
             "username": "charlieC",
             "image": "https://example.com/image3.png",
-            "money": 800
+            "money": 800,
+            "cart" : []
         },
         {
             "name": "David",
             "password": "davidKey",
             "username": "davidKing",
             "image": "https://example.com/image4.png",
-            "money": 1500
+            "money": 1500,
+            "cart" : []
         },
         {
             "name": "Eve",
             "password": "eveSecret",
             "username": "eve007",
             "image": "https://example.com/image5.png",
-            "money": 200
+            "money": 200,
+            "cart" : []
         },
         {
             "name": "Frank",
             "password": "frankCode",
             "username": "frankyF",
             "image": "https://example.com/image6.png",
-            "money": 950
+            "money": 950,
+            "cart" : []
         },
         {
             "name": "Grace",
             "password": "gracePwd",
             "username": "gracefulG",
             "image": "https://example.com/image7.png",
-            "money": 3000
+            "money": 3000,
+            "cart" : []
         },
         {
             "name": "Hank",
             "password": "hankSafe",
             "username": "hankH",
             "image": "https://example.com/image8.png",
-            "money": 700
+            "money": 700,
+            "cart" : []
         },
         {
             "name": "Ivy",
             "password": "ivyTop",
             "username": "ivyLeaf",
             "image": "https://example.com/image9.png",
-            "money": 600
+            "money": 600,
+            "cart" : []
         },
         {
             "name": "Jack",
             "password": "jackStrong",
             "username": "jack123",
             "image": "https://example.com/image10.png",
-            "money": 1800
+            "money": 1800,
+            "cart" : []
         }
     ]
 }
