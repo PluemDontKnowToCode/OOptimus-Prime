@@ -47,18 +47,28 @@ def view_detail(p_id: int):
     if len(c) > 0:
         part_comment = Titled(
             "Comment",
-            *[Card(
-                Div(
+            Div(*[
+                Card(
                     Div(
-                        f"{lc["name"]}   {"✯" * lc["star"]}",
-                        Card(
-                            lc["text"], style = ""
+                        Div(
+                            f"{lc["name"]}   {"✯" * lc["star"]}",
+                            Card(
+                                lc["text"], style = ""
+                            )
                         )
-                    )
-                ),
-                Style = "width: 50%;"
-            ) for lc in c]
-        )
+                    ),
+                    Style = "width: 50%; margin-right: 2%;"
+                ) 
+                for lc in c],
+            Style="""
+                    display: flex; 
+                    overflow-x: auto; 
+                    scroll-behavior: smooth; 
+                    white-space: nowrap; 
+                    width: 100%;
+                """
+        ),
+    )
 
 
     page = Main(

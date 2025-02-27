@@ -7,7 +7,11 @@
             "description": "Book that everyone can read",
             "img": "https://cdn-icons-png.flaticon.com/512/8832/8832880.png",
             "category": "Book",
-            "comment": [{"name": "Bruno nig", "text": "This product was improved !", "star": 5}]
+            "comment": [
+                {"name": "Bruno Nick", "text": "This product was improved !", "star": 5},
+                {"name": "Brave Nick", "text": "This product was shit !", "star": 3},
+                {"name": "Fear Nick", "text": "This product was Scary !", "star": 3}
+            ]
         },
         {
             "name": "Book more cost",

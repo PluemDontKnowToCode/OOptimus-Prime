@@ -59,7 +59,7 @@ class Product(Object):
         self.__comment_list = []
         super().__init__(id)
     
-    def load(self, d: dict):
+    def __init__(self, d: dict):
         self.__name = d['name']
         self.__price = d['price']
         self.__description = d['description']
@@ -70,7 +70,7 @@ class Product(Object):
             c = Comment(i['name'], i['text'], i['star'])
             clist.append(c)
         self.__comment_list = clist
-        super().set_id(d['id'])
+        super().__init__(d['id'])
     
     @property
     def make_detail(self): return [self.__name, self.__price, self.__description]
@@ -255,7 +255,16 @@ class Account(Object):
         self.__money = money
         self.__market = market
         self.__address_list = []
-        
+
+    def __init__(self,d: dict, market = None):
+        self.__name = d['name']
+        self.__password = d['password']
+        self.__username = d['username']
+        self.__image = d['image']
+        self.__money = d['money']
+        self.__market = market
+        self.__address_list = d['address']
+        super().__init__(d['id'])
     @property
     def name(self):
         return self.__name
@@ -495,7 +504,7 @@ class Market():
             }
         existProduct = []
         for c in customer.cart_product:
-            if(self.get_product(c)):
+            if(self.get_product(c.id)):
                 existProduct.append(c.to_json())
         return {
             "success" : "True",
@@ -544,9 +553,18 @@ def get_all_product():
     with open(file_path + '/Product.json', "r") as file01:
         product_json = json.loads(file01.read())
         for i in product_json["data"]:
-            pd = Product()
-            pd.load(i)
+            pd = Product(i)
+        
             res.append(pd)
+    return res
+def get_all_account():
+    res = []
+    with open(file_path + '/Account.json', "r") as file01:
+        account_json = json.loads(file01.read())
+        for i in account_json["data"]:
+            ac = Account(i)
+        
+            res.append(ac)
     return res
 
 market1 = Market()
