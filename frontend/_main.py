@@ -23,7 +23,11 @@ from backend.lib255 import *
 
 market = Market()
 
+main_path = os.path.dirname(__file__) + "\\asset"
+# print(main_path)
+
 app,rt = fast_app(
+    static_path = main_path,
     hdrs=[Style(':root { --pico-font-size: 100%; }')],
     id=int, title=str, done=bool, pk='id')
 
@@ -42,10 +46,6 @@ def get():
 @rt('/purchase')
 def get():
     return Purchase.PurchasePage()
-
-@rt('/lobby')
-def get():
-    return ItemDetail.slots
 
 @rt('/detail/{p_id}')
 def get(p_id: int):

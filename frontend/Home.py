@@ -41,7 +41,7 @@ def Page():
                         action = f'/detail/{i.id}'
                     ),
                     Div(
-                        f"{i.price}"),
+                        f"{i.price} ฿"),
                         style = "display: flex; flex-direction: row; justify-content: space-between; align-items: center; width:100%;"
                     ),
                 style = CheckingStyle + "height: 350px; display: flex; flex-direction: column; justify-content: space-between ; align-items: center; gap:10px;"
