@@ -5,6 +5,7 @@ main_path = os.path.dirname(__file__) + "\\asset"
 # print(main_path, file_path)
 
 cartpng = "cart_removebg_preview.png"
+userpng = "user_imgpng.png"
 
 print(cartpng)
 
@@ -42,6 +43,14 @@ def Header():
                     href = "/cart",
                     style = ButtonHeaderStyle
                 ),
+                A(
+                    Img(
+                        src = userpng,
+                        style = "height: 70px;"
+                    ), 
+                    href = "/profile",
+                    style = ButtonHeaderStyle
+                )
             ),
             Style="""
                 background-color: #073763; 
