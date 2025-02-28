@@ -1,0 +1,15 @@
+{
+    "id": "P000001",
+    "name": "Alice",
+    "password": "pass123",
+    "username": "alice01",
+    "image": "https://cdn-icons-png.flaticon.com/512/9203/9203764.png",
+    "money": 500,
+    "cart" : [],
+    "address": [
+        {"district": "XYZ","province":"Baan Opor","zip_code":"61000","phone":"0845658790"},
+        {"district": "ABC","province":"Baan Opor","zip_code":"25410","phone":"0836694812"},
+        {"district": "AAC","province":"Baan Opor","zip_code":"25410","phone":"0836694812"},
+        {"district": "AXC","province":"Baan Opor","zip_code":"25410","phone":"0836694812"}
+    ]
+}

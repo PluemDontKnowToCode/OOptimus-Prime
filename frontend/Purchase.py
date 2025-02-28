@@ -14,9 +14,22 @@ address = [
     {"district": "KKC","province":"Baan Opor","zip_code":"25410","phone":"0836694812"}
 ]
 
-coupon = {
-    
-}
+coupon = [
+    {
+        "discount_percent": 10,
+        "less_amount": 199,
+        "product_count": 5,
+        "start_time": "2025-03-02",
+        "end_time": "2025-03-11"
+    },
+    {
+        "discount_percent": 20,
+        "less_amount": 299,
+        "product_count": 3,
+        "start_time": "2025-04-01",
+        "end_time": "2025-04-10"
+    }
+]
 cart = [
     {"name": "Laptop", "description": "High performance laptop","price": 300},
     {"name": "Mouse", "description": "Wireless mouse","price": 600},
@@ -65,23 +78,12 @@ def PurchasePage():
                 ),
                 
                 Div(
-                    H3("Coupon",Style="margin-left:6%"),
+                    H3("Available Coupon",Style="margin-left:6%"),
                     Div(
                         Div(*
                         [
-                            Card(
-                                Div(f"district : {i['district']}"),
-                                Div(f"province : {i['province']}"),
-                                Div(f"zip code : {i['zip_code']}"),
-                                Div(f"phone : {i['phone']}"),
-                                Style="""
-                                    width:200px; 
-                                    margin-left:10px;
-                                    justify-content: space-between;
-                                """,
-                                
-                            )
-                            for i in address
+                            CouponCard(i["discount_percent"],i["less_amount"],i["start_time"],i["end_time"],product_count=i["product_count"])
+                            for i in coupon
                         ],
                             #Style= ("width:900px; border: 1px solid black; display: flex; flex-direction: row; flex-wrap: wrap;"),
                             id="addressSlider",
@@ -168,8 +170,8 @@ def PurchasePage():
                            Style="width: 100%;"
                            
                         ),
-                        method = "get",
-                        action = f'/purchase/result',
+                        method = "post",
+                        action = f"/purchase/result",
                         Style="padding-top: 10px;"
                 ),
                 Style="padding-top:0px; width: 25%;"
@@ -210,3 +212,16 @@ def ResultPage(result):
             Style="padding: 0px;",
         )
     return page
+
+def CouponCard(discount, order_min,start_date, end_date,product_count = 0):
+    condition = f"Orders ฿{order_min}+"
+    if(product_count == 0):
+        condition += f" or {product_count} more products"
+    return Div(
+        H2(f"{discount}% OFF", Style="margin: 0;"),
+        P(condition, Style="margin: 0;"),
+        Hr(),
+        P(f"{start_date} ~ {end_date}", Style="margin: 0 auto;"),
+        Button("USE", Style="margin-top: 10px; padding: 5px 15px; border: 1px solid blue; background: white; color: blue;"),
+        Style="border: 1px solid black; padding: 15px; width: 200px; text-align: center; display: inline-block; margin: 10px; position: relative;"
+    )

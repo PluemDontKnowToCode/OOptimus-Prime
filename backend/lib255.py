@@ -1,5 +1,5 @@
 import enum
-import datetime
+from datetime import *
 import json
 import os
 main_path = os.path.dirname(__file__)
@@ -140,14 +140,13 @@ class DiscountProduct(Product):
 
 #region Coupon
 class Coupon(Object):
-    def __init__(self, id,name,description, discount_percent,less_amount : float,product_count = 0,product_accord = []):
+    def __init__(self, id, discount_percent,less_amount : float,product_count = 0, start_time = datetime.now(), duration = 0):
         super().__init__(id)
-        self.__name = name
-        self.__description = description
         self.__discount_percent = discount_percent
         self.__less_amount = less_amount
         self.__product_count = product_count
-        self.__product_accord = product_accord
+        self.__start_time = start_time
+        self.__end_time = start_time + timedelta(days = duration)
     @property
     def name(self):
         return self.__name
@@ -173,7 +172,11 @@ class Coupon(Object):
     
     def to_json(self):
         return {
-            "name":self.__name
+            "discount_percent" : self.__discount_percent,
+            "less_amount" : self.__less_amount,
+            "product_count" : self.__product_count,
+            "start_time" : self.__start_time,
+            "end_time" : self.__end_time
         }
 #endregion
 
@@ -431,6 +434,7 @@ class Cart:
 
 #region Market
 class Market():
+    __current_user : Account
     __account_list : Account
     __product_list : Product
     __coupon_list : Coupon
@@ -456,7 +460,14 @@ class Market():
     @property
     def coupon_list(self):
         return self.__coupon_list
+    @property
+    def current_user(self):
+        return self.__current_user
     
+    @current_user.setter
+    def current_user(self, user):
+        self.__current_user = user
+        
     def generate_id(self):
         return ""
     
@@ -629,6 +640,20 @@ def get_all_account():
         for i in account_json["data"]:
             ac = Account(i)
             res.append(ac)
+    return res
+def get_current_account():
+    with open(file_path + '/CurrentUser.json', "r") as file01:
+        account_json = json.loads(file01.read())
+        ac = Account(account_json)
+    return ac
+
+def get_all_coupon():
+    res = []
+    with open(file_path + '/Coupon.json', "r") as file01:
+        coupon_json = json.loads(file01.read())
+        for i in coupon_json["data"]:
+            cp = Coupon(i)
+            res.append(cp)
     return res
 
 market1 = Market()
