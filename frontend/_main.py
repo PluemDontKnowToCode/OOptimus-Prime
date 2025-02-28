@@ -47,6 +47,11 @@ def get():
 def get():
     return Purchase.PurchasePage()
 
+@rt('/purchase/result')
+def get():
+    result = market.purchase()
+    return Purchase.ResultPage(result)
+
 @rt('/detail/{p_id}')
 def get(p_id: int):
     # print(p_id, type(p_id))

@@ -467,7 +467,7 @@ class Market():
         newCate.add_product(product)
         self.__category_list.append(newCate)
         
-    def purchase(self, user_id, address, coupon, money):
+    def purchase(self, user_id, address, coupon):
         return {
             "success" : True
         }
