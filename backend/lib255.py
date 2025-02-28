@@ -308,8 +308,11 @@ class Customer(Account):
     def cart_product(self):
         return self.__cart.product_list
     
-    def add_transaction(self,product_id,datetime):
-        self.__transaction.append(Transaction(id,product_id,datetime))
+    def clear_cart(self):
+        self.__cart.clear()
+
+    def add_transaction(self,product_id):
+        self.__transaction.append(Transaction(self.id,product_id))
         return
     
     def update_money(self, amount):
@@ -401,6 +404,13 @@ class Cart:
     def product_list(self):
         return self.__product_List
     
+    def clear(self):
+        self.__product_List = []
+        return {
+            "success" : True,
+            "message" : "Clear Complete"
+        }
+        
     def add_product(self, product : Product):
         self.product_list.append(product)
         return "success"
@@ -423,6 +433,7 @@ class Market():
     __category_list : Categories
 
     def __init__(self):
+        self.__current_user = None
         self.__account_list = []
         self.__product_list = []
         self.__coupon_list = []
@@ -468,6 +479,50 @@ class Market():
         self.__category_list.append(newCate)
         
     def purchase(self, user_id, address, coupon):
+        customer = self.get_account(user_id)
+        if(customer == None):
+            return {
+                "success" : False,
+                "message" : "User Not Found"
+            }
+        cart = self.get_customer_cart(user_id)
+        if(cart["success"] == False):
+            return cart
+        existProduct = []
+        unExistProduct = []
+        for c in customer.cart_product:
+            if(self.get_product(c.id)):
+                existProduct.append(c)
+            else:
+                unExistProduct.append(c)
+        if(len(unExistProduct) > 0):
+            return {
+                "success" : False,
+                "message" : "Product Not Found",
+                "data" : unExistProduct
+            }
+        price = 0
+        for p in existProduct:
+            price += p.price
+        if(coupon != None):
+            if(self.get_coupon(coupon)):
+                discountPercent = self.get_coupon(coupon).discount_percent
+                price -= price * discountPercent
+            else:
+                return {
+                    "success" : False,
+                    "message" : "Coupon Not Found"
+                }
+        if(price > customer.money):
+            return {
+                "success" : False,
+                "message" : "Not Enough Money"
+            }
+        customer.money -= price
+        customer.clear_cart()
+        for p in existProduct:
+            customer.add_transaction(p.id)
+        
         return {
             "success" : True
         }
