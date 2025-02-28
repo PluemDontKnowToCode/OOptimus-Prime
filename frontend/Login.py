@@ -16,25 +16,30 @@ def Page():
                     Form(
                         Input(
                             placeholder = "username...",
+                            id = "name",
                             style = "margin: 0px;"
                             ),
-                        style = "margin: 0px; padding-top: 8%;"
-                        ),
-                ),
-                Div(
-                    Form(
                         Input(
                             placeholder = "password...",
+                            id = "password",
                             style = "margin: 0px;"
                             ),
-                        style = "margin: 0px; "
-                        ),
+                        Button("Sign In"),
+                        method = "get",
+                        action = '/login_process',
+                        style = "margin: 0px; padding-top: 8%;"
+                    )
                 ),
+                # Div(
+                #     Form(
+                #         style = "margin: 0px; "
+                #         ),
+                # ),
                 style="width: 40%; margin: 0 auto; padding-top: 10%;"
             ),
             
             A(
-                Button("Sign In"),
+                
                 style="width: 40%; margin: 0 auto; padding-top: 10%; display: flex; justify-content: center;",
             ),
             Div(

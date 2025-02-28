@@ -292,6 +292,10 @@ class Account(Object):
     @property
     def address_list(self):
         return self.__address_list
+    
+    def self_verify(self, name, password):
+        if name == self.__username and password == self.__password: return True
+        return False
 
 class Customer(Account):
     def __init__(self, id= '', name = "", username = "", password ="", money = 0 ,image = "",market = None):
@@ -318,7 +322,7 @@ class Customer(Account):
     def update_money(self, amount):
         self.__money += amount
         return
-        
+    
     def view_product_detail(self, product_id): return self.__market.view_product_detail(product_id)
 
     def to_json(self):
@@ -588,6 +592,12 @@ class Market():
         pjson = open(file_path + '/Product.json', 'w')
         t1 = """{\n\t\t"data" : [\n\t\t\t"""
         pass
+    
+    def verify_user(self, name, password):
+        for i in self.__account_list:
+            lean = i.self_verify(name, password)
+            if lean: return i
+        return None
         
 
 
@@ -609,19 +619,30 @@ def get_all_product():
         product_json = json.loads(file01.read())
         for i in product_json["data"]:
             pd = Product(i)
-        
             res.append(pd)
     return res
+
 def get_all_account():
     res = []
     with open(file_path + '/Account.json', "r") as file01:
         account_json = json.loads(file01.read())
         for i in account_json["data"]:
             ac = Account(i)
-        
             res.append(ac)
     return res
 
 market1 = Market()
 for i in get_all_product():
     market1.add_product(i)
+
+for i in get_all_account():
+    market1.add_account(i)
+    
+# for i, j in vars(market1).items():
+#     print(i, end = "   ")
+#     if isinstance(j, list):
+#         for z in j:
+#             for k, v in vars(z).items():
+#                 print(k, v)
+#     else: print(j)
+    

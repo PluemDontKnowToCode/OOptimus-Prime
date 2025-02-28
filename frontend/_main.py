@@ -16,12 +16,14 @@ import CartPage
 import Login
 import ItemDetail
 import Purchase
+import Profile
 
 # h1 = "C://Main//Coding//Python//OOPKMITL//Lab9//OOptimus-Prime"
 # sys.path.insert(0, h1)
 from backend.lib255 import *
 
 market = Market()
+current_account = None
 
 main_path = os.path.dirname(__file__) + "\\asset"
 # print(main_path)
@@ -41,7 +43,8 @@ def get():
 
 @rt('/cart')
 def get():
-    return CartPage.Page()
+    if(current_account): return CartPage.Page()
+    return Redirect('/login')
 
 @rt('/purchase')
 def get():
@@ -56,5 +59,17 @@ def get():
 def get(p_id: int):
     # print(p_id, type(p_id))
     return ItemDetail.view_detail(p_id)
+
+@rt('/login_process')
+def get(name: str, password: str):
+    # print(name, password)
+    current_account = market1.verify_user(name, password)
+    # print(current_account)
+    if(current_account): return Redirect('/')
+    return Redirect('/login')
+
+@rt('/profile')
+def get():
+    return Profile.page(current_account)
 
 serve(port=3000)
