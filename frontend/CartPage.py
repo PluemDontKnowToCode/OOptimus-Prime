@@ -3,35 +3,31 @@ from backend.lib255 import *
 from Component import *
 from _main import app
 
-cart = [
-   {"name": "Laptop", "description": "High performance laptop","price": 300},
-   {"name": "Mouse", "description": "Wireless mouse","price": 600},
-   {"name": "Keyboard", "description": "Mechanical keyboard XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX","price": 300}
-]
-
-price = sum(item["price"] for item in cart)
-lenCart = len(cart)
+cart = market1.get_customer_cart(market1.current_account.id)["data"]
+p = market1.get_product("P000001")
+market1.current_account.cart.add_item(p)
 
 def Page():
+    cart = market1.get_customer_cart(market1.current_account.id)["data"]
     page = Title("Cart - Teerawee Shop"), Main(
         Header(),
-        TitleHeader("Your Cart"),
+        TitleHeader("KKKKK"),
         Div(
-            UpdateCartUI(),
+            UpdateCartUI(cart),
             Div(
                 Card(
                     P(
                         "Order Summary",
                     ),
 
-                    Div(f"Total: {price}",
+                    Div(f"Total: {sum(item["price"] for item in cart)}",
                         cls="price",
                         id="price"
                     ),
                     Style='width: 500px;'
                 ),
                 A(Button(
-                    f"Check Out ({lenCart})"),
+                    f"Check Out ({len(cart)})"),
                     href="/purchase",
                     cls="lenCart",
                     id ="lenCart"
@@ -44,30 +40,38 @@ def Page():
     )
     return page
 #delete card code
-@app.delete("/cart/remove/{name}")
-async def Remove(name : str):
-    print(name + " : Click!!"), 
-
-    global cart
+@app.delete("/cart/remove/{id}")
+async def Remove(id : str):
+    print(id + " : Click!!"), 
+    market1.current_account.cart.remove_item(market1.get_product(id))
     
-    cart = [item for item in cart if item["name"] != name]
-    price = sum(item["price"] for item in cart)
-    lenCart = len(cart)
+    userCart = market1.get_customer_cart(market1.current_account.id)["data"]
+    
+    if(len(userCart) == 0):
+        price = 0
+    else:
+        price = sum(item["price"] for item in userCart)
 
     return Div(
-        Button(f"Check Out ({lenCart})", id="lenCart", hx_swap_oob="true"),
+        Div("",id=id, hx_swap="outerHTML"),
+        Button(f"Check Out ({len(userCart)})", id="lenCart", hx_swap_oob="true"),
         Div(f"Total: {price}", id="price", hx_swap_oob="true"),
         UpdateCartUI()
     ),
-    
-def UpdateCartUI():
+
+@app.post("/cart/add")
+async def Add():
+    p = market1.get_product("P000001")
+    market1.current_account.cart.add_item(p)
+
+def UpdateCartUI(cart = None):
     if(len(cart) != 0):
         return Div(*
             [
                 Card(
                     Div(
                         Img(
-                            src="https://glassmania.com/media/catalog/product/cache/c2977421f383e646049de5ab98da7a5c/n/s/nspf50bobl_5.png",
+                            src=p['img'],
                             Style="width: 200px;"
                         ),
                     ),
@@ -85,12 +89,11 @@ def UpdateCartUI():
                     Div(
                         Button(
                             "X",
-                            hx_delete=f"/cart/remove/{p['name']}",
-                            hx_target=f"#{p['name']}",  # Ensures only the nearest div (the card) is removed
+                            hx_delete=f"/cart/remove/{p["id"]}",
                             hx_swap="outerHTML"
                         ),
                     ),
-                    id = p["name"],
+                    id = p['id'],
                     Style="display: flex; justify-content: space-between; width: 750px; border: ridge; align-items: center;"
                 )
                 for p in cart

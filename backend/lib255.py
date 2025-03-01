@@ -295,6 +295,9 @@ class Account(Object):
     @property
     def address_list(self):
         return self.__address_list
+    @property
+    def cart(self):
+        return None
     
     def self_verify(self, name, password):
         if name == self.__username and password == self.__password: return True
@@ -306,7 +309,12 @@ class Customer(Account):
         self.__cart = Cart()
         self.__transaction = []
         self.__coupon_list = []
-        
+    
+    def __init__(self, d: dict, market = None):
+        super().__init__(d, market)
+        self.__cart = Cart() 
+        if(d["transaction"] != None): 
+            self.__transaction = d['transaction']
     @property
     def cart(self):
         return self.__cart
@@ -344,7 +352,10 @@ class Seller(Account):
     def __init__(self, id):
         super().__init__(id)
         self.__selling_product = []
-    
+
+    def __init__(self, d: dict, market = None):
+        super().__init__(d, market)
+
     def create_product(self, product : Product):
         self.__selling_product.append(product)
 
@@ -358,6 +369,9 @@ class Seller(Account):
 class Admin(Account):
     def __init__():
         super().__init__(id)
+
+    def __init__(self, d: dict, market = None):
+        super().__init__(d, market)
 #endregion
 #region Transaction
 class Transaction():
@@ -391,12 +405,20 @@ class Transaction():
 #region cart
 class Cart:
     def __init__(self):
-        self.__product_List = []
+        self.__product_list = []
 
-    def remove_product(self, product : Product):
-        for i in self.__product_List:
+    @property
+    def product_list(self):
+        res = []
+        print(len(self.__product_list))
+        for i in self.__product_list:
+            res.append(i.to_json())
+        return res
+    
+    def remove_item(self, product : Product):
+        for i in self.__product_list:
             if i.Equal(product.id):
-                self.__product_List.remove(i)
+                self.__product_list.remove(i)
                 return {
                     "success" : True,
                     "message" : "Remove Complete"
@@ -407,25 +429,24 @@ class Cart:
             "message" : "Product Not found"
         }
 
-    @property
-    def product_list(self):
-        return self.__product_List
+    
     
     def clear(self):
-        self.__product_List = []
+        self.__product_list = []
         return {
             "success" : True,
             "message" : "Clear Complete"
         }
         
-    def add_product(self, product : Product):
-        self.product_list.append(product)
+    def add_item(self, product : Product):
+        self.__product_list.append(product)
+        print(len(self.__product_list))
         return "success"
 
     def calculate_price(self):
         return {   
-            "price" : sum(item.price for item in self.__product_List),
-            "len" : len(self.__product_List) 
+            "price" : sum(item.price for item in self.__product_list),
+            "len" : len(self.__product_list) 
         }
         
 #endregion
@@ -461,13 +482,13 @@ class Market():
     def coupon_list(self):
         return self.__coupon_list
     @property
-    def current_user(self):
+    def current_account(self):
         return self.__current_user
     
-    @current_user.setter
-    def current_user(self, user):
+    def update_current_user(self, user : Account):
         self.__current_user = user
         
+
     def generate_id(self):
         return ""
     
@@ -539,7 +560,8 @@ class Market():
             customer.add_transaction(p.id)
         
         return {
-            "success" : True
+            "success" : True,
+            "address" : address
         }
     
     def get_account(self, user_id): 
@@ -574,8 +596,8 @@ class Market():
             }
         existProduct = []
         for c in customer.cart_product:
-            if(self.get_product(c.id)):
-                existProduct.append(c.to_json())
+            if(self.get_product(c["id"])):
+                existProduct.append(c)
         return {
             "success" : "True",
             "data" : existProduct
@@ -638,14 +660,15 @@ def get_all_account():
     with open(file_path + '/Account.json', "r") as file01:
         account_json = json.loads(file01.read())
         for i in account_json["data"]:
-            ac = Account(i)
+            if(i["role"] == "Customer"):
+                ac = Customer(i, market1)
+            elif(i["role"] == "Seller"):
+                ac = Seller(i,market1)
+            elif(i["role"] == "Admin"):
+                ac = Admin(i,market1)
             res.append(ac)
     return res
-def get_current_account():
-    with open(file_path + '/CurrentUser.json', "r") as file01:
-        account_json = json.loads(file01.read())
-        ac = Account(account_json)
-    return ac
+
 
 def get_all_coupon():
     res = []

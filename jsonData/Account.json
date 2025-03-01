@@ -1,7 +1,7 @@
 {
     "data": [
         {
-            "id": "P000001",
+            "id": "A000001",
             "name": "Alice",
             "password": "pass123",
             "username": "alice01",
@@ -13,97 +13,117 @@
                 {"district": "ABC","province":"Baan Opor","zip_code":"25410","phone":"0836694812"},
                 {"district": "AAC","province":"Baan Opor","zip_code":"25410","phone":"0836694812"},
                 {"district": "AXC","province":"Baan Opor","zip_code":"25410","phone":"0836694812"}
-            ]
+            ],
+            "role" : "Customer",
+            "transaction" : []
         },
         {
-            "id": "P000002",
+            "id": "A000002",
             "name": "Bob",
             "password": "securePass",
             "username": "bob99",
             "image": "https://example.com/image2.png",
             "money": 1200,
             "cart" : [],
-            "address":[]
+            "address":[],
+            "role" : "Customer",
+            "transaction" : []
         },
         {
-            "id": "P000003",
+            "id": "A000003",
             "name": "Charlie",
             "password": "charliePass",
             "username": "charlieC",
             "image": "https://example.com/image3.png",
             "money": 800,
             "cart" : [],
-            "address":[]
+            "address":[],
+            "role" : "Customer",
+            "transaction" : []
         },
         {
-            "id": "P000004",
+            "id": "A000004",
             "name": "David",
             "password": "davidKey",
             "username": "davidKing",
             "image": "https://example.com/image4.png",
             "money": 1500,
             "cart" : [],
-            "address":[]
+            "address":[],
+            "role" : "Customer",
+            "transaction" : []
         },
         {
-            "id": "P000005",
+            "id": "A000005",
             "name": "Eve",
             "password": "eveSecret",
             "username": "eve007",
             "image": "https://example.com/image5.png",
             "money": 200,
             "cart" : [],
-            "address":[]
+            "address":[],
+            "role" : "Customer",
+            "transaction" : []
         },
         {
-            "id": "P000006",
+            "id": "A000006",
             "name": "Frank",
             "password": "frankCode",
             "username": "frankyF",
             "image": "https://example.com/image6.png",
             "money": 950,
             "cart" : [],
-            "address":[]
+            "address":[],
+            "role" : "Customer",
+            "transaction" : []
         },
         {
-            "id": "P000007",
+            "id": "A000007",
             "name": "Grace",
             "password": "gracePwd",
             "username": "gracefulG",
             "image": "https://example.com/image7.png",
             "money": 3000,
             "cart" : [],
-            "address":[]
+            "address":[],
+            "role" : "Customer",
+            "transaction" : []
         },
         {
-            "id": "P000008",
+            "id": "A000008",
             "name": "Hank",
             "password": "hankSafe",
             "username": "hankH",
             "image": "https://example.com/image8.png",
             "money": 700,
             "cart" : [],
-            "address":[]
+            "address":[],
+            "role" : "Customer",
+            "transaction" : []
         },
         {
-            "id": "P000009",
+            "id": "A000009",
             "name": "Ivy",
             "password": "ivyTop",
             "username": "ivyLeaf",
             "image": "https://example.com/image9.png",
             "money": 600,
             "cart" : [],
-            "address":[]
+            "address":[],
+            "role" : "Seller",
+            "transaction" : []
         },
         {
-            "id": "P000010",
+            "id": "A000010",
             "name": "Jack",
             "password": "jackStrong",
             "username": "jack123",
             "image": "https://example.com/image10.png",
             "money": 1800,
             "cart" : [],
-            "address":[]
+            "address":[],
+            "role" : "Admin",
+            "transaction" : []
         }
     ]
 }

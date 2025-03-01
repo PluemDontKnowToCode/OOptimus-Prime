@@ -22,8 +22,13 @@ import Profile
 # sys.path.insert(0, h1)
 from backend.lib255 import *
 
-market = Market()
-current_account = None
+market1.update_current_user(market1.get_account("A000001"))
+print(market1.current_account.name)
+
+
+
+
+
 
 main_path = os.path.dirname(__file__) + "\\asset"
 # print(main_path)
@@ -43,16 +48,18 @@ def get():
 
 @rt('/cart')
 def get():
-    if(current_account): return CartPage.Page()
+    if(market1.current_account): return CartPage.Page()
     return Redirect('/login')
 
 @rt('/purchase')
 def get():
-    return Purchase.PurchasePage()
+    if(len(market1.current_account.cart.product_list) > 0):
+        return Purchase.PurchasePage()
+    return Redirect('/cart')
 
 @rt('/purchase/result')
 def get():
-    result = market.purchase()
+    result = market1.purchase()
     return Purchase.ResultPage(result)
 
 @rt('/detail/{p_id}')
@@ -70,6 +77,6 @@ def get(name: str, password: str):
 
 @rt('/profile')
 def get():
-    return Profile.page(current_account)
+    return Profile.page(market1.current_account)
 
 serve(port=3000)

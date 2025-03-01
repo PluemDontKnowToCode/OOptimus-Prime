@@ -1,0 +1,18 @@
+{
+    "data" : [
+        {
+            "discount_percent": 10,
+            "less_amount": 199,
+            "product_count": 5,
+            "start_time": "2025-03-02",
+            "end_time": "2025-03-11"
+        },
+        {
+            "discount_percent": 20,
+            "less_amount": 299,
+            "product_count": 3,
+            "start_time": "2025-04-01",
+            "end_time": "2025-04-10"
+        }
+    ]
+}

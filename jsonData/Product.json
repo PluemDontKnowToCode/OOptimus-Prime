@@ -2,7 +2,7 @@
     "data" : [
         {
             "name": "Book",
-            "id": 1,
+            "id": "P000001",
             "price": 200,
             "description": "Book that everyone can read",
             "img": "https://cdn-icons-png.flaticon.com/512/8832/8832880.png",
@@ -15,7 +15,7 @@
         },
         {
             "name": "Book more cost",
-            "id": 2,
+            "id": "P000002",
             "price": 250,
             "description": "Book that rich guy can read",
             "img": "https://pngimg.com/uploads/book/book_PNG2114.png",
