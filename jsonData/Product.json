@@ -5,7 +5,7 @@
             "id": "P000001",
             "price": 200,
             "description": "Book that everyone can read",
-            "img": "https://cdn-icons-png.flaticon.com/512/8832/8832880.png",
+            "img": "book1.png",
             "category": "Book",
             "comment": [
                 {"name": "Bruno Nick", "text": "This product was improved !", "star": 5},
@@ -18,9 +18,20 @@
             "id": "P000002",
             "price": 250,
             "description": "Book that rich guy can read",
-            "img": "https://pngimg.com/uploads/book/book_PNG2114.png",
+            "img": "book2.png",
             "category": "Book",
-            "comment": ""
+            "comment": []
+        },
+        {
+            "name": "Chocolate Bar",
+            "id": "P000003",
+            "price": 10,
+            "description": "Delicious bar",
+            "img": "chocolate1.png",
+            "category": "Snack",
+            "comment": [
+                {"name": "Jitakorn", "text": "I like this one!", "star": 4}
+            ]
         }
     ]
 }

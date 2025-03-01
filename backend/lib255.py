@@ -21,10 +21,11 @@ class Object:
 
 #region Comment
 class Comment:
-    def __init__(self, name, text, star : int):
+    def __init__(self, name, text, star : int, new_id):
         self.__name = name
         self.__text = text
         self.__star = star
+        self.__user_id = new_id
     
     @property
     def convert_to_dict(self):
@@ -67,7 +68,7 @@ class Product(Object):
         self.__category = d['category']
         clist = []
         for i in d['comment']:
-            c = Comment(i['name'], i['text'], i['star'])
+            c = Comment(i['name'], i['text'], i['star'], i['owner_id'])
             clist.append(c)
         self.__comment_list = clist
         super().__init__(d['id'])
@@ -463,7 +464,8 @@ class Market():
 
     def __init__(self):
         self.__current_user = None
-        self.__account_list = []
+        self.__seller_list = []
+        self.__customer_list = []
         self.__product_list = []
         self.__coupon_list = []
         self.__category_list = []
@@ -488,7 +490,6 @@ class Market():
     def update_current_user(self, user : Account):
         self.__current_user = user
         
-
     def generate_id(self):
         return ""
     
@@ -626,8 +627,13 @@ class Market():
         t1 = """{\n\t\t"data" : [\n\t\t\t"""
         pass
     
-    def verify_user(self, name, password):
-        for i in self.__account_list:
+    def verify_user(self, name, password, role):
+        list1 = None
+        if role == "customer": list1 = self.__customer_list
+        elif role == "seller": list1 = self.__seller_list
+        else: return list1
+        
+        for i in list1:
             lean = i.self_verify(name, password)
             if lean: return i
         return None
@@ -683,8 +689,8 @@ market1 = Market()
 for i in get_all_product():
     market1.add_product(i)
 
-for i in get_all_account():
-    market1.add_account(i)
+# for i in get_all_account():
+#     market1.add_account(i)
     
 # for i, j in vars(market1).items():
 #     print(i, end = "   ")

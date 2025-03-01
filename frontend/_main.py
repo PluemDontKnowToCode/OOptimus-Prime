@@ -17,13 +17,15 @@ import Login
 import ItemDetail
 import Purchase
 import Profile
+import Register
+import Comment
 
 # h1 = "C://Main//Coding//Python//OOPKMITL//Lab9//OOptimus-Prime"
 # sys.path.insert(0, h1)
 from backend.lib255 import *
 
-market1.update_current_user(market1.get_account("A000001"))
-print(market1.current_account.name)
+# market1.update_current_user(market1.get_account("A000001"))
+# print(market1.current_account.name)
 
 
 
@@ -63,20 +65,24 @@ def get():
     return Purchase.ResultPage(result)
 
 @rt('/detail/{p_id}')
-def get(p_id: int):
+def get(p_id: str):
     # print(p_id, type(p_id))
     return ItemDetail.view_detail(p_id)
 
+@rt('/add_new_comment/{user_id}/{star}')
+def post(user_id: str, star: int, new_comment: str):
+    return 
+
 @rt('/login_process')
-def get(name: str, password: str):
-    # print(name, password)
-    current_account = market1.verify_user(name, password)
-    # print(current_account)
-    if(current_account): return Redirect('/')
-    return Redirect('/login')
+def get(name: str, password: str, role: str):
+    return Login.validate_login(name, password, role)
 
 @rt('/profile')
 def get():
     return Profile.page(market1.current_account)
+
+@rt('/register')
+def get():
+    return Register.page()
 
 serve(port=3000)

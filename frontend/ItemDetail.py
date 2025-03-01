@@ -18,7 +18,7 @@ def view_detail(p_id: int):
         "Detail",
         Grid(
             Img(
-                 src = f"{p_image}",
+                 src = f"/{p_image}",
                  style = "height: 70%; justify-self: center;"
                 ),
             Div(
@@ -38,7 +38,7 @@ def view_detail(p_id: int):
         Form(
             Input(type = "text", id = "new_comment", placeholder = "about your thinking"),
             method = "post",
-            action = ""
+            action = "/add_new_comment/{p_id}/{star}" if market1.current_account else "/login"
         )
     )
 
