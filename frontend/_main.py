@@ -64,6 +64,14 @@ def get(p_id: str):
     # print(p_id, type(p_id))
     return ItemDetail.view_detail(p_id)
 
+@rt('/add_to_cart/{p_id}/{user_id}')
+def post(p_id: str, user_id: str):
+    if not market1.current_account: return Redirect('/login')
+    res = market1.add_product_to_cart(p_id, user_id)
+    print(f"{p_id}, {user_id}, {res}")
+    print(market1.current_account.cart_product)
+    return Redirect(f'/detail/{p_id}')
+
 @rt('/add_new_comment/{p_id}/{star}')
 def post(p_id: str, star: int, new_comment: str):
     if not market1.current_account: return Redirect('/login')

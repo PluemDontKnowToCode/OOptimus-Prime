@@ -4,10 +4,10 @@ main_path = os.path.dirname(__file__) + "\\asset"
 # file_path = os.path.join(main_path, '/asset')
 # print(main_path, file_path)
 
-cartpng = "cart_removebg_preview.png"
-userpng = "user_imgpng.png"
+cartpng = "/cart_removebg_preview.png"
+userpng = "/user_imgpng.png"
 
-print(cartpng)
+# print(cartpng)
 
 configHeader = "padding-top: 0px;"
 headerfontStyle = """   color: #ffffff

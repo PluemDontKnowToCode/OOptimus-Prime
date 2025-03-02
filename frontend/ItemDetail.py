@@ -1,4 +1,6 @@
 import sys, os
+import Component
+main_path = os.path.dirname(__file__) + "\\asset"
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from fasthtml.common import *
@@ -11,8 +13,9 @@ def view_detail(p_id: int):
     list_dis =["Name", "Price", "Description"]
     j1 = create_json(list_dis, p)
     p_image = market1.get_product_image(p_id)
+    user_id = market1.current_account.id if market1.current_account else 'NONE'
     # print(j1)
-
+    part_header = Component.Header()
 
     part_detail = Titled(
         "Detail",
@@ -33,7 +36,7 @@ def view_detail(p_id: int):
                     type = "submit"
                     ),
                     method = "post",
-                    action = f'/'
+                    action = f'/add_to_cart/{p_id}/{user_id}'
                 )
             ),
             stlye = "grid-template-columns: 1fr 1fr;"
@@ -80,11 +83,11 @@ def view_detail(p_id: int):
 
 
     page = Main(
-        Div(
-            part_detail,
-            part_add_comment,   
-            part_comment
-        )
+        part_header,
+        part_detail,
+        part_add_comment,   
+        part_comment,
+        style = Component.configHeader
     )
     return page
 

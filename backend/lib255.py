@@ -446,6 +446,7 @@ class Cart:
         }
         
     def add_item(self, product : Product):
+        if not isinstance(product, Product): return "False"
         self.__product_list.append(product)
         return {
             "success" : True,
@@ -517,6 +518,12 @@ class Market():
             else:
                 self.add_category(product.category ,product)
             return "Done"
+        
+    def add_product_to_cart(self, p_id, u_id):
+        p1 = self.get_product(p_id)
+        if not p1: return
+        for i in self.__customer_list:
+            if i.Equal(u_id): i.add_to_cart(p1); return "Product was added to cart"
 
     def add_category(self, name):
         self.__category_list.append(Categories(name))
