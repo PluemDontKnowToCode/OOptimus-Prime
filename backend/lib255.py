@@ -327,6 +327,9 @@ class Customer(Account):
     def cart_product(self):
         return self.__cart.product_list
     
+    def add_to_cart(self, product : Product):
+        return self.__cart.add_item(product)
+        
     def clear_cart(self):
         self.__cart.clear()
 
@@ -444,8 +447,10 @@ class Cart:
         
     def add_item(self, product : Product):
         self.__product_list.append(product)
-        print(len(self.__product_list))
-        return "success"
+        return {
+            "success" : True,
+            "message" : "Add Complete"
+        }
 
     def calculate_price(self):
         return {   
