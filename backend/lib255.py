@@ -67,8 +67,11 @@ class Product(Object):
         self.__img = d['img']
         self.__category = d['category']
         clist = []
+        # print(market1.account_list) 
         for i in d['comment']:
-            c = Comment(i['name'], i['text'], i['star'], i['owner_id'])
+            acc = market1.get_account(i['owner_id'])
+            # print(f"{acc} {i['owner_id']}")
+            c = Comment(acc.name, i['text'], i['star'], i['owner_id'])
             clist.append(c)
         self.__comment_list = clist
         super().__init__(d['id'])
@@ -118,7 +121,7 @@ class Product(Object):
         }
         
     def add_comment(self, comment : Comment):
-        res = ""
+        res = "Fail"
         if isinstance(comment, Comment):
             self.__comment_list.append(comment)
             res = "Done"
@@ -467,6 +470,7 @@ class Market():
         self.__seller_list = []
         self.__customer_list = []
         self.__product_list = []
+        self.__admin_list = []
         self.__coupon_list = []
         self.__category_list = []
         #make it private nah
@@ -474,7 +478,7 @@ class Market():
 
     @property
     def account_list(self):
-        return self.__account_list
+        return self.__seller_list + self.__customer_list
     
     @property
     def product_list(self):
@@ -493,8 +497,10 @@ class Market():
     def generate_id(self):
         return ""
     
-    def add_account(self, account : Account):
-        self.__account_list.append(account)
+    def add_account(self, account):
+        if isinstance(account, Customer): self.__customer_list.append(account)
+        elif isinstance(account, Seller): self.__seller_list.append(account)
+        elif isinstance(account, Admin): self.__admin_list.append(account)
         
     def add_product(self, product : Product):
         if isinstance(product, Product):
@@ -514,6 +520,14 @@ class Market():
         newCate = Categories(name)
         newCate.add_product(product)
         self.__category_list.append(newCate)
+
+    def add_comment_to_product(self, p_id, comment):
+        # if isinstance(comment, Comment): return "Type invalid"
+        p = self.get_product(p_id)
+        # if not p: return "Not find product"
+        p.add_comment(comment)
+        # return "Done"
+        
         
     def purchase(self, user_id, address, coupon):
         customer = self.get_account(user_id)
@@ -566,7 +580,8 @@ class Market():
         }
     
     def get_account(self, user_id): 
-        for i in self.__account_list:
+        for i in self.__customer_list + self.__seller_list:
+            print(i.name)
             if i.Equal(user_id):
                 return i
         return None
@@ -657,6 +672,7 @@ def get_all_product():
     with open(file_path + '/Product.json', "r") as file01:
         product_json = json.loads(file01.read())
         for i in product_json["data"]:
+            # print(i)
             pd = Product(i)
             res.append(pd)
     return res
@@ -686,6 +702,8 @@ def get_all_coupon():
     return res
 
 market1 = Market()
+for i in get_all_account():
+    market1.add_account(i)
 for i in get_all_product():
     market1.add_product(i)
 

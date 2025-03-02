@@ -26,7 +26,15 @@ def view_detail(p_id: int):
                     Div(
                         f"{i}: {j}"
                     )
-                ) for i, j in j1.items()]
+                ) for i, j in j1.items()],
+                Form(
+                    Button(
+                    "Add to cart",
+                    type = "submit"
+                    ),
+                    method = "post",
+                    action = f'/'
+                )
             ),
             stlye = "grid-template-columns: 1fr 1fr;"
         )
@@ -38,7 +46,7 @@ def view_detail(p_id: int):
         Form(
             Input(type = "text", id = "new_comment", placeholder = "about your thinking"),
             method = "post",
-            action = "/add_new_comment/{p_id}/{star}" if market1.current_account else "/login"
+            action = f"/add_new_comment/{p_id}/{3}"
         )
     )
 

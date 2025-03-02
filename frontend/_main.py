@@ -18,7 +18,7 @@ import ItemDetail
 import Purchase
 import Profile
 import Register
-import Comment
+import Comment as com
 
 # h1 = "C://Main//Coding//Python//OOPKMITL//Lab9//OOptimus-Prime"
 # sys.path.insert(0, h1)
@@ -26,11 +26,6 @@ from backend.lib255 import *
 
 # market1.update_current_user(market1.get_account("A000001"))
 # print(market1.current_account.name)
-
-
-
-
-
 
 main_path = os.path.dirname(__file__) + "\\asset"
 # print(main_path)
@@ -69,9 +64,11 @@ def get(p_id: str):
     # print(p_id, type(p_id))
     return ItemDetail.view_detail(p_id)
 
-@rt('/add_new_comment/{user_id}/{star}')
-def post(user_id: str, star: int, new_comment: str):
-    return 
+@rt('/add_new_comment/{p_id}/{star}')
+def post(p_id: str, star: int, new_comment: str):
+    if not market1.current_account: return Redirect('/login')
+    # print(p_id, star, new_comment)
+    return com.insert_comment(p_id, star, new_comment)
 
 @rt('/login_process')
 def get(name: str, password: str, role: str):

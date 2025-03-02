@@ -8,12 +8,10 @@
             "img": "book1.png",
             "category": "Book",
             "comment": [
-                {"name": "Bruno Nick", "text": "This product was improved !", "star": 5},
-                {"name": "Brave Nick", "text": "This product was shit !", "star": 3},
-                {"name": "Fear Nick", "text": "This product was Scary !", "star": 3}
+                { "owner_id": "A000001", "text": "This product was improved !", "star": 5}
             ]
         },
-        {
+        {   
             "name": "Book more cost",
             "id": "P000002",
             "price": 250,
@@ -29,9 +27,7 @@
             "description": "Delicious bar",
             "img": "chocolate1.png",
             "category": "Snack",
-            "comment": [
-                {"name": "Jitakorn", "text": "I like this one!", "star": 4}
-            ]
+            "comment": []
         }
     ]
 }
