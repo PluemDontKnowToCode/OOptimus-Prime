@@ -27,7 +27,6 @@ class Comment:
         self.__star = star
         self.__user_id = new_id
     
-    @property
     def to_json(self):
         return {
             "name": self.__name, 
@@ -550,7 +549,7 @@ class Market():
         if(customer == None):
             return "User Not Found"
             
-        cart = self.get_customer_cart(customer)
+        cart = customer.cart
 
         price = 0
         for p in cart.product_list:
@@ -601,6 +600,11 @@ class Market():
     def get_customer_cart(self,customer):
         return customer.cart
     
+    def get_customer_cart_product(self,customer):
+        res = []
+        for p in customer.cart_product:
+            res.append(p.to_json())
+        return res
     def get_product_detail(self, product): return product.detail
     
     def get_product_image(self, p_id):

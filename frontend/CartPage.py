@@ -4,11 +4,11 @@ from Component import *
 from _main import app
 
 # cart = market1.get_customer_cart(market1.current_account.id)["data"]
-# p = market1.get_product("P000001")
-# market1.current_account.cart.add_item(p)
+p = market1.get_product("P000001")
+market1.current_account.cart.add_item(p)
 
 def Page():
-    cart = market1.get_customer_cart(market1.current_account.id)["data"]
+    cart = market1.get_customer_cart_product(market1.current_account)
     page = Title("Cart - Teerawee Shop"), Main(
         Header(),
         TitleHeader("KKKKK"),
@@ -45,7 +45,7 @@ async def Remove(id : str):
     print(id + " : Click!!"), 
     market1.current_account.cart.remove_item(market1.get_product(id))
     
-    userCart = market1.get_customer_cart(market1.current_account.id)["data"]
+    userCart = market1.get_customer_cart_product(market1.current_account.id)
     
     if(len(userCart) == 0):
         price = 0

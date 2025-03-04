@@ -24,7 +24,7 @@ import Comment as com
 # sys.path.insert(0, h1)
 from backend.lib255 import *
 
-# market1.update_current_user(market1.get_account("A000001"))
+market1.update_current_user(market1.get_account("A000001"))
 # print(market1.current_account.name)
 
 main_path = os.path.dirname(__file__) + "\\asset"
@@ -69,7 +69,6 @@ def post(p_id: str, user_id: str):
     if not market1.current_account: return Redirect('/login')
     res = market1.add_product_to_cart(p_id, user_id)
     print(f"{p_id}, {user_id}, {res}")
-    print(market1.current_account.cart_product)
     return Redirect(f'/detail/{p_id}')
 
 @rt('/add_new_comment/{p_id}/{star}')
