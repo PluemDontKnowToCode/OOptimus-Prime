@@ -338,6 +338,7 @@ class Customer(Account):
         return self.__coupon_list
     @property
     def cart_product(self):
+        # print(f"Cart_product: {self.__cart.product_list}")
         return self.__cart.product_list
     
     def get_coupon(self):
@@ -427,44 +428,79 @@ class Transaction():
         return self.__date
 #endregion
 
+class CartItem:
+    def __init__(self, product, amount = 1):
+        self.__product = product
+        self.__amount = amount
     
+    @property
+    def inc_item(self): self.__amount += 1
+
+    @property
+    def product(self): return self.__product
+
+    @property
+    def amount(self): return self.__amount
+
+    def is_me(self, product): return product == self.__product
+
+    @property
+    def price(self): return self.__product.price * self.__amount
 
 #region cart
 class Cart:
     def __init__(self):
-        self.__product_list = []
+        self.__cart_item_list = []
 
     @property
-    def product_list(self):
-        return self.__product_list
+    def size(self):
+        res = 0
+        for i in self.__cart_item_list:
+            res += i.amount
+        return res
     
+    @property
+    def get_cart_item(self): return self.__cart_item_list
+
+    @property
+    def product_list(self): return [i.product for i in self.__cart_item_list]
+    
+    @property
     def get_product(self):
         res = []
-        print(len(self.__product_list))
-        for i in self.__product_list:
-            res.append(i.to_json())
+        # print(len(self.__product_list))
+        for i in self.__cart_item_list:
+            dict1 = i.product.to_json()
+            dict1.update({"amount": i.amount})
+            # print(dict1)
+            res.append(dict1)
+        # print(res)
         return res
 
     def remove_item(self, product : Product):
-        for i in self.__product_list:
-            if i.Equal(product.id):
-                self.__product_list.remove(i)
+        for i in self.__cart_item_list:
+            if i.product.Equal(product.id):
+                self.__cart_item_list.remove(i)
                 return "Remove Complete"
         return "Product Not found"
         
     def clear(self):
-        self.__product_list = []
+        self.__cart_item_list.clear()
         return "Clear Complete"
         
     def add_item(self, product : Product):
         if not isinstance(product, Product): return "False"
-        self.__product_list.append(product)
+        if product in self.product_list:
+            for i in self.__cart_item_list:
+                if i.is_me(product): i.inc_item
+        else:
+            self.__cart_item_list.append(CartItem(product))
         return "Add Complete"
         
     def calculate_price(self):
         return {   
-            "price" : sum(item.price for item in self.__product_list),
-            "len" : len(self.__product_list) 
+            "price" : sum(item.product.price for item in self.__cart_item_list),
+            "len" : len(self.__cart_item_list) 
         }
         
 #endregion
@@ -575,7 +611,7 @@ class Market():
     
     def get_account(self, user_id): 
         for i in self.__customer_list + self.__seller_list:
-            print(i.name)
+            # print(i.name)
             if i.Equal(user_id):
                 return i
         return None
@@ -600,11 +636,13 @@ class Market():
     def get_customer_cart(self,customer):
         return customer.cart
     
-    def get_customer_cart_product(self,customer):
+    def get_customer_cart_product(self, customer):
         res = []
+        # print(customer.cart_product)
         for p in customer.cart_product:
             res.append(p.to_json())
         return res
+    
     def get_product_detail(self, product): return product.detail
     
     def get_product_image(self, p_id):

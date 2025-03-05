@@ -8,10 +8,10 @@ p = market1.get_product("P000001")
 market1.current_account.cart.add_item(p)
 
 def Page():
-    cart = market1.get_customer_cart_product(market1.current_account)
+    cart = market1.get_customer_cart(market1.current_account)
     page = Title("Cart - Teerawee Shop"), Main(
         Header(),
-        TitleHeader("KKKKK"),
+        TitleHeader("My Shopping Cart"),
         Div(
             UpdateCartUI(cart),
             Div(
@@ -20,14 +20,14 @@ def Page():
                         "Order Summary",
                     ),
 
-                    Div(f"Total: {sum(item["price"] for item in cart)}",
+                    Div(f"Total: {sum(i.price for i in cart.get_cart_item)}",
                         cls="price",
                         id="price"
                     ),
                     Style='width: 500px;'
                 ),
                 A(Button(
-                    f"Check Out ({len(cart)})"),
+                    f"Check Out ({cart.size})"),
                     href="/purchase",
                     cls="lenCart",
                     id ="lenCart"
@@ -39,13 +39,14 @@ def Page():
         Style="padding:0;"
     )
     return page
+
 #delete card code
 @app.delete("/cart/remove/{id}")
 async def Remove(id : str):
     print(id + " : Click!!"), 
     market1.current_account.cart.remove_item(market1.get_product(id))
     
-    userCart = market1.get_customer_cart_product(market1.current_account.id)
+    userCart = market1.get_customer_cart_product(market1.current_account)
     
     if(len(userCart) == 0):
         price = 0
@@ -62,10 +63,12 @@ async def Remove(id : str):
 @app.post("/cart/add")
 async def Add():
     p = market1.get_product("P000001")
+    # print(p)
     market1.current_account.cart.add_item(p)
 
 def UpdateCartUI(cart = None):
-    if(len(cart) != 0):
+    if(cart):
+        itemDict = cart.get_product
         return Div(*
             [
                 Card(
@@ -84,6 +87,9 @@ def UpdateCartUI(cart = None):
                         Div(
                             f"Price: ${p['price']}",
                             Style="padding-top: 10px;"
+                        ),
+                        Div(
+                            f"Amount: {p['amount']}"
                         )
                     ),
                     Div(
@@ -96,7 +102,7 @@ def UpdateCartUI(cart = None):
                     id = p['id'],
                     Style="display: flex; justify-content: space-between; width: 750px; border: ridge; align-items: center;"
                 )
-                for p in cart
+                for p in itemDict
             ],
             cls="product_list",
             id="product_list",
