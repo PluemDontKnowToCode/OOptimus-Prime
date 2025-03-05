@@ -50,13 +50,14 @@ class Comment:
 class Product(Object):
 
     #image is list na
-    def __init__(self, name = '', id = '', price = 0, description = '', img1 = '', category = ''):
+    def __init__(self, name = '', id = '', price = 0, description = '', img1 = '', category = '', stock = 0):
         self.__name = name
         self.__price = price
         self.__description = description
         self.__img = img1
         self.__category = category
         self.__comment_list = []
+        self.__stock = stock
         super().__init__(id)
     
     def __init__(self, d: dict):
@@ -65,7 +66,9 @@ class Product(Object):
         self.__description = d['description']
         self.__img = d['img']
         self.__category = d['category']
+        self.__stock = d['stock']
         clist = []
+        
         # print(market1.account_list) 
         for i in d['comment']:
             acc = market1.get_account(i['owner_id'])
@@ -76,7 +79,7 @@ class Product(Object):
         super().__init__(d['id'])
     
     @property
-    def make_detail(self): return [self.__name, self.__price, self.__description]
+    def make_detail(self): return [self.__name, self.__price, self.__stock, self.__description]
 
     @property
     def get_comment_dict(self):
@@ -108,6 +111,14 @@ class Product(Object):
     def category(self):
         return self.__category
     
+    @property
+    def stock(self): 
+        return self.__stock
+    
+    @stock.setter
+    def stock(self, a):
+        self.__stock = a
+    
     def to_json(self):
         return {
             "name" : self.name,
@@ -116,6 +127,7 @@ class Product(Object):
             "description" : self.description,
             "img" : self.image,
             "category" : self.category,
+            "stock": self.__stock,
             "comment" : [i.to_json() for i in self.__comment_list]
         }
         
@@ -355,8 +367,8 @@ class Customer(Account):
         return "Add Complete"
         
     
-    def add_to_cart(self, product : Product):
-        return self.__cart.add_item(product)
+    def add_to_cart(self, product : Product, amount):
+        return self.__cart.add_item(product, amount)
         
     def clear_cart(self):
         self.__cart.clear()
@@ -431,13 +443,14 @@ class Transaction():
         return self.__date
 #endregion
 
-class CartItem:
+class StackItem:
     def __init__(self, product, amount = 1):
         self.__product = product
-        self.__amount = amount
-    
+        self.__amount = self.validate_amount(amount)
+        
     @property
-    def inc_item(self): self.__amount += 1
+    def inc_item(self): 
+        if self.__amount < self.__product.stock: self.__amount += 1
 
     @property
     def dec_item(self): 
@@ -446,9 +459,20 @@ class CartItem:
     @property
     def product(self): return self.__product
 
+    def validate_amount(self, a1):
+        if a1 >= self.__product.stock:
+            return self.__product.stock
+        elif a1 <= 0: 
+            return None
+        else:
+            return a1
+    
     @property
     def amount(self): return self.__amount
-
+    
+    
+    def set_amount(self, a1):
+        self.__amount = self.validate_amount(a1)
     @property
     def to_json(self): return { self.__product: self.__amount }
 
@@ -498,13 +522,15 @@ class Cart:
         self.__cart_item_list.clear()
         return "Clear Complete"
         
-    def add_item(self, product : Product):
+    def add_item(self, product : Product, amount):
+        print(f"type, amount: {type(product)}, {amount}")
         if not isinstance(product, Product): return "False"
         if product in self.product_list:
             for i in self.__cart_item_list:
-                if i.is_me(product): i.inc_item
+                if i.is_me(product): i.set_amount(amount)
+                break
         else:
-            self.__cart_item_list.append(CartItem(product))
+            self.__cart_item_list.append(StackItem(product, amount))
         return "Add Complete"
         
     def calculate_price(self):
@@ -568,11 +594,11 @@ class Market():
                 self.add_category(product.category ,product)
             return "Done"
         
-    def add_product_to_cart(self, p_id, u_id):
+    def add_product_to_cart(self, p_id, u_id, amount):
         p1 = self.get_product(p_id)
         if not p1: return
         for i in self.__customer_list:
-            if i.Equal(u_id): i.add_to_cart(p1); return "Product was added to cart"
+            if i.Equal(u_id): i.add_to_cart(p1, amount); return "Product was added to cart"
 
     def add_category(self, name):
         self.__category_list.append(Categories(name))
@@ -668,7 +694,7 @@ class Market():
     def search(self, name , tag):
         return [p.to_json() for p in self.__product_list if name.lower() in p.name.lower()]
     
-    def search(self,tag):
+    def search(self, tag):
         return
     
     @property
@@ -741,6 +767,10 @@ for i in get_all_account():
     market1.add_account(i)
 for i in get_all_product():
     market1.add_product(i)
+    
+market1.update_current_user(market1.get_account("A000001"))
+# p = market1.get_product("P000001")
+# market1.current_account.cart.add_item(p, 1)
 
 # for i in get_all_account():
 #     market1.add_account(i)

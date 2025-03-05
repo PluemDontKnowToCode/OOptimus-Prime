@@ -4,8 +4,6 @@ from Component import *
 from _main import app
 
 # cart = market1.get_customer_cart(market1.current_account.id)["data"]
-p = market1.get_product("P000001")
-market1.current_account.cart.add_item(p)
 
 def Page():
     cart = market1.get_customer_cart(market1.current_account)

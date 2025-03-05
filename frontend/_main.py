@@ -1,5 +1,4 @@
 from fasthtml.common import *
-from Component import *
 import sys, os
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
@@ -9,6 +8,7 @@ from backend.lib255 import *
 from dotenv import load_dotenv
 load_dotenv()
 
+import Component#708090
 import Admin
 import Home
 import Seller
@@ -24,7 +24,6 @@ import Comment as com
 # sys.path.insert(0, h1)
 from backend.lib255 import *
 
-market1.update_current_user(market1.get_account("A000001"))
 # print(market1.current_account.name)
 
 main_path = os.path.dirname(__file__) + "\\asset"
@@ -78,12 +77,13 @@ def detail(p_id: str):
     return ItemDetail.view_detail(p_id)
 
 @app.post('/add_to_cart/{p_id}/{user_id}')
-def add_to_cart(p_id: str, user_id: str):
+def add_to_cart(p_id: str, user_id: str, amount: int):
+    print("route", amount)
     if not market1.current_account: return Redirect('/login')
-    res = market1.add_product_to_cart(p_id, user_id)
+    res = market1.add_product_to_cart(p_id, user_id, amount)
     return Redirect(f'/detail/{p_id}')
 
-@app.post('/add_new_comment/{p_id}/{star}')
+@app.post('/add_new_comment/{p_id}')
 def add_new_commnet(p_id: str, star: int, new_comment: str):
     if not market1.current_account: return Redirect('/login')
     return com.insert_comment(p_id, star, new_comment)

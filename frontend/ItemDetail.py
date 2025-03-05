@@ -10,12 +10,28 @@ def view_detail(p_id: int):
     # print(f"ID: {p_id}, Type: {type(p_id)}")
     list1 = market1.view_product_detail(p_id)
     p, c = list1
-    list_dis =["Name", "Price", "Description"]
+    list_dis =["Name", "Price", "Stocked", "Description"]
     j1 = create_json(list_dis, p)
     p_image = market1.get_product_image(p_id)
     user_id = market1.current_account.id if market1.current_account else 'NONE'
     # print(j1)
     part_header = Component.Header()
+    
+    js_for_dialog = f"""
+        const openButton = document.querySelector(".b1")
+        const closeButton = document.querySelector(".b2")
+        const modal = document.querySelector(".d1")
+        
+        openButton.addEventListener("click", () => {{
+            modal.showModal()
+        }})
+        
+        closeButton.addEventListener("click", () => {{
+            modal.close()
+        }})
+    """
+    
+    buttonSize = "height: 10%; width: 25%;"
 
     part_detail = Titled(
         "Detail",
@@ -30,26 +46,68 @@ def view_detail(p_id: int):
                         f"{i}: {j}"
                     )
                 ) for i, j in j1.items()],
-                Form(
-                    Button(
+                Button(
                     "Add to cart",
-                    type = "submit"
+                    cls = "b1"
+                ),
+                Dialog(
+                    Div(
+                        H3("Pick amount", style = "margin-left: 10px; margin-top: 20px"),
+                            Div(
+                                Form(
+                                    Input(
+                                        type = "number",
+                                        id = "amount",
+                                        style = "width: 70%;"
+                                    ),
+                                    Button(
+                                        "push product",
+                                        type = "submit",
+                                        style = "width: 50%; margin-right: 20px;"
+                                    ),
+                                    Button(
+                                        "close",
+                                        cls = "b2",
+                                    ),
+                                    method = "post",
+                                    action = f"/add_to_cart/{p_id}/{user_id}",
+                                    style = "margin-left: 10px;"
+                                ),
+                                Div(
+                                    
+                                    style = "position: bottom;"
+                                ),
+                                
+                                style = "display: flex; justify-content: space-betwewen;"
+                            
+                        ),
+                        style = "border: solid; background-color: #708090; height: 20%; width: 15%;"
                     ),
-                    method = "post",
-                    action = f'/add_to_cart/{p_id}/{user_id}'
-                )
+                    cls = "d1",
+                    style = "position: fixed;"
+                ),
+                Script(js_for_dialog)
             ),
             stlye = "grid-template-columns: 1fr 1fr;"
-        )
+        ),
+        # Div(
+        #     "data-overlay",
+        #     cls = "overlay"
+        # ),
+        # Div(
+        #     "data-modal",
+        # )
     )
 
 
     part_add_comment = Titled(
         "Add your opinion",
         Form(
+            Input(type = "number", id = "star", max = "5", min = "1", value = 3),
             Input(type = "text", id = "new_comment", placeholder = "about your thinking"),
+            Button("Submit", type = "submit"),
             method = "post",
-            action = f"/add_new_comment/{p_id}/{3}"
+            action = f"/add_new_comment/{p_id}"
         )
     )
 
@@ -68,11 +126,12 @@ def view_detail(p_id: int):
                             )
                         )
                     ),
-                    Style = "width: 50%; margin-right: 2%;"
+                    Style = "width: 50%; margin-right: 2%; "
                 ) 
                 for lc in c],
             Style="""
                     display: flex; 
+                    flex-direction: column;
                     overflow-x: auto; 
                     scroll-behavior: smooth; 
                     white-space: nowrap; 
