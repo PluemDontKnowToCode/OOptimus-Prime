@@ -502,13 +502,10 @@ class Cart:
     @property
     def get_product(self):
         res = []
-        # print(len(self.__product_list))
         for i in self.__cart_item_list:
             dict1 = i.product.to_json()
             dict1.update({"amount": i.amount})
-            # print(dict1)
             res.append(dict1)
-        # print(res)
         return res
 
     def remove_item(self, product : Product):
@@ -536,7 +533,7 @@ class Cart:
     def calculate_price(self):
         return {   
             "price" : sum(item.price for item in self.__cart_item_list),
-            "len" : len(self.size) 
+            "len" : self.size 
         }
         
 #endregion
