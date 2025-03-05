@@ -341,6 +341,9 @@ class Customer(Account):
         # print(f"Cart_product: {self.__cart.product_list}")
         return self.__cart.product_list
     
+    @property
+    def cart_items(self): return self.__cart.get_cart_item
+    
     def get_coupon(self):
         res = []
         for i in self.coupon_list:
@@ -437,10 +440,17 @@ class CartItem:
     def inc_item(self): self.__amount += 1
 
     @property
+    def dec_item(self): 
+        if self.__amount >= 0: self.__amount -= 1
+
+    @property
     def product(self): return self.__product
 
     @property
     def amount(self): return self.__amount
+
+    @property
+    def to_json(self): return { self.__product: self.__amount }
 
     def is_me(self, product): return product == self.__product
 
@@ -639,8 +649,8 @@ class Market():
     def get_customer_cart_product(self, customer):
         res = []
         # print(customer.cart_product)
-        for p in customer.cart_product:
-            res.append(p.to_json())
+        for p in customer.cart_items:
+            res.append(p)
         return res
     
     def get_product_detail(self, product): return product.detail

@@ -47,18 +47,18 @@ async def Remove(id : str):
     market1.current_account.cart.remove_item(market1.get_product(id))
     
     userCart = market1.get_customer_cart_product(market1.current_account)
-    
-    if(len(userCart) == 0):
-        price = 0
-    else:
-        price = sum(item["price"] for item in userCart)
+    price = 0
+    if (userCart): 
+        for i in userCart:
+            price += i.price
 
-    return Div(
-        Div("",id=id, hx_swap="outerHTML"),
-        Button(f"Check Out ({len(userCart)})", id="lenCart", hx_swap_oob="true"),
-        Div(f"Total: {price}", id="price", hx_swap_oob="true"),
-        UpdateCartUI()
-    ),
+    return Redirect('/cart')
+    # return Div(
+    #     Div("",id=id, hx_swap="outerHTML"),
+    #     Button(f"Check Out ({len(userCart)})", id="lenCart", hx_swap_oob="true"),
+    #     Div(f"Total: {price}", id="price", hx_swap_oob="true"),
+    #     UpdateCartUI()
+    # ),
 
 @app.post("/cart/add")
 async def Add():

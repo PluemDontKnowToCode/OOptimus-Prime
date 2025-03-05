@@ -45,6 +45,18 @@ def root():
 def login():
     return Login.Page()
 
+@app.get('/login_process')
+def login_process(name: str, password: str, role: str):
+    return Login.validate_login(name, password, role)
+
+@app.get('/profile')
+def profile():
+    return Profile.page(market1.current_account)
+
+@app.get('/register')
+def register():
+    return Register.page()
+
 @app.get('/cart')
 def cart():
     if(market1.current_account): return CartPage.Page()
@@ -75,17 +87,5 @@ def add_to_cart(p_id: str, user_id: str):
 def add_new_commnet(p_id: str, star: int, new_comment: str):
     if not market1.current_account: return Redirect('/login')
     return com.insert_comment(p_id, star, new_comment)
-
-@app.get('/login_process')
-def login_process(name: str, password: str, role: str):
-    return Login.validate_login(name, password, role)
-
-@app.get('/profile')
-def profile():
-    return Profile.page(market1.current_account)
-
-@app.get('/register')
-def register():
-    return Register.page()
 
 serve(port=3000)
