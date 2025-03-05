@@ -535,8 +535,8 @@ class Cart:
         
     def calculate_price(self):
         return {   
-            "price" : sum(item.product.price for item in self.__cart_item_list),
-            "len" : len(self.__cart_item_list) 
+            "price" : sum(item.price for item in self.__cart_item_list),
+            "len" : len(self.size) 
         }
         
 #endregion

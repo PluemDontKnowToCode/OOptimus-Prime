@@ -86,6 +86,6 @@ def add_to_cart(p_id: str, user_id: str, amount: int):
 @app.post('/add_new_comment/{p_id}')
 def add_new_commnet(p_id: str, star: int, new_comment: str):
     if not market1.current_account: return Redirect('/login')
-    return com.insert_comment(p_id, star, new_comment)
+    return com.insert_comment(p_id, star, new_comment) 
 
 serve(port=3000)
