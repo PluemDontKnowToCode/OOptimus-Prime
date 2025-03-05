@@ -1,18 +1,20 @@
 {
     "data" : [
         {
+            "id" : "C000001",
             "discount_percent": 10,
             "less_amount": 199,
             "product_count": 5,
             "start_time": "2025-03-02",
-            "end_time": "2025-03-11"
+            "end_time": "2026-03-02"
         },
         {
+            "id" : "C000002",
             "discount_percent": 20,
             "less_amount": 299,
             "product_count": 3,
             "start_time": "2025-04-01",
-            "end_time": "2025-04-10"
+            "end_time": "2026-05-02"
         }
     ]
 }

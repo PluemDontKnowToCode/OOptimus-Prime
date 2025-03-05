@@ -1,0 +1,16 @@
+{
+    "data" : [
+        {
+            "id": "A000009",
+            "name": "Ivy",
+            "password": "ivyTop",
+            "username": "ivyLeaf",
+            "image": "https://example.com/image9.png",
+            "money": 600,
+            "cart" : [],
+            "address":[],
+            "role" : "Seller",
+            "transaction" : []
+        }
+    ]
+}

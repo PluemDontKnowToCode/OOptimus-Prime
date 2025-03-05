@@ -63,7 +63,7 @@ def cart():
 
 @app.get('/purchase')
 def purchase():
-    if(len(market1.current_account.cart.product_list) > 0):
+    if(market1.current_account.cart.size > 0):
         return Purchase.PurchasePage()
     return Redirect('/cart')
 
