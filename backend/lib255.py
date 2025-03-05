@@ -162,6 +162,7 @@ class Coupon(Object):
         self.__product_count = product_count
         self.__start_time = datetime.strptime(start_time, "%Y-%m-%d")
         self.__end_time = datetime.strptime(end_time, "%Y-%m-%d")
+
     @property
     def name(self):
         return self.__name
@@ -344,7 +345,7 @@ class Customer(Account):
         self.__cart = Cart() 
         temp = []
         for i in d['coupon']:
-            temp = Coupon(i["id"],i['discount_percent'], i['less_amount'], i['product_count'], i['start_time'], i['end_time'])
+            temp.append(Coupon(i["id"],i['discount_percent'], i['less_amount'], i['product_count'], i['start_time'], i['end_time']))
         self.__coupon_list = temp
         if(d["transaction"] != None): 
             self.__transaction = d['transaction']
@@ -599,7 +600,9 @@ class Market():
             else:
                 self.add_category(product.category ,product)
             return "Done"
-        
+    def add_coupon(self, coupon : Coupon):
+        self.__coupon_list.append(coupon)
+
     def add_product_to_cart(self, p_id, u_id, amount):
         p1 = self.get_product(p_id)
         if not p1: return
@@ -769,7 +772,7 @@ def get_all_coupon():
     with open(file_path + '/Coupon.json', "r") as file01:
         coupon_json = json.loads(file01.read())
         for i in coupon_json["data"]:
-            cp = Coupon(i)
+            cp = Coupon(i["id"],i['discount_percent'], i['less_amount'], i['product_count'], i['start_time'], i['end_time'])
             res.append(cp)
     return res
 
@@ -778,6 +781,8 @@ for i in get_all_account():
     market1.add_account(i)
 for i in get_all_product():
     market1.add_product(i)
+for i in get_all_coupon():
+    market1.add_coupon(i)
     
 market1.update_current_user(market1.get_account("A000001"))
 # p = market1.get_product("P000001")
