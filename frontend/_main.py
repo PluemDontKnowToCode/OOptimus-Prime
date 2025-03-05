@@ -30,63 +30,62 @@ market1.update_current_user(market1.get_account("A000001"))
 main_path = os.path.dirname(__file__) + "\\asset"
 # print(main_path)
 
-app,rt = fast_app(
+start = fast_app(
     static_path = main_path,
     hdrs=[Style(':root { --pico-font-size: 100%; }')],
     id=int, title=str, done=bool, pk='id')
 
-@rt('/')
-def get():
+app = start[0]
+
+@app.get('/')
+def root():
     return Home.Page()
 
-@rt('/login')
-def get():
+@app.get('/login')
+def login():
     return Login.Page()
 
-@rt('/cart')
-def get():
+@app.get('/cart')
+def cart():
     if(market1.current_account): return CartPage.Page()
     return Redirect('/login')
 
-@rt('/purchase')
-def get():
+@app.get('/purchase')
+def purchase():
     if(len(market1.current_account.cart.product_list) > 0):
         return Purchase.PurchasePage()
     return Redirect('/cart')
 
-@rt('/purchase/result')
-def get():
+@app.get('/purchase/result')
+def purchhase_result():
     result = market1.purchase()
     return Purchase.ResultPage(result)
 
-@rt('/detail/{p_id}')
-def get(p_id: str):
-    # print(p_id, type(p_id))
+@app.get('/detail/{p_id}')
+def detail(p_id: str):
     return ItemDetail.view_detail(p_id)
 
-@rt('/add_to_cart/{p_id}/{user_id}')
-def post(p_id: str, user_id: str):
+@app.post('/add_to_cart/{p_id}/{user_id}')
+def add_to_cart(p_id: str, user_id: str):
     if not market1.current_account: return Redirect('/login')
     res = market1.add_product_to_cart(p_id, user_id)
-    # print(f"{p_id}, {user_id}, {res}")
     return Redirect(f'/detail/{p_id}')
 
-@rt('/add_new_comment/{p_id}/{star}')
-def post(p_id: str, star: int, new_comment: str):
+@app.post('/add_new_comment/{p_id}/{star}')
+def add_new_commnet(p_id: str, star: int, new_comment: str):
     if not market1.current_account: return Redirect('/login')
-    # print(p_id, star, new_comment)
     return com.insert_comment(p_id, star, new_comment)
 
-@rt('/login_process')
-def get(name: str, password: str, role: str):
+@app.get('/login_process')
+def login_process(name: str, password: str, role: str):
     return Login.validate_login(name, password, role)
 
-@rt('/profile')
-def get():
+@app.get('/profile')
+def profile():
     return Profile.page(market1.current_account)
 
-@rt('/register')
-def get():
+@app.get('/register')
+def register():
     return Register.page()
 
 serve(port=3000)
