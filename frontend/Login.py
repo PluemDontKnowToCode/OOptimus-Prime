@@ -1,7 +1,7 @@
 from fasthtml.common import *
 from backend.lib255 import *
 from Component import *
-from _main import *
+from frontend._main import *
 
 def Page():
     page = Title("Login - Teerawee Shop"),Main(

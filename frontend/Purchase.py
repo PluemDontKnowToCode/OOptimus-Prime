@@ -1,9 +1,8 @@
 from fasthtml.common import *
 from backend.lib255 import *
 from Component import *
-from _main import *
+import frontend._main as _main 
 
-selected_coupon = []
 def PurchasePage():
     coupon = market1.current_account.get_coupon()
     cart = market1.get_customer_cart(market1.current_account)
@@ -55,7 +54,7 @@ def PurchasePage():
                 ),
                 
     page = Title("Cart - Teerawee Shop"), Main(
-        Component.Header(),
+        Header(),
         TitleHeader("Purchase"),
         Div(
             Div(
@@ -106,7 +105,7 @@ def PurchasePage():
                     Div(
                         Div(*
                         [
-                            CouponCard(i["discount_percent"],i["less_amount"],i["start_time"],i["end_time"],product_count=i["product_count"])
+                            CouponCard(i["id"],i["discount_percent"],i["less_amount"],i["start_time"],i["end_time"],product_count=i["product_count"])
                             for i in coupon
                         ],
                             #Style= ("width:900px; border: 1px solid black; display: flex; flex-direction: row; flex-wrap: wrap;"),
@@ -172,12 +171,12 @@ def PurchasePage():
                     ),
                     Div(
                         H3("Discount"),
-                        Div(f"$0"),
+                        Div(f"${get_discount_value() * (cart.calculate_price() + 50)}"),
                         Style="display: flex; justify-content: space-between; width: 100%;",
                     ),
                     Div(
                         H3("Total"),
-                        Div(f"${cart.calculate_price() + 50}"),
+                        Div(f"${cart.calculate_price() + 50 - get_discount_value() * cart.calculate_price()}"),
                         Style="display: flex; justify-content: space-between; width: 100%;",
                     ),
                     cls="total",
@@ -194,7 +193,7 @@ def PurchasePage():
                            Style="width: 100%;",
                            id="purchase_button",
                         ),
-                        
+                        href="/purchase/result/{}",
                         Style="padding-top: 10px;"
                 ),
                 Style="padding-top:0px; width: 25%;"
@@ -237,15 +236,37 @@ def ResultPage(result):
         )
     return page
 
-def CouponCard(discount, order_min,start_date, end_date,product_count = 0):
+def CouponCard(Id,discount, order_min,start_date, end_date,product_count = 0):
     condition = f"Orders ฿{order_min}+"
     if(product_count == 0):
         condition += f" or {product_count} more products"
-    return Div(
-        H2(f"{discount}% OFF", Style="margin: 0;"),
-        P(condition, Style="margin: 0;"),
+    card = Div(
+        H2(
+            f"{discount}% OFF", 
+           Style="margin: 0;"
+        ),
+        P(
+            condition, 
+            Style="margin: 0;"
+        ),
         Hr(),
-        P(f"{start_date} ~ {end_date}", Style="margin: 0 auto;"),
-        Button("USE", Style="margin-top: 10px; padding: 5px 15px; border: 1px solid blue; background: white; color: blue;"),
+        P(
+            f"{start_date} ~ {end_date}", 
+            Style="margin: 0 auto;"
+        ),
+        Button(
+            "USE", 
+            Style="margin-top: 10px; padding: 5px 15px; border: 1px solid blue; background: white; color: blue;",
+            id="button_{Id}"
+        ),
+        id=Id,
         Style="border: 1px solid black; padding: 15px; width: 200px; text-align: center; display: inline-block; margin: 10px; position: relative;"
     )
+    return card
+
+def get_discount_value():
+    if(market1.current_account.selected_coupon != None):
+        return market1.current_account.selected_coupon.discount_percent / 100
+    return 0
+
+selected_coupon = None

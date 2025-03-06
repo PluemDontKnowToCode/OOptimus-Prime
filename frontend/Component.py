@@ -17,7 +17,7 @@ headerfontStyle = """   color: #ffffff
 ButtonHeaderStyle = "margin-right: 10px;"
 CheckingStyle = "border: solid;"
 
-login_bool = False
+login_bool = True
 
 alret_scirpt = ""
 
