@@ -3,14 +3,59 @@ from backend.lib255 import *
 from Component import *
 from _main import *
 
-
+selected_coupon = []
 def PurchasePage():
     coupon = market1.current_account.get_coupon()
     cart = market1.get_customer_cart(market1.current_account)
     address = market1.current_account.get_address()
-    print(cart)
+
+    pop_up_script = """
+        const openButton = document.getElementById("#purchase_button")
+        const closeButton = document.getElementById(".b2")
+        const modal = document.getElementById(".d1")
+        
+        openButton.addEventListener("click", () => {{
+            modal.showModal()
+        }})
+        
+        closeButton.addEventListener("click", () => {{
+            modal.close()
+        }})
+    """
+    popup = Dialog(
+                    Div(
+                        H3("Are you Sure to purchase", style = "margin-left: 10px; margin-top: 20px"),
+                        Div(
+                            Div(
+                                Button(
+                                    "purchase",
+                                    type = "submit",
+                                    style = "width: 50%; margin-right: 20px;"
+                                ),
+                                Button(
+                                    "close",
+                                    id = "b2",
+                                ),
+                                method = "post",
+                                action = f"/purchase/result",
+                                style = "margin-left: 10px;"
+                            ),
+                            Div(
+                                
+                                style = "position: bottom;"
+                            ),
+                            
+                            style = "display: flex; justify-content: space-betwewen;"
+                            
+                        ),
+                        style = "border: solid; background-color: #708090; height: 20%; width: 15%;"
+                    ),
+                    id = "d1",
+                    style = "position: fixed;"
+                ),
+                
     page = Title("Cart - Teerawee Shop"), Main(
-        Header(),
+        Component.Header(),
         TitleHeader("Purchase"),
         Div(
             Div(
@@ -90,7 +135,7 @@ def PurchasePage():
                             src=i['img'],
                             Style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px;"),
                         Div(f"{i['name']}(x{i['amount']})"),
-                        Div(f"${i['price']}"),
+                        Div(f"${i['price'] * i['amount']}"),
                         Style="""
                             display: flex;
                             align-items: center;
@@ -117,7 +162,7 @@ def PurchasePage():
                 Div(
                     Div(
                         H3("SubTotal"),
-                        Div(f"${cart.calculate_price()['price']}"),
+                        Div(f"${cart.calculate_price()}"),
                         Style="display: flex; justify-content: space-between; width: 100%;",
                     ),
                     Div(
@@ -132,7 +177,7 @@ def PurchasePage():
                     ),
                     Div(
                         H3("Total"),
-                        Div(f"${cart.calculate_price()['price'] + 50}"),
+                        Div(f"${cart.calculate_price() + 50}"),
                         Style="display: flex; justify-content: space-between; width: 100%;",
                     ),
                     cls="total",
@@ -146,26 +191,26 @@ def PurchasePage():
                 ),
                 A(
                     Button("Purchase",
-                           Style="width: 100%;"
-                           
+                           Style="width: 100%;",
+                           id="purchase_button",
                         ),
-                        method = "post",
-                        action = f"/purchase/result",
+                        
                         Style="padding-top: 10px;"
                 ),
                 Style="padding-top:0px; width: 25%;"
+
             ),
             
             Style="display: flex;"
         ),
 
-        
+        #Script(pop_up_script),
         Style="padding: 0px;",
     )
     return page
 
 def ResultPage(result):
-    if(result["success"]):
+    if(result == "success"):
         page = Title("Cart - Teerawee Shop"), Main(
             Header(),
             TitleHeader("Purchase Result"),
@@ -184,7 +229,7 @@ def ResultPage(result):
             TitleHeader("Purchase Result"),
             Div(
                 H3("Failed to place order"),
-                P("Please try again later"),
+                P(result),
                 Button("Return to Cart",Style="width: 100%;"),
                 Style="display: flex; justify-content: center; align-items: center; flex-direction: column; height: 100%;"
             ),

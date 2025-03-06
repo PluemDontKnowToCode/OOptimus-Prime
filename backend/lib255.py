@@ -153,48 +153,7 @@ class DiscountProduct(Product):
         return self.__expire_date
 #endregion
 
-#region Coupon
-class Coupon(Object):
-    def __init__(self, id, discount_percent,less_amount : float,product_count = 0, start_time = datetime.now(), end_time = 0):
-        super().__init__(id)
-        self.__discount_percent = discount_percent
-        self.__less_amount = less_amount
-        self.__product_count = product_count
-        self.__start_time = datetime.strptime(start_time, "%Y-%m-%d")
-        self.__end_time = datetime.strptime(end_time, "%Y-%m-%d")
 
-    @property
-    def name(self):
-        return self.__name
-    
-    @property
-    def description(self):
-        return self.__description
-    @property
-    def discount_percent(self):
-        return self.__discount_percent
-    
-    @property
-    def less_amount(self):
-        return self.__less_amount
-    
-    @property
-    def product_count(self):
-        return self.__product_count
-    
-    @property
-    def product_accord(self):
-        return self.__product_accord
-    
-    def to_json(self):
-        return {
-            "discount_percent" : self.__discount_percent,
-            "less_amount" : self.__less_amount,
-            "product_count" : self.__product_count,
-            "start_time" : self.__start_time,
-            "end_time" : self.__end_time
-        }
-#endregion
 
 #region Categories
 class Categories:
@@ -256,6 +215,150 @@ class Address:
     @property
     def phone_number(self):
         return self.__phone_number
+#endregion
+class StackItem:
+    def __init__(self, product, amount = 1):
+        self.__product = product
+        self.__amount = self.validate_amount(amount)
+        
+    @property
+    def inc_item(self): 
+        if self.__amount < self.__product.stock: self.__amount += 1
+
+    @property
+    def dec_item(self): 
+        if self.__amount >= 0: self.__amount -= 1
+
+    @property
+    def product(self): return self.__product
+
+    def validate_amount(self, a1):
+        if a1 >= self.__product.stock:
+            return self.__product.stock
+        elif a1 <= 0: 
+            return None
+        else:
+            return a1
+    
+    @property
+    def amount(self): return self.__amount
+    
+    
+    def set_amount(self, a1):
+        self.__amount = self.validate_amount(a1)
+    @property
+    def to_json(self): return { self.__product: self.__amount }
+
+    def is_me(self, product): return product == self.__product
+
+    @property
+    def price(self): return self.__product.price * self.__amount
+
+#region cart
+class Cart:
+    def __init__(self):
+        self.__cart_item_list = []
+
+    @property
+    def size(self):
+        res = 0
+        for i in self.__cart_item_list:
+            res += i.amount
+        return res
+    
+    @property
+    def get_cart_item(self): return self.__cart_item_list
+
+    @property
+    def product_list(self): return [i.product for i in self.__cart_item_list]
+    
+    @property
+    def get_product(self):
+        res = []
+        # print(len(self.__product_list))
+        for i in self.__cart_item_list:
+            dict1 = i.product.to_json()
+            dict1.update({"amount": i.amount})
+            # print(dict1)
+            res.append(dict1)
+        # print(res)
+        return res
+
+    def remove_item(self, product : Product):
+        for i in self.__cart_item_list:
+            if i.product.Equal(product.id):
+                self.__cart_item_list.remove(i)
+                return "Remove Complete"
+        return "Product Not found"
+        
+    def clear(self):
+        self.__cart_item_list.clear()
+        return "Clear Complete"
+        
+    def add_item(self, product : Product, amount):
+        print(f"type, amount: {type(product)}, {amount}")
+        if not isinstance(product, Product): return "False"
+        if product in self.product_list:
+            for i in self.__cart_item_list:
+                if i.is_me(product): i.set_amount(amount)
+                break
+        else:
+            self.__cart_item_list.append(StackItem(product, amount))
+        return "Add Complete"
+        
+    def calculate_price(self):
+        return sum(item.price for item in self.__cart_item_list)
+        
+#endregion
+#region Coupon
+class Coupon(Object):
+    def __init__(self, id, discount_percent,less_amount : float,product_count = 0, start_time = datetime.now(), end_time = 0):
+        super().__init__(id)
+        self.__discount_percent = discount_percent
+        self.__less_amount = less_amount
+        self.__product_count = product_count
+        self.__start_time = datetime.strptime(start_time, "%Y-%m-%d")
+        self.__end_time = datetime.strptime(end_time, "%Y-%m-%d")
+
+    @property
+    def name(self):
+        return self.__name
+    
+    @property
+    def description(self):
+        return self.__description
+    @property
+    def discount_percent(self):
+        return self.__discount_percent
+    
+    @property
+    def less_amount(self):
+        return self.__less_amount
+    
+    @property
+    def product_count(self):
+        return self.__product_count
+    
+    @property
+    def product_accord(self):
+        return self.__product_accord
+    
+    def to_json(self):
+        return {
+            "discount_percent" : self.__discount_percent,
+            "less_amount" : self.__less_amount,
+            "product_count" : self.__product_count,
+            "start_time" : self.__start_time,
+            "end_time" : self.__end_time
+        }
+    def check_condition(self, cart : Cart):
+        if cart.size < self.__product_count: 
+            return False
+        if cart.calculate_price() < self.__less_amount:
+            return False
+        if datetime.now() < self.__start_time or datetime.now() > self.__end_time: 
+            return False
+        return True
 #endregion
 #region Account
 class Account(Object):
@@ -450,103 +553,6 @@ class Transaction():
         return self.__date
 #endregion
 
-class StackItem:
-    def __init__(self, product, amount = 1):
-        self.__product = product
-        self.__amount = self.validate_amount(amount)
-        
-    @property
-    def inc_item(self): 
-        if self.__amount < self.__product.stock: self.__amount += 1
-
-    @property
-    def dec_item(self): 
-        if self.__amount >= 0: self.__amount -= 1
-
-    @property
-    def product(self): return self.__product
-
-    def validate_amount(self, a1):
-        if a1 >= self.__product.stock:
-            return self.__product.stock
-        elif a1 <= 0: 
-            return None
-        else:
-            return a1
-    
-    @property
-    def amount(self): return self.__amount
-    
-    
-    def set_amount(self, a1):
-        self.__amount = self.validate_amount(a1)
-    @property
-    def to_json(self): return { self.__product: self.__amount }
-
-    def is_me(self, product): return product == self.__product
-
-    @property
-    def price(self): return self.__product.price * self.__amount
-
-#region cart
-class Cart:
-    def __init__(self):
-        self.__cart_item_list = []
-
-    @property
-    def size(self):
-        res = 0
-        for i in self.__cart_item_list:
-            res += i.amount
-        return res
-    
-    @property
-    def get_cart_item(self): return self.__cart_item_list
-
-    @property
-    def product_list(self): return [i.product for i in self.__cart_item_list]
-    
-    @property
-    def get_product(self):
-        res = []
-        # print(len(self.__product_list))
-        for i in self.__cart_item_list:
-            dict1 = i.product.to_json()
-            dict1.update({"amount": i.amount})
-            # print(dict1)
-            res.append(dict1)
-        # print(res)
-        return res
-
-    def remove_item(self, product : Product):
-        for i in self.__cart_item_list:
-            if i.product.Equal(product.id):
-                self.__cart_item_list.remove(i)
-                return "Remove Complete"
-        return "Product Not found"
-        
-    def clear(self):
-        self.__cart_item_list.clear()
-        return "Clear Complete"
-        
-    def add_item(self, product : Product, amount):
-        print(f"type, amount: {type(product)}, {amount}")
-        if not isinstance(product, Product): return "False"
-        if product in self.product_list:
-            for i in self.__cart_item_list:
-                if i.is_me(product): i.set_amount(amount)
-                break
-        else:
-            self.__cart_item_list.append(StackItem(product, amount))
-        return "Add Complete"
-        
-    def calculate_price(self):
-        return {   
-            "price" : sum(item.price for item in self.__cart_item_list),
-            "len" : self.size
-        }
-        
-#endregion
 
          
 

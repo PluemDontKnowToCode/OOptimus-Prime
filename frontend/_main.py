@@ -58,7 +58,8 @@ def register():
 
 @app.get('/cart')
 def cart():
-    if(market1.current_account): return CartPage.Page()
+    if(market1.current_account != None): return CartPage.Page()
+    return Redirect('/login')
 
 @app.get('/purchase')
 def purchase():
