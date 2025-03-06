@@ -32,4 +32,15 @@ class Address:
     @property
     def phone_number(self):
         return self.__phone_number
+    
+    def is_equal(self, address):
+        if(self.district != address.district):
+            return False
+        if(self.province != address.province):
+            return False
+        if(self.zip_code != address.zip_code):
+            return False
+        if(self.phone_number != address.phone_number):
+            return False
+        return True
 #endregion

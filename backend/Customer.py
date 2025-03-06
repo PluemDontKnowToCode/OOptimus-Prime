@@ -9,6 +9,7 @@ class Customer(Account):
         self.__transaction = []
         self.__coupon_list = []
         self.__selected_coupon = None
+        self.__selected_address= None
     
     def __init__(self, d: dict, market = None):
         super().__init__(d, market)
@@ -20,6 +21,7 @@ class Customer(Account):
         if(d["transaction"] != None): 
             self.__transaction = d['transaction']
         self.__selected_coupon = None
+        self.__selected_address= None
     @property
     def cart(self):
         return self.__cart
@@ -35,6 +37,10 @@ class Customer(Account):
         return self.__selected_coupon
     
     @property
+    def selected_address(self):
+        return self.__selected_address
+
+    @property
     def cart_items(self): return self.__cart.get_cart_item
     
     def get_coupon(self):
@@ -49,8 +55,12 @@ class Customer(Account):
     
     def update_selected_coupon(self, coupon : Coupon):
         self.__selected_coupon = coupon
-        return "Update Complete"
+        return "Update Coupon Complete"
     
+    def update_selected_address(self, address : Address):
+        self.__selected_address = address
+        return "Update Address Complete"
+
     def add_to_cart(self, product : Product, amount):
         return self.__cart.add_item(product, amount)
         
@@ -62,7 +72,7 @@ class Customer(Account):
         return
     
     def update_money(self, amount):
-        self.__money += amount
+        super().update_money(amount)
         return
     
     def view_product_detail(self, product_id): return self.__market.view_product_detail(product_id)

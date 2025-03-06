@@ -96,7 +96,7 @@ class Market():
         # return "Done"
         
         
-    def purchase(self, user_id, address, coupon):
+    def purchase(self, user_id, address = None, coupon = None):
         customer = self.get_account(user_id)
         if(customer == None):
             return "User Not Found"
@@ -138,7 +138,7 @@ class Market():
                 return i
         return None
     def get_coupon(self, coupon_id):
-        for i in self.__product_list:
+        for i in self.__coupon_list:
             if i.Equal(coupon_id): 
                 return i
         return None

@@ -63,17 +63,15 @@ def cart():
 
 @app.get('/purchase')
 def purchase():
-    try:
-
         if(market1.current_account.cart != None and market1.current_account.cart.size > 0):
             return Purchase.PurchasePage()
         return Redirect('/cart')
-    except:
-        return Redirect("/")
 
-@app.get('/purchase/result/{address}/{coupon}')
-def purchhase_result():
-    result = market1.purchase()
+@app.get('/purchase/result/{coupon_id}/{district}/{province}/{zip_code}/{phone_number}')
+def purchhase_result(coupon_id : str,district : str, province : str, zip_code : str, phone_number : str):
+    coupon = market1.get_coupon(coupon_id)
+    address = Address(district, province, zip_code, phone_number)
+    result = market1.purchase(market1.current_account.id, address, coupon)
     return Purchase.ResultPage(result)
 
 @app.get('/detail/{p_id}')
@@ -118,17 +116,22 @@ async def Add():
     # print(p)
     market1.current_account.cart.add_item(p)
 
-@app.post("/apply_coupon/{id}")
+@app.post("/purchase/apply_coupon/{id}")
 async def apply_coupon(id: str):
-    global selected_coupon
+    print("Coupon : " + id)
     # Save selected coupon (assuming it's stored in market1.current_account)
-    selected_coupon = market1.current_account.get_coupon(id)
+    market1.current_account.update_selected_coupon(market1.get_coupon(id))
+    print(market1.current_account.selected_coupon)
     
-    return Button(
-        "USED",
-        id="button_{Id}",
-        Style="margin-top: 10px; padding: 5px 15px; border: 1px solid gray; background: lightgray; color: black;",
-        hx_swap_oob="true",
-    )
-
+    return Redirect("/purchase")
+@app.post("/purchase/apply_address/{district}/{province}/{zip_code}/{phone_number}")
+async def apply_address(district : str, province : str, zip_code : str, phone_number : str):
+    address = Address(district, province, zip_code, phone_number)
+    print("Address :")
+    print(address.province)
+    for a in market1.current_account.address_list:
+        if(a.is_equal(address)):
+            print("Found")
+            market1.current_account.update_selected_address(address)
+    return Redirect("/purchase")
 serve(port=3000)
