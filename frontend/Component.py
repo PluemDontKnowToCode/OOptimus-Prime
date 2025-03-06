@@ -19,12 +19,65 @@ CheckingStyle = "border: solid;"
 
 login_bool = False
 
+before_add_to_cart_script = """
+        const openButton = document.querySelector(".b11")
+        const closeButton = document.querySelector(".b2")
+        const modal = document.querySelector(".d3")
+        
+        openButton.addEventListener("click", () => {
+            modal.showModal()
+        })
+        
+        closeButton.addEventListener("click", () => {
+            modal.close()
+        })
+"""
+add_to_cart_script = """
+        const openButton = document.querySelector(".b10")
+        const closeButton = document.querySelector(".b2")
+        const modal = document.querySelector(".d1")
+        
+        openButton.addEventListener("click", () => {
+            modal.showModal()
+        })
+        
+        closeButton.addEventListener("click", () => {
+            modal.close()
+        })
+    """
+
 alret_scirpt = ""
+
+warn_to_login_modal = Dialog(
+                    Div(
+                        Div(
+                            "Not login Yet",
+                            style = "margin-bottom: 20px;"
+                        ),
+                        Div(
+                            A(
+                                Button(
+                                    "Go to Login"
+                                ),
+                                href = "/login",
+                                style = "margin-right: 20px; text-decoration: none; background-color: #eee;"
+                            ),
+                            Button(
+                                "Continue as guest",
+                                cls = "b2"
+                            ),
+                            style = "blackground-color: white;"
+                        ),
+                         
+                    ),
+                    id = "d2",
+                    style = "height: 200px; width: 400px;"   
+                )
 
 def validate_value():
     current_account = market1.current_account
+    global alret_scirpt, login_bool
     login_bool = True if current_account else False
-    global alret_scirpt
     if not login_bool:
         alret_scirpt = """
         const openButton = document.querySelectorAll(".a1")
@@ -36,11 +89,15 @@ def validate_value():
         })
     """
     else: alret_scirpt = ""
-    # print(alret_scirpt)
+    
+def detail_logic():
+    validate_value()
+    if login_bool: return add_to_cart_script
+    f = before_add_to_cart_script
+    return f
 
 def Header():
     validate_value()
-    # print(alret_scirpt)
     page = Div(
             A(
                 H1(
@@ -127,16 +184,3 @@ def TitleHeader(text):
               display: flex;"""
               ),
 
-add_to_cart_script = """
-        const openButton = document.querySelector(".b1")
-        const closeButton = document.querySelector(".b2")
-        const modal = document.querySelector(".d1")
-        
-        openButton.addEventListener("click", () => {
-            modal.showModal()
-        })
-        
-        closeButton.addEventListener("click", () => {
-            modal.close()
-        })
-    """

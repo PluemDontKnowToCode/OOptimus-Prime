@@ -1,11 +1,11 @@
 from fasthtml.common import *
 from backend.lib255 import *
-from Component import *
+import Component
 from _main import *
 
 def Page():
     page = Title("Login - Teerawee Shop"),Main(
-        Header(),
+        Component.Header(),
         Div(
             H1(
                 "Welcome To Teerawee Shop",
