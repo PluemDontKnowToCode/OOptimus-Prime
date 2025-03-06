@@ -32,7 +32,7 @@ class Cart:
 
     def remove_item(self, product : Product):
         for i in self.__cart_item_list:
-            if i.product.Equal(product.id):
+            if i.product.equal(product.id):
                 self.__cart_item_list.remove(i)
                 return "Remove Complete"
         return "Product Not found"

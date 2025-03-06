@@ -1,6 +1,6 @@
 from fasthtml.common import *
 from backend.lib255 import *
-from Component import *
+import Component
 import frontend._main as _main 
 
 def PurchasePage():
@@ -64,9 +64,12 @@ def PurchasePage():
         province = a['province']
         zip_code = a['zip_code']
         phone = a['phone']
+    s_coupon = ""
+    if(market1.current_account.selected_coupon != None):
+        s_coupon = market1.current_account.selected_coupon.id
     page = Title("Cart - Teerawee Shop"), Main(
-        Header(),
-        TitleHeader("Purchase"),
+        Component.Header(),
+        Component.TitleHeader("Purchase"),
         Div(
             Div(
                 Div(
@@ -79,7 +82,7 @@ def PurchasePage():
                             for i in address
                         ],
                             #Style= ("width:900px; border: 1px solid black; display: flex; flex-direction: row; flex-wrap: wrap;"),
-                            id="addressSlider",
+                            id="address",
 
 
                             Style="""
@@ -96,7 +99,13 @@ def PurchasePage():
                     cls="address",
                     Style="padding-top: 1%;"
                 ),
-                
+                Hr(
+                    Style="""
+                        margin: 0 auto;
+                        width:80%;
+                        border: 1px solid blue;
+                    """
+                ),
                 Div(
                     Div(
                         H3("Available Coupon"),
@@ -194,7 +203,7 @@ def PurchasePage():
                            Style="width: 100%;",
                            id="purchase_button",
                         ),
-                        href=f"/purchase/result/{market1.current_account.selected_coupon}/{district}/{province}/{zip_code}/{phone}",
+                        href=f"/purchase/result/{s_coupon}/{district}/{province}/{zip_code}/{phone}",
                         Style="padding-top: 10px;"
                 ),
                 Style="padding-top:0px; width: 25%;"
@@ -212,21 +221,21 @@ def PurchasePage():
 def ResultPage(result):
     if(result == "success"):
         page = Title("Cart - Teerawee Shop"), Main(
-            Header(),
-            TitleHeader("Purchase Result"),
+            Component.Header(),
+            Component.TitleHeader("Purchase Result"),
             Div(
                 H3("Thank you for your purchase"),
                 P("Your order has been placed successfully"),
-                Button("Continue Shopping",Style="width: 100%;"),
-                Style="display: flex; justify-content: center; align-items: center; flex-direction: column; height: 100%;"
+                Button("Continue Shopping",Style="width: 100%;padding-top: 10%;"),
+                Style="display: flex; justify-content: center; align-items: center; flex-direction: column; height: 100%;padding-top: 10%;"
             ),
             Style="padding: 0px;",
             
         )
     else:
         page = Title("Cart - Teerawee Shop"), Main(
-            Header(),
-            TitleHeader("Purchase Result"),
+            Component.Header(),
+            Component.TitleHeader("Purchase Result"),
             Div(
                 H3("Failed to place order"),
                 P(result),
@@ -236,9 +245,38 @@ def ResultPage(result):
             Style="padding: 0px;",
         )
     return page
-def AddressCard(a : Address):
-    market1.current_account.selected_address
-    ad_card = Card(
+def AddressCard(a):
+    temp = Address(a['district'],a["province"],a["zip_code"],a["phone"])
+    if(temp.is_equal(market1.current_account.selected_address)):
+        return Card(
+                    Div(
+                        Div(f"district : {a['district']}",Style="color: #ffffff"),
+                        Div(f"province : {a['province']}",Style="color: #ffffff"),
+                        Div(f"zip code : {a['zip_code']}",Style="color: #ffffff"),
+                        Div(f"phone : {a['phone']}",Style="color: #ffffff"),
+                        
+                        Style="""
+                            width:200px; 
+                            margin-left:10px;
+                            justify-content: space-between;
+                            
+                        """,
+                        ),
+                    Div(
+                        Button(
+                            "X",
+                            hx_post = f"/purchase/apply_address/{a['district']}/{a['province']}/{a['zip_code']}/{a['phone']}",
+                            Style="""
+                                margin-left:80%;
+                                background-color: #ffffff;
+                                color: #000000
+                            """,
+                            )
+                    ),
+                    Style="background-color: #073763;"
+                )
+        
+    return Card(
                     Div(
                         Div(f"district : {a['district']}"),
                         Div(f"province : {a['province']}"),
@@ -254,11 +292,12 @@ def AddressCard(a : Address):
                     Div(
                         Button(
                             "X",
-                            hx_post = f"/purchase/apply_address/{a['district']}/{a['province']}/{a['zip_code']}/{a['phone']}"
+                            hx_post = f"/purchase/apply_address/{a['district']}/{a['province']}/{a['zip_code']}/{a['phone']}",
+                            Style="""margin-left:80%;
+                            """
                             )
                     )
                 )
-    return ad_card
 def CouponCard(Id,discount, order_min,start_date, end_date,product_count = 0):
     condition = f"Orders ฿{order_min}+"
     if(product_count == 0):
@@ -274,7 +313,7 @@ def CouponCard(Id,discount, order_min,start_date, end_date,product_count = 0):
         ),
         Hr(),
         P(
-            f"{start_date} ~ {end_date}", 
+            f"{start_date.strftime("%Y-%m-%d")} ~ {end_date.strftime("%Y-%m-%d")}", 
             Style="margin: 0 auto;"
         ),
         SetUpCouponButton(Id),

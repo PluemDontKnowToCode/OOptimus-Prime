@@ -3,7 +3,7 @@ class Address:
     #district = เขต
     #province  = ตำบล
     #zipcode = ไปรษณีย์
-    def __init__(self, district, province, zip_code, phone_number):
+    def __init__(self, district = "", province="", zip_code="", phone_number=""):
         self.__district = district
         self.__province = province
         self.__zip_code = zip_code
@@ -34,6 +34,8 @@ class Address:
         return self.__phone_number
     
     def is_equal(self, address):
+        if(address == None):
+            return False
         if(self.district != address.district):
             return False
         if(self.province != address.province):

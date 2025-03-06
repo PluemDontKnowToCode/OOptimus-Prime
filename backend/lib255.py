@@ -78,7 +78,7 @@ class Market():
         p1 = self.get_product(p_id)
         if not p1: return
         for i in self.__customer_list:
-            if i.Equal(u_id): i.add_to_cart(p1, amount); return "Product was added to cart"
+            if i.equal(u_id): i.add_to_cart(p1, amount); return "Product was added to cart"
 
     def add_category(self, name):
         self.__category_list.append(Categories(name))
@@ -108,8 +108,8 @@ class Market():
             price += p.price
 
         if(coupon != None):
-            if(self.get_coupon(coupon)):
-                discountPercent = self.get_coupon(coupon).discount_percent
+            if(self.get_coupon(coupon.id)):
+                discountPercent = self.get_coupon(coupon.id).discount_percent
                 price -= price * discountPercent
             else:
                 return "Coupon Not Found"
@@ -128,18 +128,18 @@ class Market():
     def get_account(self, user_id): 
         for i in self.__customer_list + self.__seller_list:
             # print(i.name)
-            if i.Equal(user_id):
+            if i.equal(user_id):
                 return i
         return None
     
     def get_product(self, product_id):
         for i in self.__product_list:
-            if i.Equal(product_id): 
+            if i.equal(product_id): 
                 return i
         return None
     def get_coupon(self, coupon_id):
         for i in self.__coupon_list:
-            if i.Equal(coupon_id): 
+            if i.equal(coupon_id): 
                 return i
         return None
     
