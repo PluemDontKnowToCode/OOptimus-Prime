@@ -14,8 +14,25 @@
                 {"district": "AAC","province":"Baan Opor","zip_code":"25410","phone":"0836694812"},
                 {"district": "AXC","province":"Baan Opor","zip_code":"25410","phone":"0836694812"}
             ],
-            "role" : "Customer",
-            "transaction" : []
+            "transaction" : [],
+            "coupon" : [
+                {
+                    "id" : "C000001",
+                    "discount_percent": 10,
+                    "less_amount": 199,
+                    "product_count": 5,
+                    "start_time": "2025-03-02",
+                    "end_time": "2026-03-02"
+                },
+                {
+                    "id" : "C000002",
+                    "discount_percent": 20,
+                    "less_amount": 299,
+                    "product_count": 3,
+                    "start_time": "2025-04-01",
+                    "end_time": "2026-05-02"
+                }
+            ]
         },
         {
             "id": "A000002",
@@ -26,8 +43,8 @@
             "money": 1200,
             "cart" : [],
             "address":[],
-            "role" : "Customer",
-            "transaction" : []
+            "transaction" : [],
+            "coupon" : []
         },
         {
             "id": "A000003",
@@ -38,8 +55,8 @@
             "money": 800,
             "cart" : [],
             "address":[],
-            "role" : "Customer",
-            "transaction" : []
+            "transaction" : [],
+            "coupon" : []
         },
         {
             "id": "A000004",
@@ -50,8 +67,8 @@
             "money": 1500,
             "cart" : [],
             "address":[],
-            "role" : "Customer",
-            "transaction" : []
+            "transaction" : [],
+            "coupon" : []
         },
         {
             "id": "A000005",
@@ -62,8 +79,8 @@
             "money": 200,
             "cart" : [],
             "address":[],
-            "role" : "Customer",
-            "transaction" : []
+            "transaction" : [],
+            "coupon" : []
         },
         {
             "id": "A000006",
@@ -74,8 +91,8 @@
             "money": 950,
             "cart" : [],
             "address":[],
-            "role" : "Customer",
-            "transaction" : []
+            "transaction" : [],
+            "coupon" : []
         },
         {
             "id": "A000007",
@@ -86,8 +103,8 @@
             "money": 3000,
             "cart" : [],
             "address":[],
-            "role" : "Customer",
-            "transaction" : []
+            "transaction" : [],
+            "coupon" : []
         },
         {
             "id": "A000008",
@@ -98,32 +115,8 @@
             "money": 700,
             "cart" : [],
             "address":[],
-            "role" : "Customer",
-            "transaction" : []
-        },
-        {
-            "id": "A000009",
-            "name": "Ivy",
-            "password": "ivyTop",
-            "username": "ivyLeaf",
-            "image": "https://example.com/image9.png",
-            "money": 600,
-            "cart" : [],
-            "address":[],
-            "role" : "Seller",
-            "transaction" : []
-        },
-        {
-            "id": "A000010",
-            "name": "Jack",
-            "password": "jackStrong",
-            "username": "jack123",
-            "image": "https://example.com/image10.png",
-            "money": 1800,
-            "cart" : [],
-            "address":[],
-            "role" : "Admin",
-            "transaction" : []
+            "transaction" : [],
+            "coupon" : []
         }
     ]
 }

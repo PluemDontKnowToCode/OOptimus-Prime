@@ -155,13 +155,14 @@ class DiscountProduct(Product):
 
 #region Coupon
 class Coupon(Object):
-    def __init__(self, id, discount_percent,less_amount : float,product_count = 0, start_time = datetime.now(), duration = 0):
+    def __init__(self, id, discount_percent,less_amount : float,product_count = 0, start_time = datetime.now(), end_time = 0):
         super().__init__(id)
         self.__discount_percent = discount_percent
         self.__less_amount = less_amount
         self.__product_count = product_count
-        self.__start_time = start_time
-        self.__end_time = start_time + timedelta(days = duration)
+        self.__start_time = datetime.strptime(start_time, "%Y-%m-%d")
+        self.__end_time = datetime.strptime(end_time, "%Y-%m-%d")
+
     @property
     def name(self):
         return self.__name
@@ -311,6 +312,9 @@ class Account(Object):
     @property
     def cart(self):
         return None
+    @property
+    def coupon_list(self):
+        return self.__coupon_list
     
     def update_money(self, amount):
         self.__money += amount
@@ -339,7 +343,10 @@ class Customer(Account):
     def __init__(self, d: dict, market = None):
         super().__init__(d, market)
         self.__cart = Cart() 
-        self.__coupon_list = []
+        temp = []
+        for i in d['coupon']:
+            temp.append(Coupon(i["id"],i['discount_percent'], i['less_amount'], i['product_count'], i['start_time'], i['end_time']))
+        self.__coupon_list = temp
         if(d["transaction"] != None): 
             self.__transaction = d['transaction']
     @property
@@ -502,10 +509,13 @@ class Cart:
     @property
     def get_product(self):
         res = []
+        # print(len(self.__product_list))
         for i in self.__cart_item_list:
             dict1 = i.product.to_json()
             dict1.update({"amount": i.amount})
+            # print(dict1)
             res.append(dict1)
+        # print(res)
         return res
 
     def remove_item(self, product : Product):
@@ -533,7 +543,7 @@ class Cart:
     def calculate_price(self):
         return {   
             "price" : sum(item.price for item in self.__cart_item_list),
-            "len" : self.size 
+            "len" : self.size
         }
         
 #endregion
@@ -590,7 +600,9 @@ class Market():
             else:
                 self.add_category(product.category ,product)
             return "Done"
-        
+    def add_coupon(self, coupon : Coupon):
+        self.__coupon_list.append(coupon)
+
     def add_product_to_cart(self, p_id, u_id, amount):
         p1 = self.get_product(p_id)
         if not p1: return
@@ -740,12 +752,17 @@ def get_all_account():
     with open(file_path + '/Account.json', "r") as file01:
         account_json = json.loads(file01.read())
         for i in account_json["data"]:
-            if(i["role"] == "Customer"):
-                ac = Customer(i, market1)
-            elif(i["role"] == "Seller"):
-                ac = Seller(i,market1)
-            elif(i["role"] == "Admin"):
-                ac = Admin(i,market1)
+            ac = Customer(i, market1)
+            res.append(ac)
+    with open(file_path + '/Admin.json', "r") as file01:
+        account_json = json.loads(file01.read())
+        for i in account_json["data"]:
+            ac = Admin(i, market1)
+            res.append(ac)
+    with open(file_path + '/Seller.json', "r") as file01:
+        account_json = json.loads(file01.read())
+        for i in account_json["data"]:
+            ac = Seller(i, market1)
             res.append(ac)
     return res
 
@@ -755,7 +772,7 @@ def get_all_coupon():
     with open(file_path + '/Coupon.json', "r") as file01:
         coupon_json = json.loads(file01.read())
         for i in coupon_json["data"]:
-            cp = Coupon(i)
+            cp = Coupon(i["id"],i['discount_percent'], i['less_amount'], i['product_count'], i['start_time'], i['end_time'])
             res.append(cp)
     return res
 
@@ -764,6 +781,8 @@ for i in get_all_account():
     market1.add_account(i)
 for i in get_all_product():
     market1.add_product(i)
+for i in get_all_coupon():
+    market1.add_coupon(i)
     
 # market1.update_current_user(market1.get_account("A000001"))
 

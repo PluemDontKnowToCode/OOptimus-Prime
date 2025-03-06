@@ -3,39 +3,12 @@ from backend.lib255 import *
 from Component import *
 from _main import *
 
-address = [
-    {"district": "XYZ","province":"Baan Opor","zip_code":"61000","phone":"0845658790"},
-    {"district": "ABC","province":"Baan Opor","zip_code":"25410","phone":"0836694812"},
-    {"district": "AAC","province":"Baan Opor","zip_code":"25410","phone":"0836694812"},
-    {"district": "AXC","province":"Baan Opor","zip_code":"25410","phone":"0836694812"},
-    {"district": "AXC","province":"Baan Opor","zip_code":"25410","phone":"0836694812"},
-    {"district": "AXC","province":"Baan Opor","zip_code":"25410","phone":"0836694812"},
-    {"district": "AXC","province":"Baan Opor","zip_code":"25410","phone":"0836694812"},
-    {"district": "KKC","province":"Baan Opor","zip_code":"25410","phone":"0836694812"}
-]
 
-coupon = [
-    {
-        "discount_percent": 10,
-        "less_amount": 199,
-        "product_count": 5,
-        "start_time": "2025-03-02",
-        "end_time": "2025-03-11"
-    },
-    {
-        "discount_percent": 20,
-        "less_amount": 299,
-        "product_count": 3,
-        "start_time": "2025-04-01",
-        "end_time": "2025-04-10"
-    }
-]
-cart = [
-    {"name": "Laptop", "description": "High performance laptop","price": 300},
-    {"name": "Mouse", "description": "Wireless mouse","price": 600},
-    {"name": "Keyboard", "description": "Mechanical keyboard XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX","price": 300}
-]
 def PurchasePage():
+    coupon = market1.current_account.get_coupon()
+    cart = market1.get_customer_cart(market1.current_account)
+    address = market1.current_account.get_address()
+    print(cart)
     page = Title("Cart - Teerawee Shop"), Main(
         Header(),
         TitleHeader("Purchase"),
@@ -62,6 +35,8 @@ def PurchasePage():
                         ],
                             #Style= ("width:900px; border: 1px solid black; display: flex; flex-direction: row; flex-wrap: wrap;"),
                             id="addressSlider",
+
+
                             Style="""
                                 display: flex; 
                                 overflow-x: auto; 
@@ -78,7 +53,11 @@ def PurchasePage():
                 ),
                 
                 Div(
-                    H3("Available Coupon",Style="margin-left:6%"),
+                    Div(
+                        H3("Available Coupon"),
+                        H4("You can use only one coupon"),
+                        Style="margin-left:6%"
+                    ),
                     Div(
                         Div(*
                         [
@@ -108,9 +87,9 @@ def PurchasePage():
                 [
                     Card(
                         Img(
-                            src="https://i2.wp.com/images.genshin-builds.com/genshin/characters/klee/image.png?strip=all&quality=75&w=256",
+                            src=i['img'],
                             Style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px;"),
-                        Div(f"{i['name']}"),
+                        Div(f"{i['name']}(x{i['amount']})"),
                         Div(f"${i['price']}"),
                         Style="""
                             display: flex;
@@ -127,7 +106,7 @@ def PurchasePage():
                         """,
                         
                     )
-                    for i in cart
+                    for i in cart.get_product
                     ],
                 
                     Style="width:100%;"
@@ -138,7 +117,7 @@ def PurchasePage():
                 Div(
                     Div(
                         H3("SubTotal"),
-                        Div(f"${sum(i['price'] for i in cart)}"),
+                        Div(f"${cart.calculate_price()['price']}"),
                         Style="display: flex; justify-content: space-between; width: 100%;",
                     ),
                     Div(
@@ -153,7 +132,7 @@ def PurchasePage():
                     ),
                     Div(
                         H3("Total"),
-                        Div(f"${sum(i['price'] for i in cart) + 50}"),
+                        Div(f"${cart.calculate_price()['price'] + 50}"),
                         Style="display: flex; justify-content: space-between; width: 100%;",
                     ),
                     cls="total",
