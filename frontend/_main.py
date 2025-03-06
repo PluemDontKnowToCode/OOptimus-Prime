@@ -63,13 +63,15 @@ def cart():
 
 @app.get('/purchase')
 def purchase():
-    if(market1.current_account.cart.size > 0):
-        return Purchase.PurchasePage()
-    return Redirect('/cart')
+        if(market1.current_account.cart != None and market1.current_account.cart.size > 0):
+            return Purchase.PurchasePage()
+        return Redirect('/cart')
 
-@app.get('/purchase/result')
-def purchhase_result():
-    result = market1.purchase()
+@app.get('/purchase/result/{coupon_id}/{district}/{province}/{zip_code}/{phone_number}')
+def purchhase_result(coupon_id : str,district : str, province : str, zip_code : str, phone_number : str):
+    coupon = market1.get_coupon(coupon_id)
+    address = Address(district, province, zip_code, phone_number)
+    result = market1.purchase(market1.current_account.id, address, coupon)
     return Purchase.ResultPage(result)
 
 @app.get('/detail/{p_id}')
@@ -88,4 +90,48 @@ def add_new_commnet(p_id: str, star: int, new_comment: str):
     if not market1.current_account: return Redirect('/login')
     return com.insert_comment(p_id, star, new_comment) 
 
+#delete card code
+@app.delete("/cart/remove/{id}")
+async def Remove(id : str):
+    print(id + " : Click!!"), 
+    market1.current_account.cart.remove_item(market1.get_product(id))
+    
+    userCart = market1.get_customer_cart_product(market1.current_account)
+    price = 0
+    if (userCart): 
+        for i in userCart:
+            price += i.price
+
+    return Redirect('/cart')
+    # return Div(
+    #     Div("",id=id, hx_swap="outerHTML"),
+    #     Button(f"Check Out ({len(userCart)})", id="lenCart", hx_swap_oob="true"),
+    #     Div(f"Total: {price}", id="price", hx_swap_oob="true"),
+    #     UpdateCartUI()
+    # ),
+
+@app.post("/cart/add")
+async def Add():
+    p = market1.get_product("P000001")
+    # print(p)
+    market1.current_account.cart.add_item(p)
+
+@app.post("/purchase/apply_coupon/{id}")
+async def apply_coupon(id: str):
+    print("Coupon : " + id)
+    # Save selected coupon (assuming it's stored in market1.current_account)
+    market1.current_account.update_selected_coupon(market1.get_coupon(id))
+    print(market1.current_account.selected_coupon)
+    
+    return Redirect("/purchase")
+@app.post("/purchase/apply_address/{district}/{province}/{zip_code}/{phone_number}")
+async def apply_address(district : str, province : str, zip_code : str, phone_number : str):
+    address = Address(district, province, zip_code, phone_number)
+    print("Address :")
+    print(address.province)
+    for a in market1.current_account.address_list:
+        if(a.is_equal(address)):
+            print("Found")
+            market1.current_account.update_selected_address(address)
+    return Redirect("/purchase")
 serve(port=3000)

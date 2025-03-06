@@ -17,7 +17,7 @@ headerfontStyle = """   color: #ffffff
 ButtonHeaderStyle = "margin-right: 10px;"
 CheckingStyle = "border: solid;"
 
-login_bool = False
+login_bool = True
 
 before_add_to_cart_script = """
         const openButton = document.querySelector(".b11")

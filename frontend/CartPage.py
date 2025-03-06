@@ -1,14 +1,13 @@
 from fasthtml.common import *
 from backend.lib255 import *
 from Component import *
-from _main import app
-
+from _main  import *
 # cart = market1.get_customer_cart(market1.current_account.id)["data"]
 
 def Page():
     cart = market1.get_customer_cart(market1.current_account)
     page = Title("Cart - Teerawee Shop"), Main(
-        Header(),
+        Component.Header(),
         TitleHeader("My Shopping Cart"),
         Div(
             UpdateCartUI(cart),
@@ -38,31 +37,7 @@ def Page():
     )
     return page
 
-#delete card code
-@app.delete("/cart/remove/{id}")
-async def Remove(id : str):
-    print(id + " : Click!!"), 
-    market1.current_account.cart.remove_item(market1.get_product(id))
-    
-    userCart = market1.get_customer_cart_product(market1.current_account)
-    price = 0
-    if (userCart): 
-        for i in userCart:
-            price += i.price
 
-    return Redirect('/cart')
-    # return Div(
-    #     Div("",id=id, hx_swap="outerHTML"),
-    #     Button(f"Check Out ({len(userCart)})", id="lenCart", hx_swap_oob="true"),
-    #     Div(f"Total: {price}", id="price", hx_swap_oob="true"),
-    #     UpdateCartUI()
-    # ),
-
-@app.post("/cart/add")
-async def Add():
-    p = market1.get_product("P000001")
-    # print(p)
-    market1.current_account.cart.add_item(p)
 
 def UpdateCartUI(cart = None):
     if(cart):
