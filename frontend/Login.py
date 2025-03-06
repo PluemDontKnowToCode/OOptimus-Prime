@@ -5,7 +5,7 @@ from _main import *
 
 def Page():
     page = Title("Login - Teerawee Shop"),Main(
-        Component.Header(),
+        Component.Header(False),
         Div(
             H1(
                 "Welcome To Teerawee Shop",

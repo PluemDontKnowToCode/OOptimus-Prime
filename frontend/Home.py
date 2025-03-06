@@ -1,6 +1,6 @@
 from fasthtml.common import *
 from ItemDetail import *
-from Component import *
+import Component
 import sys, os
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
@@ -14,14 +14,14 @@ all_product = get_all_product()
 #     print(f"ID: {p.id}")
 
 def Page():
-    head = Header()
+    head = Component.Header()
     body = Grid(
         Div(
             Div(
                 "Category",
                 style = "text-align: center;"
             ),
-            style = CheckingStyle
+            style = Component.CheckingStyle
         ),
         Grid(
             *[Card(
@@ -44,7 +44,7 @@ def Page():
                         f"{i.price} ฿"),
                         style = "display: flex; flex-direction: row; justify-content: space-between; align-items: center; width:100%;"
                     ),
-                style = CheckingStyle + "height: 350px; display: flex; flex-direction: column; justify-content: space-between ; align-items: center; gap:10px;"
+                style = Component.CheckingStyle + "height: 350px; display: flex; flex-direction: column; justify-content: space-between ; align-items: center; gap:10px;"
             ) for i in all_product],
             style = "grid-template-columns: 1fr 1fr 1fr 1fr;"
         ),
@@ -53,7 +53,9 @@ def Page():
     page = Main(
         head,
         body,
-        style = configHeader
+        Component.warn_to_login_modal,
+        Script(Component.get_warn_js()),
+        style = Component.configHeader
     )
     return page
     

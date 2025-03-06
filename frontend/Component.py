@@ -20,16 +20,16 @@ CheckingStyle = "border: solid;"
 login_bool = True
 
 before_add_to_cart_script = """
-        const openButton = document.querySelector(".b11")
-        const closeButton = document.querySelector(".b2")
-        const modal = document.querySelector(".d3")
+        const openButton2 = document.querySelector(".b11")
+        const closeButton2 = document.querySelector(".b3")
+        const modal2 = document.querySelector(".d3")
         
-        openButton.addEventListener("click", () => {
-            modal.showModal()
+        openButton2.addEventListener("click", () => {
+            modal2.showModal()
         })
         
-        closeButton.addEventListener("click", () => {
-            modal.close()
+        closeButton2.addEventListener("click", () => {
+            modal2.close()
         })
 """
 add_to_cart_script = """
@@ -72,7 +72,7 @@ warn_to_login_modal = Dialog(
                     ),
                     id = "d2",
                     style = "height: 200px; width: 400px;"   
-                )
+                ),
 
 def validate_value():
     current_account = market1.current_account
@@ -90,16 +90,14 @@ def validate_value():
     """
     else: alret_scirpt = ""
     
-def detail_logic():
+def get_warn_js():
     validate_value()
-    if login_bool: return add_to_cart_script
-    f = before_add_to_cart_script
-    return f
+    return alret_scirpt
+    
 
-def Header():
+def Header(bool1 = True):
     validate_value()
-    page = Div(
-            A(
+    part1 = A(
                 H1(
                     "Teerawee Shop",
                     Style = headerfontStyle
@@ -109,15 +107,18 @@ def Header():
                     text-decoration: none;
                     margin-left: 20px;
                 """ + ButtonHeaderStyle
-            ),
-            Form(
+            )
+    
+    part2 = Form(
                 Input(
                     placeholder = "search...",
                     style = "margin: 0px;"
                     ),
                 style = "margin: 0px;"
-                ),
-            Div(
+                )
+    if not bool1: part2 = Div()
+    
+    part3 = Div(
                 A(
                     Img(
                         src = cartpng,
@@ -131,38 +132,17 @@ def Header():
                     Img(
                         src = userpng,
                         style = "height: 70px;",
-                        cls = "a1"
+                        cls = "b3"
                     ), 
                     href = "/profile" if login_bool else "",
                     style = ButtonHeaderStyle
                 ),
-                Dialog(
-                    Div(
-                        Div(
-                            "Not login Yet",
-                            style = "margin-bottom: 20px;"
-                        ),
-                        Div(
-                            A(
-                                Button(
-                                    "Go to Login"
-                                ),
-                                href = "/login",
-                                style = "margin-right: 20px; text-decoration: none; background-color: #eee;"
-                            ),
-                            Button(
-                                "Continue as guest",
-                                cls = "b2"
-                            ),
-                            style = "blackground-color: white;"
-                        ),
-                         
-                    ),
-                    id = "d2",
-                    style = "height: 200px; width: 400px;"   
-                ),
-            ),
-            Script(alret_scirpt),
+            )
+    
+    page = Div(
+            part1,
+            part2,
+            part3,
             Style="""
                 background-color: #073763; 
                 height: 80px; 
