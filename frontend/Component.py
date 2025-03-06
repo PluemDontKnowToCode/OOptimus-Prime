@@ -1,6 +1,8 @@
 import sys, os
 from fasthtml.common import *
 main_path = os.path.dirname(__file__) + "\\asset"
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+from backend.lib255 import *
 # file_path = os.path.join(main_path, '/asset')
 # print(main_path, file_path)
 
@@ -14,7 +16,31 @@ headerfontStyle = """   color: #ffffff
                         """
 ButtonHeaderStyle = "margin-right: 10px;"
 CheckingStyle = "border: solid;"
+
+login_bool = False
+
+alret_scirpt = ""
+
+def validate_value():
+    current_account = market1.current_account
+    login_bool = True if current_account else False
+    global alret_scirpt
+    if not login_bool:
+        alret_scirpt = """
+        const openButton = document.querySelectorAll(".a1")
+        const closeButton = document.querySelector(".b2")
+        const modal = document.getElementById("d2")
+        openButton.forEach(button => button.addEventListener("click", () => modal.showModal()))
+        closeButton.addEventListener("click", () => {
+            modal.close()
+        })
+    """
+    else: alret_scirpt = ""
+    # print(alret_scirpt)
+
 def Header():
+    validate_value()
+    # print(alret_scirpt)
     page = Div(
             A(
                 H1(
@@ -38,20 +64,48 @@ def Header():
                 A(
                     Img(
                         src = cartpng,
-                        style = "height: 100px;"
+                        style = "height: 100px;",
+                        cls = "a1"
                     ),
-                    href = "/cart",
+                    href = "/cart" if login_bool else "",
                     style = ButtonHeaderStyle
                 ),
                 A(
                     Img(
                         src = userpng,
-                        style = "height: 70px;"
+                        style = "height: 70px;",
+                        cls = "a1"
                     ), 
-                    href = "/profile",
+                    href = "/profile" if login_bool else "",
                     style = ButtonHeaderStyle
-                )
+                ),
+                Dialog(
+                    Div(
+                        Div(
+                            "Not login Yet",
+                            style = "margin-bottom: 20px;"
+                        ),
+                        Div(
+                            A(
+                                Button(
+                                    "Go to Login"
+                                ),
+                                href = "/login",
+                                style = "margin-right: 20px; text-decoration: none; background-color: #eee;"
+                            ),
+                            Button(
+                                "Continue as guest",
+                                cls = "b2"
+                            ),
+                            style = "blackground-color: white;"
+                        ),
+                         
+                    ),
+                    id = "d2",
+                    style = "height: 200px; width: 400px;"   
+                ),
             ),
+            Script(alret_scirpt),
             Style="""
                 background-color: #073763; 
                 height: 80px; 
@@ -72,5 +126,17 @@ def TitleHeader(text):
               margin-left: 15%; 
               display: flex;"""
               ),
-    
-    
+
+add_to_cart_script = """
+        const openButton = document.querySelector(".b1")
+        const closeButton = document.querySelector(".b2")
+        const modal = document.querySelector(".d1")
+        
+        openButton.addEventListener("click", () => {
+            modal.showModal()
+        })
+        
+        closeButton.addEventListener("click", () => {
+            modal.close()
+        })
+    """

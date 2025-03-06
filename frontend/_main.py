@@ -8,7 +8,7 @@ from backend.lib255 import *
 from dotenv import load_dotenv
 load_dotenv()
 
-import Component#708090
+import Component
 import Admin
 import Home
 import Seller
@@ -50,7 +50,7 @@ def login_process(name: str, password: str, role: str):
 
 @app.get('/profile')
 def profile():
-    return Profile.page(market1.current_account)
+    return Profile.page()
 
 @app.get('/register')
 def register():
@@ -59,11 +59,10 @@ def register():
 @app.get('/cart')
 def cart():
     if(market1.current_account): return CartPage.Page()
-    return Redirect('/login')
 
 @app.get('/purchase')
 def purchase():
-    if(len(market1.current_account.cart.product_list) > 0):
+    if(market1.current_account.cart.size > 0):
         return Purchase.PurchasePage()
     return Redirect('/cart')
 
@@ -78,7 +77,7 @@ def detail(p_id: str):
 
 @app.post('/add_to_cart/{p_id}/{user_id}')
 def add_to_cart(p_id: str, user_id: str, amount: int):
-    print("route", amount)
+    # print("route", amount)
     if not market1.current_account: return Redirect('/login')
     res = market1.add_product_to_cart(p_id, user_id, amount)
     return Redirect(f'/detail/{p_id}')

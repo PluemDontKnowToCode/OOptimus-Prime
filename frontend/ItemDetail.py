@@ -17,19 +17,7 @@ def view_detail(p_id: int):
     # print(j1)
     part_header = Component.Header()
     
-    js_for_dialog = f"""
-        const openButton = document.querySelector(".b1")
-        const closeButton = document.querySelector(".b2")
-        const modal = document.querySelector(".d1")
-        
-        openButton.addEventListener("click", () => {{
-            modal.showModal()
-        }})
-        
-        closeButton.addEventListener("click", () => {{
-            modal.close()
-        }})
-    """
+    js_for_dialog = Component.add_to_cart_script
     
     buttonSize = "height: 10%; width: 25%;"
 
@@ -73,11 +61,6 @@ def view_detail(p_id: int):
                                     action = f"/add_to_cart/{p_id}/{user_id}",
                                     style = "margin-left: 10px;"
                                 ),
-                                Div(
-                                    
-                                    style = "position: bottom;"
-                                ),
-                                
                                 style = "display: flex; justify-content: space-betwewen;"
                             
                         ),
