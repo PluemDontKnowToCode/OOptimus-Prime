@@ -117,7 +117,7 @@ async def Add():
 
 @app.post("/purchase/apply_coupon/{id}")
 async def apply_coupon(id: str):
-    print("Coupon : " + id)
+    # print("Coupon : " + id)
     # Save selected coupon (assuming it's stored in market1.current_account)
     market1.current_account.update_selected_coupon(market1.get_coupon(id))
     print(market1.current_account.selected_coupon)

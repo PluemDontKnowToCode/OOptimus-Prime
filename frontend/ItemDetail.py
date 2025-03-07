@@ -43,8 +43,9 @@ def my_modal(p_id, user_id):
         cls = "d1",
         style = "position: fixed;"
     ),
-    # print(f"Modal from my modal {add_to_cart_modal}")
     return add_to_cart_modal
+
+
 
 def validate_variable(p_id):
     acc = market1.current_account
@@ -56,6 +57,9 @@ def validate_variable(p_id):
         # print("NO ACCOUNT")
         user_id = "NONE"
         modal = Component.warn_to_login_modal
+        
+        
+        
 
 def view_detail(p_id: int):
     global modal, user_id
