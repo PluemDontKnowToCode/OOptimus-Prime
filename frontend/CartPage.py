@@ -5,7 +5,7 @@ from _main  import *
 # cart = market1.get_customer_cart(market1.current_account.id)["data"]
 
 def Page():
-    cart = market1.get_customer_cart(market1.current_account)
+    cart = market1.get_customer_cart(market1.current_account.id)
     page = Title("Cart - Teerawee Shop"), Main(
         Component.Header(),
         TitleHeader("My Shopping Cart"),
