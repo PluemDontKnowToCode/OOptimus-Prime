@@ -66,11 +66,10 @@ def purchase():
             return Purchase.PurchasePage()
         return Redirect('/cart')
 
-@app.get('/purchase/result/{coupon_id}/{district}/{province}/{zip_code}/{phone_number}')
-def purchhase_result(coupon_id : str,district : str, province : str, zip_code : str, phone_number : str):
+@app.get('/purchase/result/{coupon_id}')
+def purchase_result(coupon_id : str):
     coupon = market1.get_coupon(coupon_id)
-    address = Address(district, province, zip_code, phone_number)
-    result = market1.purchase(market1.current_account.id, address, coupon)
+    result = market1.purchase(market1.current_account.id, coupon)
     return Purchase.ResultPage(result)
 
 @app.get('/detail/{p_id}')
@@ -92,7 +91,6 @@ def add_new_commnet(p_id: str, star: int, new_comment: str):
 #delete card code
 @app.delete("/cart/remove/{id}")
 async def Remove(id : str):
-    print(id + " : Click!!"), 
     market1.current_account.cart.remove_item(market1.get_product(id))
     
     userCart = market1.get_customer_cart_product(market1.current_account)
@@ -108,6 +106,11 @@ async def Remove(id : str):
     #     Div(f"Total: {price}", id="price", hx_swap_oob="true"),
     #     UpdateCartUI()
     # ),
+@app.get("/purchase/redirect/{success}")
+async def PurchaseRedirect(success : bool):
+    if(success):
+        return Redirect("/")
+    return Redirect("/cart")
 
 @app.post("/cart/add")
 async def Add():
@@ -120,7 +123,6 @@ async def apply_coupon(id: str):
     # print("Coupon : " + id)
     # Save selected coupon (assuming it's stored in market1.current_account)
     market1.current_account.update_selected_coupon(market1.get_coupon(id))
-    print(market1.current_account.selected_coupon)
     
     return Redirect("/purchase")
 @app.post("/purchase/apply_address/{district}/{province}/{zip_code}/{phone_number}")

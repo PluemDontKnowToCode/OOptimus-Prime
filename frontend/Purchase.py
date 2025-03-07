@@ -5,9 +5,9 @@ import frontend._main as _main
 
 def PurchasePage():
     coupon = market1.current_account.get_coupon()
-    cart = market1.get_customer_cart(market1.current_account)
+    cart = market1.get_customer_cart(market1.current_account.id)
     address = market1.current_account.get_address()
-    print(market1.current_account.selected_coupon)
+    
     pop_up_script = """
         const openButton = document.getElementById("#purchase_button")
         const closeButton = document.getElementById(".b2")
@@ -203,7 +203,7 @@ def PurchasePage():
                            Style="width: 100%;",
                            id="purchase_button",
                         ),
-                        href=f"/purchase/result/{s_coupon}/{district}/{province}/{zip_code}/{phone}",
+                        href=f"/purchase/result/{s_coupon}",
                         Style="padding-top: 10px;"
                 ),
                 Style="padding-top:0px; width: 25%;"
@@ -226,7 +226,11 @@ def ResultPage(result):
             Div(
                 H3("Thank you for your purchase"),
                 P("Your order has been placed successfully"),
-                Button("Continue Shopping",Style="width: 100%;padding-top: 10%;"),
+                Button(
+                    "Continue Shopping",
+                    Style="width: 100%;",
+                    hx_get=f"/purchase/redirect/{True}",
+                       ),
                 Style="display: flex; justify-content: center; align-items: center; flex-direction: column; height: 100%;padding-top: 10%;"
             ),
             Style="padding: 0px;",
@@ -239,7 +243,11 @@ def ResultPage(result):
             Div(
                 H3("Failed to place order"),
                 P(result),
-                Button("Return to Cart",Style="width: 100%;"),
+                Button(
+                    "Return to Cart",
+                    Style="width: 100%;",
+                    hx_get=f"/purchase/redirect/{False}",
+                    ),
                 Style="display: flex; justify-content: center; align-items: center; flex-direction: column; height: 100%;"
             ),
             Style="padding: 0px;",

@@ -99,19 +99,19 @@ class Market():
         # return "Done"
         
         
-    def purchase(self, user_id, address = None, coupon = None):
+    def purchase(self, user_id, coupon = None):
         customer = self.get_account(user_id)
         if(customer == None):
             return "User Not Found"
             
         cart = customer.cart
-
-        price = 0
-        for p in cart.product_list:
-            price += p.price
-
+        
+        price = cart.calculate_price()
+        
         if(coupon != None):
             if(self.get_coupon(coupon.id)):
+                if(coupon.check_condition(cart)):
+                    return "Coupon Condition Not Met"
                 discountPercent = self.get_coupon(coupon.id).discount_percent
                 price -= price * discountPercent
             else:
@@ -119,7 +119,7 @@ class Market():
                 
         if(price > customer.money):
             return "Not Enough Money"
-            
+        
         customer.update_money(price)
         customer.clear_cart()
 
