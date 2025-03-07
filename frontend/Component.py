@@ -19,19 +19,6 @@ CheckingStyle = "border: solid;"
 
 login_bool = True
 
-before_add_to_cart_script = """
-        const openButton2 = document.querySelector(".b11")
-        const closeButton2 = document.querySelector(".b3")
-        const modal2 = document.querySelector(".d3")
-        
-        openButton2.addEventListener("click", () => {
-            modal2.showModal()
-        })
-        
-        closeButton2.addEventListener("click", () => {
-            modal2.close()
-        })
-"""
 add_to_cart_script = """
         const openButton = document.querySelector(".b10")
         const closeButton = document.querySelector(".b2")
@@ -48,31 +35,47 @@ add_to_cart_script = """
 
 alret_scirpt = ""
 
+user_png_script = """
+        const openButton2 = document.querySelector(".b3")
+        const closeButton2 = document.querySelector(".close_modal2")
+        const modal2 = document.querySelector(".user_icon_dialog")
+        
+        openButton2.addEventListener("click", () => {
+            modal2.showModal()
+        })
+        
+        closeButton2.addEventListener("click", () => {
+            modal2.close()
+        })
+    """
+    
+user_png_modal = None
+
 warn_to_login_modal = Dialog(
-                    Div(
-                        Div(
-                            "Not login Yet",
-                            style = "margin-bottom: 20px;"
-                        ),
-                        Div(
-                            A(
-                                Button(
-                                    "Go to Login"
-                                ),
-                                href = "/login",
-                                style = "margin-right: 20px; text-decoration: none; background-color: #eee;"
-                            ),
-                            Button(
-                                "Continue as guest",
-                                cls = "b2"
-                            ),
-                            style = "blackground-color: white;"
-                        ),
-                         
-                    ),
-                    id = "d2",
-                    style = "height: 200px; width: 400px;"   
+    Div(
+        Div(
+            "Not login Yet",
+            style = "margin-bottom: 20px;"
+        ),
+        Div(
+            A(
+                Button(
+                    "Go to Login"
                 ),
+                href = "/login",
+                style = "margin-right: 20px; text-decoration: none; background-color: #eee;"
+            ),
+            Button(
+                "Continue as guest",
+                cls = "b2"
+            ),
+            style = "blackground-color: white;"
+        ),
+            
+    ),
+    id = "d2",
+    style = "height: 200px; width: 400px;"   
+),
 
 def validate_value():
     current_account = market1.current_account
@@ -86,17 +89,64 @@ def validate_value():
         openButton.forEach(button => button.addEventListener("click", () => modal.showModal()))
         closeButton.addEventListener("click", () => {
             modal.close()
-        })
+        })\n
     """
     else: alret_scirpt = ""
+    alret_scirpt += user_png_script
     
 def get_warn_js():
     validate_value()
     return alret_scirpt
+
+def validate_png_modal():
+    validate_value()
+    global user_png_modal
+    mystyle = """
+                display: flex;
+                flex-direction: column;"""
+    mystyle2 = "margin-bottom: 10%;"
+    if login_bool:
+        user_png_modal = Dialog(
+            Div(
+                Button(
+                    "Logout",
+                    onclick = """location.href = "/logout" """,
+                    style = mystyle2
+                ),
+                Button(
+                    "View Profile",
+                    onclick = """location.href = "/profile" """,
+                    style = mystyle2
+                ),
+                Button(
+                    "Close",
+                    cls = "close_modal2"
+                ),
+                style = mystyle
+            ),
+            cls = "user_icon_dialog",
+        ),
+    else:
+        user_png_modal = Dialog(
+            Div(
+                Button(
+                    "Login",
+                    onclick = """location.href = "/login" """,
+                    style = mystyle2
+                ),
+                Button(
+                    "Close",
+                    cls = "close_modal2"
+                ),
+                style = mystyle
+            ),
+            cls = "user_icon_dialog",
+        ),
     
 
 def Header(bool1 = True):
     validate_value()
+    
     part1 = A(
                 H1(
                     "Teerawee Shop",
@@ -118,25 +168,31 @@ def Header(bool1 = True):
                 )
     if not bool1: part2 = Div()
     
+    validate_png_modal()
+    
     part3 = Div(
-                A(
-                    Img(
-                        src = cartpng,
-                        style = "height: 100px;",
-                        cls = "a1"
+                Div(
+                    A(
+                        Img(
+                            src = cartpng,
+                            style = "height: 100px;",
+                            cls = "a1"
+                        ),
+                        href = "/cart" if login_bool else "",
+                        style = ButtonHeaderStyle
                     ),
-                    href = "/cart" if login_bool else "",
-                    style = ButtonHeaderStyle
+                    A(
+                        Img(
+                            src = userpng,
+                            style = "height: 70px; z-index: -1;",
+                            cls = "b3"
+                        ),
+                        style = ButtonHeaderStyle
+                    ),
                 ),
-                A(
-                    Img(
-                        src = userpng,
-                        style = "height: 70px;",
-                        cls = "b3"
-                    ), 
-                    href = "/profile" if login_bool else "",
-                    style = ButtonHeaderStyle
-                ),
+                user_png_modal,
+                style = ButtonHeaderStyle + "",
+                cls = "user_png1"
             )
     
     page = Div(
@@ -153,7 +209,7 @@ def Header(bool1 = True):
                 justify-content: space-between;
                 align-items: center;
                 margin-bottom: 20px;
-                """
+                """,
         )
     return page
 

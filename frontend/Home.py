@@ -23,6 +23,9 @@ def Page():
             ),
             style = Component.CheckingStyle
         ),
+        Div(
+            
+        ),
         Grid(
             *[Card(
                 Img(
@@ -44,11 +47,11 @@ def Page():
                         f"{i.price} ฿"),
                         style = "display: flex; flex-direction: row; justify-content: space-between; align-items: center; width:100%;"
                     ),
-                style = Component.CheckingStyle + "height: 350px; display: flex; flex-direction: column; justify-content: space-between ; align-items: center; gap:10px;"
+                style = "height: 350px; display: flex; flex-direction: column; justify-content: space-between ; align-items: center; gap:10px;"
             ) for i in all_product],
             style = "grid-template-columns: 1fr 1fr 1fr 1fr;"
         ),
-        style = "grid-template-columns: 25% 70%"
+        style = "grid-template-columns: 10% 1.1% 70%"
     )
     page = Main(
         head,

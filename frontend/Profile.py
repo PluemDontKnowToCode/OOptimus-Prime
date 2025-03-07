@@ -6,8 +6,9 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
 from backend.lib255 import *
 
-def page(account_inst):
-    part_header = Component.Header()
+def page():
+    current_account = market1.current_account
+    part_header = Component.Header(False)
     part_body = Card(
         
         style = "border: solid;"

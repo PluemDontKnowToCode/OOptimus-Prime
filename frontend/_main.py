@@ -48,6 +48,11 @@ def login():
 def login_process(name: str, password: str, role: str):
     return Login.validate_login(name, password, role)
 
+@app.get('/logout')
+def logout():
+    market1.clear_current_account()
+    return Redirect('/')
+
 @app.get('/profile')
 def profile():
     return Profile.page()

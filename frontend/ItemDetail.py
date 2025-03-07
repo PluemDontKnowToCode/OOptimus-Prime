@@ -10,15 +10,17 @@ user_id = ""
 modal = None
 
 def my_modal(p_id, user_id):
+    p_stock = market1.get_product(p_id).stock
     add_to_cart_modal = Dialog(
         Div(
-            H3("Pick amount", style = "margin-left: 10px; margin-top: 20px"),
+            H3("Pick amount", style = "margin-left: 10px; margin-top: 20px"), H3(f"Aavaiable: {p_stock}", style = "margin-left: 10px; margin-top: 20px"),
                 Div(
                     Form(
                         Input(
                             type = "number",
                             id = "amount",
                             min = "1",
+                            max = f"{p_stock}",
                             value = "1",
                             style = "width: 70%;"
                         ),
@@ -38,7 +40,7 @@ def my_modal(p_id, user_id):
                     style = "display: flex; justify-content: space-betwewen;"
                 
             ),
-            style = "border: solid; background-color: #708090; height: 20%; width: 15%;"
+            style = "border: solid; background-color: #708090; height: 28%; width: 20%;"
         ),
         cls = "d1",
         style = "position: fixed;"

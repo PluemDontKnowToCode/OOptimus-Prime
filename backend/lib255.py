@@ -188,6 +188,9 @@ class Market():
         t1 = """{\n\t\t"data" : [\n\t\t\t"""
         pass
     
+    def clear_current_account(self):
+        self.__current_user = None
+    
     def verify_user(self, name, password, role):
         list1 = None
         if role == "customer": list1 = self.__customer_list
@@ -260,7 +263,7 @@ for i in get_all_product():
 for i in get_all_coupon():
     market1.add_coupon(i)
     
-# market1.update_current_user(market1.get_account("A000001"))
+market1.update_current_user(market1.get_account("A000001"))
 
 # p = market1.get_product("P000001")
 # market1.current_account.cart.add_item(p, 1)
