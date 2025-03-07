@@ -126,11 +126,8 @@ async def apply_coupon(id: str):
 @app.post("/purchase/apply_address/{district}/{province}/{zip_code}/{phone_number}")
 async def apply_address(district : str, province : str, zip_code : str, phone_number : str):
     address = Address(district, province, zip_code, phone_number)
-    print("Address :")
-    print(address.province)
     for a in market1.current_account.address_list:
         if(a.is_equal(address)):
-            print("Found")
             market1.current_account.update_selected_address(address)
     return Redirect("/purchase")
 serve(port=3000)

@@ -51,7 +51,8 @@ class Market():
         return self.__current_user
     
     def update_current_user(self, user : Account):
-        self.__current_user = user
+        if isinstance(user , Account):
+            self.__current_user = user
         
     def generate_id(self):
         return ""
@@ -72,7 +73,8 @@ class Market():
                 self.add_category(product.category ,product)
             return "Done"
     def add_coupon(self, coupon : Coupon):
-        self.__coupon_list.append(coupon)
+        if(isinstance(coupon, Coupon)):
+            self.__coupon_list.append(coupon)
 
     def add_product_to_cart(self, p_id, u_id, amount):
         p1 = self.get_product(p_id)
@@ -84,9 +86,10 @@ class Market():
         self.__category_list.append(Categories(name))
     
     def add_category(self, name, product : Product):
-        newCate = Categories(name)
-        newCate.add_product(product)
-        self.__category_list.append(newCate)
+        if(isinstance(product , Product)):
+            newCate = Categories(name)
+            newCate.add_product(product)
+            self.__category_list.append(newCate)
 
     def add_comment_to_product(self, p_id, comment):
         # if isinstance(comment, Comment): return "Type invalid"
@@ -149,8 +152,10 @@ class Market():
                 return i
         return None
 
-    def get_customer_cart(self,customer):
-        return customer.cart
+    def get_customer_cart(self,customer_id):
+        customer = self.get_account(customer_id)
+        if isinstance(customer, Customer):
+            return customer.cart
     
     def get_customer_cart_product(self, customer):
         res = []
