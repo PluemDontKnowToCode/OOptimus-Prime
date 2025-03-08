@@ -144,8 +144,9 @@ def validate_png_modal():
         ),
     
 
-def Header(bool1 = True, HeaderText = "Teerawee Shop"):
+def Header(bool_search = True, bool_cart = True, HeaderText = "Teerawee Shop"):
     validate_value()
+    cart_icon = None
     
     part1 = A(
                 H1(
@@ -162,17 +163,17 @@ def Header(bool1 = True, HeaderText = "Teerawee Shop"):
     part2 = Form(
                 Input(
                     placeholder = "search...",
-                    style = "margin: 0px;"
+                    style = "margin: 0px;",
+                    id = "search_word"
                     ),
+                hx_get = "/search_for_home",
+                hx_trigger = "load, keyup delay:250ms",
+                target_id = "grid_home",
                 style = "margin: 0px;"
                 )
-    if not bool1: part2 = Div()
-    
-    validate_png_modal()
-    
-    part3 = Div(
-                Div(
-                    A(
+    if not bool_search: part2 = Div()
+    if bool_cart:
+        cart_icon = A(
                         Img(
                             src = cartpng,
                             style = "height: 100px;",
@@ -180,7 +181,13 @@ def Header(bool1 = True, HeaderText = "Teerawee Shop"):
                         ),
                         href = "/cart" if login_bool else "",
                         style = ButtonHeaderStyle
-                    ),
+                    )
+    
+    validate_png_modal()
+    
+    part3 = Div(
+                Div(
+                    cart_icon,
                     A(
                         Img(
                             src = userpng,

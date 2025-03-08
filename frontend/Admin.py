@@ -7,7 +7,7 @@ dotenv.load_dotenv()
 
 def Page():
     page = Title("Admin - Teerawee Shop"), Main(
-        Component.Header(False, HeaderText="Admin"),
+        Component.Header(False, False, "Admin"),
         Grid(
             Div(
                 Div(

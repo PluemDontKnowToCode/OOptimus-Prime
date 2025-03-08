@@ -106,9 +106,9 @@ def view_detail(p_id: int):
     part_add_comment = Titled(
         "Add your opinion",
         Form(
-            Input(type = "number", id = "star", max = "5", min = "1", value = 3),
-            Input(type = "text", id = "new_comment", placeholder = "about your thinking"),
-            Button("Submit", type = "submit"),
+            Div(Input(type = "number", id = "star", max = "5", min = "1", value = 3), style = "width: 5%;"),
+            Div(Input(type = "text", id = "new_comment", placeholder = "about your thinking", style = "height: 6vw;"), style = "width: 50%;"),
+            Div(Button("Submit", type = "submit"), style = "width: 10vw;"),
             method = "post",
             action = f"/add_new_comment/{p_id}" if login_bool else ""
         )

@@ -44,7 +44,6 @@ def root():
         return admin.Page()
     return Home.Page()
 
-
 @app.get('/login')
 def login():
     return Login.Page()
@@ -65,6 +64,10 @@ def profile():
 @app.get('/register')
 def register():
     return Register.page()
+
+@app.get('/search_for_home')
+def searching(search_word: str):
+    return Home.get_item_post_card(search_word)
 
 @app.get('/cart')
 def cart():
