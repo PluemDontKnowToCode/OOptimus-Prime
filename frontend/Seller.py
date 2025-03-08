@@ -1,10 +1,12 @@
 from fasthtml.common import *
+import Component
 
 def Page():
-    page = Title("Seller's Home - Teerawee Shop"),
-    Container(
+    # part1 = Title("Seller's Home - Teerawee Shop")
+    part1 = Component.Header(False)
+    part2 = Container(
         # หัวข้อหลัก
-        H1("Style Examples", style="text-align: center; color: #2196f3; margin: 20px 0;"),
+        H1("Your Stock", style="text-align: center; color: #2196f3; margin: 20px 0;"),
         
         Grid(
             # Card ที่ 1 - แสดงการจัดการ Text และ Border
@@ -84,5 +86,12 @@ def Page():
                 background-color: #fafafa; 
             """
         )
+    )
+    
+    page = Main(
+        part1,
+        part2,
+        Script(Component.get_warn_js()),
+        style = Component.configHeader
     )
     return page
