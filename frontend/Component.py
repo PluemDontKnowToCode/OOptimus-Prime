@@ -193,7 +193,23 @@ def Header(bool1 = True):
                 user_png_modal,
                 style = ButtonHeaderStyle + "",
                 cls = "user_png1"
-            )
+                )
+    if market1.current_account and isinstance(market1.current_account, Seller): 
+        part3 = Div(
+                    Div(
+                        A(
+                            Img(
+                                src = userpng,
+                                style = "height: 70px; z-index: -1;",
+                                cls = "b3"
+                            ),
+                            style = ButtonHeaderStyle
+                        ),
+                ),
+                user_png_modal,
+                style = ButtonHeaderStyle + "",
+                cls = "user_png1"
+                )
     
     page = Div(
             part1,

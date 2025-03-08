@@ -11,7 +11,7 @@ load_dotenv()
 import Component
 import Admin
 import Home
-import Seller
+import Seller as sel
 import CartPage
 import Login
 import ItemDetail
@@ -38,6 +38,7 @@ app = start[0]
 
 @app.get('/')
 def root():
+    if market1.current_account and isinstance(market1.current_account, Seller): return sel.Page()
     return Home.Page()
 
 @app.get('/login')
