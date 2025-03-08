@@ -132,7 +132,7 @@ class Market():
         return "success"
     
     def get_account(self, user_id): 
-        for i in self.__customer_list + self.__seller_list:
+        for i in self.__customer_list + self.__seller_list + self.__admin_list:
             # print(i.name)
             if i.equal(user_id):
                 return i
@@ -268,7 +268,7 @@ for i in get_all_product():
 for i in get_all_coupon():
     market1.add_coupon(i)
     
-# market1.update_current_user(market1.get_account("A000001"))
+market1.update_current_user(market1.get_account("A000000"))
 
 # p = market1.get_product("P000001")
 # market1.current_account.cart.add_item(p, 1)

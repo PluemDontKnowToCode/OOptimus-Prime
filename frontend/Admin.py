@@ -32,6 +32,7 @@ def Page():
                 ),
                 Div(
                     id="manage_coupon_body",
+                    style = "height: 20vw;"
                 ),
                 Style="padding-top:0px;"
             ),
@@ -58,13 +59,17 @@ def Page():
                 ),
                 Div(
                     id="manage_event_body",
+                    style = "height: 20vw;"
                 ),
             ),
+            Style = """
+                grid-template-columns: 1fr;
+                grid-template-rows: 1fr 1fr;
+                
+            """
         ),
-        
-        Style=Component.configHeader + """ 
-            grid-template-columns: 1fr 1fr;
-        """,
+        Script(Component.get_warn_js()),
+        Style=Component.configHeader
     )
     
     return page

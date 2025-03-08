@@ -16,7 +16,7 @@ def Page():
                     Form(
                         Label("Choose Your Role"),
                         Div(
-                            Label(Input(type = "radio", name = "role", value = "customer", ), "Customer"),
+                            Label(Input(type = "radio", name = "role", value = "customer", checked = "true"), "Customer"),
                             Label(Input(type = "radio", name = "role", value = "seller"), "Seller"),
                             style = "margin-bottom: 2%;"
                         ),
