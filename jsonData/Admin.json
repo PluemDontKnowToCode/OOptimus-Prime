@@ -2,8 +2,8 @@
     "data": [
         {
             "id": "A000000",
-            "name": "Admin",
-            "password": "adminPass",
+            "name": "Pooh",
+            "password": "admin",
             "username": "admin",
             "image": "https://cdn-icons-png.flaticon.com/512/9203/9203764.png",
             "money": 0,

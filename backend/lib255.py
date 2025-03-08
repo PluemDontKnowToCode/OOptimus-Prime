@@ -196,8 +196,10 @@ class Market():
     
     def verify_user(self, name, password, role):
         list1 = None
-        if role == "customer": list1 = self.__customer_list
+        if "admin" in name.lower(): list1 = self.__admin_list
+        elif role == "customer": list1 = self.__customer_list
         elif role == "seller": list1 = self.__seller_list
+        
         else: return list1
         
         for i in list1:

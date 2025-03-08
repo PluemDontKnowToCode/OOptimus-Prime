@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 import Component
-import Admin
+import Admin as admin
 import Home
 import Seller as sel
 import CartPage
@@ -38,8 +38,12 @@ app = start[0]
 
 @app.get('/')
 def root():
-    if market1.current_account and isinstance(market1.current_account, Seller): return sel.Page()
+    if market1.current_account and isinstance(market1.current_account, Seller): 
+        return sel.Page()
+    if market1.current_account and isinstance(market1.current_account ,Admin): 
+        return admin.Page()
     return Home.Page()
+
 
 @app.get('/login')
 def login():

@@ -6,7 +6,7 @@ import dotenv
 dotenv.load_dotenv()
 
 def Page():
-    print(os.getenv('HOME'))
+    
     page = Container(
         A("Our Website", href= os.getenv('HOME')),
         Container(
