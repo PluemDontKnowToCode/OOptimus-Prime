@@ -144,12 +144,12 @@ def validate_png_modal():
         ),
     
 
-def Header(bool1 = True):
+def Header(bool1 = True, HeaderText = "Teerawee Shop"):
     validate_value()
     
     part1 = A(
                 H1(
-                    "Teerawee Shop",
+                    HeaderText,
                     Style = headerfontStyle
                 ), 
                 href='/', 

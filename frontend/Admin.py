@@ -1,49 +1,75 @@
 from fasthtml.common import *
-
+import Component
 import os
 import dotenv
 
 dotenv.load_dotenv()
 
 def Page():
-    
-    page = Container(
-        A("Our Website", href= os.getenv('HOME')),
-        Container(
-            H2("Section 1"),
-            P("Content for section 1"),
-            Button("Learn More"),
-            style="text-align: left; background-color: #f0f0f0;"
-        ),
-        Container(
-            H2("Section 2"),
-            P("Content for section 2"),
-            Button("Read More"),
-            style="text-align: right; background-color: #e0e0e0;"
-        ),
-        Titled(
-            "FastHTML Example",
+    page = Title("Admin - Teerawee Shop"), Main(
+        Component.Header(False, HeaderText="Admin"),
+        Grid(
             Div(
-                P("นี่คือย่อหน้า"),
-                A("ไปที่เว็บไซต์", href="https://example.com"),
-                Img(src="https://example.com/image.jpg", alt="ตัวอย่างภาพ"),
-                Table(
-                    Tr(
-                        Th("หัวข้อ 1"),
-                        Th("หัวข้อ 2")
+                Div(
+                    H1(
+                        "manage coupon",
+                        Style="margin: 2%;"
                     ),
-                    Tr(
-                        Td(Span("ข้อมูล 1", cls="highlight")),  
-                        Td("ข้อมูล 2")
+                    Div(
+                        Button(
+                            "Create coupon",
+                            hx_get="/admin/createCoupon"
+                        ),
+                        Style="margin: 2%;"
                     ),
-                    Tr(
-                        Td("ข้อมูล 3"),
-                        Td(Span("ข้อมูล 4 (สำคัญ)", cls="important")),  
+                    
+                    Style="""
+                        display: flex; 
+                        justify-content: space-between;
+                        
+                    """,
+                    id="manage_coupon_head",
                 ),
-                Div(P("เนื้อหาใน Div"), cls="box")
-                )
-            )
-        )
+                Div(
+                    id="manage_coupon_body",
+                ),
+                Style="padding-top:0px;"
+            ),
+            Div(
+                Div(
+                    H1(
+                        "manage event",
+                        Style="margin: 2%;"
+                    ),
+                    Div(
+                        Button(
+                            "Create event",
+                            hx_get="/admin/createEvent"
+                        ),
+                        Style="margin: 2%;"
+                    ),
+                    
+                    Style="""
+                        display: flex; 
+                        justify-content: space-between;
+                        
+                    """,
+                    id="manage_event_head",
+                ),
+                Div(
+                    id="manage_event_body",
+                ),
+            ),
+        ),
+        
+        Style=Component.configHeader + """ 
+            grid-template-columns: 1fr 1fr;
+        """,
     )
     
     return page
+
+
+def manageCouponCard():
+
+    return 
