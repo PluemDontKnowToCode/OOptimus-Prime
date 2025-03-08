@@ -343,8 +343,8 @@ def SetUpCouponButton(Id : str):
                 "USED",
                 id=f"button_{Id}",
                 Style="margin-top: 10px; padding: 5px 15px; border: 1px solid gray; background: lightgray; color: black;",
+                hx_post=f"/purchase/apply_coupon/{Id}",
                 hx_swap_oob="true",
-                disabled=True,
     )
     return Button(
             "USE", 

@@ -128,8 +128,10 @@ async def Add():
 async def apply_coupon(id: str):
     # print("Coupon : " + id)
     # Save selected coupon (assuming it's stored in market1.current_account)
-    market1.current_account.update_selected_coupon(market1.get_coupon(id))
-    
+    if(market1.current_account.selected_coupon == None or id != market1.current_account.selected_coupon.id):
+        market1.current_account.update_selected_coupon(market1.get_coupon(id))
+    else:
+        market1.current_account.update_selected_coupon(None)
     return Redirect("/purchase")
 @app.post("/purchase/apply_address/{district}/{province}/{zip_code}/{phone_number}")
 async def apply_address(district : str, province : str, zip_code : str, phone_number : str):

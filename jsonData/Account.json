@@ -6,7 +6,7 @@
             "password": "pass123",
             "username": "alice01",
             "image": "https://cdn-icons-png.flaticon.com/512/9203/9203764.png",
-            "money": 500,
+            "money": 500000,
             "cart" : [],
             "address": [
                 {"district": "XYZ","province":"Baan Opor","zip_code":"61000","phone":"0845658790"},

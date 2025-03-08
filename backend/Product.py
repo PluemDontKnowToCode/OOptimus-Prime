@@ -71,10 +71,6 @@ class Product(Object):
     def stock(self): 
         return self.__stock
     
-    @stock.setter
-    def stock(self, a):
-        self.__stock = a
-    
     def to_json(self):
         return {
             "name" : self.name,
@@ -93,3 +89,6 @@ class Product(Object):
             self.__comment_list.append(comment)
             res = "Done"
         return res
+    
+    def update_stock(self, a):
+        self.__stock += a

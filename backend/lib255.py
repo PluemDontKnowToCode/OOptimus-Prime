@@ -120,6 +120,9 @@ class Market():
         if(price > customer.money):
             return "Not Enough Money"
         
+        for i in cart.get_cart_item:
+            i.product.update_stock(-1 * i.amount)
+
         customer.update_money(price)
         customer.clear_cart()
 
