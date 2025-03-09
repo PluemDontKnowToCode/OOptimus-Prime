@@ -19,7 +19,7 @@ from backend.Product import *
 from backend.Seller import *
 from backend.StackItem import *
 from backend.Transaction import *
-
+from backend.RequestedProduct import *
 
 #region Market
 class Market():
@@ -32,6 +32,7 @@ class Market():
         self.__admin_list = []
         self.__coupon_list = []
         self.__category_list = []
+        self.__requested_list = []
         #make it private nah
         self.__exist_id = []
 
@@ -90,6 +91,11 @@ class Market():
             newCate = Categories(name)
             newCate.add_product(product)
             self.__category_list.append(newCate)
+    
+    def add_requested(self, request):
+        if(isinstance(request, RequestedProduct)):
+            self.__requested_list.append(request)
+            return "Success"
 
     def add_comment_to_product(self, p_id, comment):
         # if isinstance(comment, Comment): return "Type invalid"
