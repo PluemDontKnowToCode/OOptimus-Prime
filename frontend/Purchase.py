@@ -160,7 +160,7 @@ def PurchasePage():
                         """,
                         
                     )
-                    for i in cart.get_product
+                    for i in cart.get_available_product
                     ],
                 
                     Style="width:100%;"

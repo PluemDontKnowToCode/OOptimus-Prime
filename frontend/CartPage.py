@@ -11,7 +11,7 @@ def Page():
         Component.Header(bool_search = False),
         TitleHeader("My Shopping Cart"),
         Div(
-            UpdateCartUI(cart),
+            UpdateCartUI(cart.get_available_product) if cart else print("Gak"),
             Div(
                 Card(
                     P(
@@ -31,12 +31,15 @@ def Page():
                     id ="lenCart"
                 ),
             ),
-            Script(Component.get_warn_js()),
             Style=" display: flex; justify-content: space-between; , boarder : solid; padding-top: 20px;",
         ),
         Div(
-            TitleHeader("Unavailable")
+            TitleHeader("Unavailable"),
+            Div(
+                UpdateCartUI(cart.get_unavailable_product)
+            ),
         ),
+        Script(Component.get_warn_js()),
         #Style="background-color: #f5f5f5;"
         Style="padding:0;"
     )
@@ -44,9 +47,8 @@ def Page():
 
 
 
-def UpdateCartUI(cart = None):
-    if(cart):
-        itemDict = cart.get_product
+def UpdateCartUI(itemDict):
+    if(isinstance(itemDict, list)):
         return Div(*
             [
                 Card(
@@ -87,7 +89,7 @@ def UpdateCartUI(cart = None):
             hx_swap_oob="true",
             Style="margin-left: 5%;"
         )
-    return Div("Nothing Here", 
+    return Div("", 
                id="product_list",
                Style="align-items: center;",
                hx_swap_oob="true"

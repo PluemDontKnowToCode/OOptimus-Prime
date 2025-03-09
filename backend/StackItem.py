@@ -24,20 +24,29 @@ class StackItem:
         else:
             return a1
     
+    def to_json(self):
+        res = self.__product.to_json()
+        res.update({'amount': self.__amount, 'available': self.__available})
+        return res
+    
     @property
     def amount(self): return self.__amount
     
     @amount.setter
     def amount(self, a1): self.__amount = self.validate_amount(a1)
 
-    @property
-    def to_json(self): return { self.__product: self.__amount }
+    # @property
+    # def to_json(self): return { self.__product: self.__amount }
 
     def is_me(self, product): return product == self.__product
 
     @property
     def price(self): return self.__product.price * self.__amount
     
+    @property
+    def available(self): return self.__available
+    
     def update_self(self):
         remain_stock = self.__product.stock
-        if self.amount < remain_stock: self.amount = remain_stock
+        if self.amount > remain_stock: self.__available = False
+        else: self.__available = True
