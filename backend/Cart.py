@@ -45,11 +45,18 @@ class Cart:
         # print(res)
         return res
 
-    def remove_item(self, product : Product):
+    def remove_item(self, product):
+        if isinstance(product, Product): return "Invalid type"
         for i in self.__cart_item_list:
             if i.product.equal(product.id):
                 self.__cart_item_list.remove(i)
                 return "Remove Complete"
+    
+        for i in self.__unavailable_list:
+            if i.product.equal(product.id):
+                self.__unavailable_list.remove(i)
+                return "Remove Complete"
+            
         return "Product Not found"
         
     def clear(self):
