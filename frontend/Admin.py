@@ -21,11 +21,12 @@ def Page():
                         "manage coupon",
                         Style="margin: 2%;"
                     ),
-                    Div(
+                    A(
                         Button(
                             "Create coupon",
-                            hx_get="/admin/createCoupon"
+                            
                         ),
+                        href="/admin/create_coupon",
                         Style="margin: 2%;"
                     ),
                     
@@ -51,7 +52,7 @@ def Page():
                     Div(
                         Button(
                             "Create event",
-                            hx_get="/admin/createEvent"
+                            href="/admin/createEvent"
                         ),
                         Style="margin: 2%;"
                     ),
@@ -147,7 +148,31 @@ def manageRequestedCard(request):
             )
 
 def CreateCouponPage():
-    return
+    page = Title("Create Coupon - Teerawee Shop"), Main(
+        Component.Header(False, False, "Create Coupon"),
+        Div(
+            Form(  # ฟอร์มข้อมูลสินค้า
+                Div(Label("Product Name:"), Input(type="text", name="name", id="product_name"), style="margin-bottom: 20px;"),
+                Div(Label("Description:"), Textarea(name="description", rows=3, id="description"), style="margin-bottom: 20px;"),
+                Div(Label("Price (฿):"), Input(type="number", name="price", step="0.01", id="price"), style="margin-bottom: 20px;"),
+                Div(Label("Quantity:"), Input(type="number", name="quantity", min=1, value=1, id="quantity"), style="margin-bottom: 20px;"),
+                Div(Label("Category (use only English):"), Input(type="text", name="category", id="category"), style="margin-bottom: 20px;"),
+                Div(Label("Image URL:"), Input(type="text", name="image_url", id="image_url"), style="margin-bottom: 20px;"),
+                Div(Button("Confirm", type="button", onclick="submitForm()"), style="margin-top: 20px;"),
+                method="post",
+                action="/add_coupon",
+                id="product_form",
+                style="text-align: left; padding: 20px; background-color: #f9f9f9; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);"
+            ),
+            style="justify-content: center; align-items: center; height: 100vh; width: 100%;"
+        ),
+
+
+        Style=Component.configHeader + """
+
+        """,
+    ),
+    return page
 
 def CreateEventPage():
     return

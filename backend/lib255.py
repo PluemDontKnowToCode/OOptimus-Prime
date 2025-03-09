@@ -118,7 +118,13 @@ class Market():
         # if not p: return "Not find product"
         p.add_comment(comment)
         # return "Done"
-        
+    
+    def delete_coupon(self, id):
+        for i in self.__coupon_list:
+            if i.id == id:
+                self.__coupon_list.remove(i)
+                return "Remove Success"
+        return "Not Found"
         
     def purchase(self, user_id, coupon = None):
         customer = self.get_account(user_id)

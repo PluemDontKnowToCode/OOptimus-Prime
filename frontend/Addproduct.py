@@ -8,7 +8,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
 
 def Page():
-    head = Component.Header()
+    head = Component.Header(False, False, "")
     body = Container(
         Div(
             Form(  # ฟอร์มข้อมูลสินค้า

@@ -69,7 +69,16 @@ def logout():
     market1.clear_current_account()
     return Redirect('/')
 
-
+@app.get("/admin/create_coupon")
+def create_coupon():
+    if market1.current_account and isinstance(market1.current_account ,Admin): 
+        return admin.CreateCouponPage()
+    return Redirect("/")
+@app.post("add_coupon")
+def add_coupon():
+    if market1.current_account and isinstance(market1.current_account ,Admin): 
+        print("Add")
+    return Redirect("/")
 @app.get('/profile')
 def profile():
     return Profile.page()
@@ -149,7 +158,9 @@ async def apply_coupon(id: str):
     # print("Coupon : " + id)
     # Save selected coupon (assuming it's stored in market1.current_account)
     if(market1.current_account.selected_coupon == None or id != market1.current_account.selected_coupon.id):
-        market1.current_account.update_selected_coupon(market1.get_coupon(id))
+        select = market1.get_coupon(id)
+        if(select.check_condition(market1.current_account.cart)):
+            market1.current_account.update_selected_coupon(market1.get_coupon(id))
     else:
         market1.current_account.update_selected_coupon(None)
     return Redirect("/purchase")

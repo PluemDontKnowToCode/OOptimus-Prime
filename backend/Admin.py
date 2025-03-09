@@ -1,5 +1,7 @@
 from backend.Account import *
 from backend.RequestedProduct import *
+from datetime import datetime, timedelta
+from backend.Coupon import *
 
 class Admin(Account):
     def __init__():
@@ -7,6 +9,17 @@ class Admin(Account):
 
     def __init__(self, d: dict, market = None):
         super().__init__(d, market)
+
+    def create_coupon(self, discount_percent, less_amount, product_count, duration):
+        new_date = datetime.now() + timedelta(days=duration)
+
+        # Convert to string format "YYYY-MM-DD"
+        coupon = Coupon(discount_percent, less_amount, product_count, datetime.now(),new_date)
+        self.market.add_coupon(coupon)
+        return "Create Success"
+    
+    def delete_coupon(self, id):
+        return self.market.delete_coupon(id)
 
     def approve_product(self, request):
         if(isinstance(request, RequestedProduct)):
