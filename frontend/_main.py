@@ -36,6 +36,7 @@ start = fast_app(
 
 app = start[0]
 
+#region Main and User
 @app.get('/')
 def root():
     if market1.current_account and isinstance(market1.current_account, Seller): 
@@ -65,10 +66,34 @@ def profile():
 def register():
     return Register.page()
 
+#end
+
+#region Search
 @app.get('/search_for_home')
-def searching(search_word: str):
+def searching1(search_word: str):
     return Home.get_item_post_card(search_word)
 
+@app.get('/search_for_cart')
+def searching2(search_word: str):
+    pass
+
+@app.get('/search_for_seller')
+def searching3(search_word: str):
+    pass
+#end
+
+#region Item's Detail
+@app.get('/detail/{p_id}')
+def detail(p_id: str):
+    return ItemDetail.view_detail(p_id)
+
+@app.post('/add_new_comment/{p_id}')
+def add_new_commnet(p_id: str, star: int, new_comment: str):
+    if not market1.current_account: return Redirect('/login')
+    return com.insert_comment(p_id, star, new_comment) 
+#end
+
+#region Cart and Payment
 @app.get('/cart')
 def cart():
     if(market1.current_account): return CartPage.Page()
@@ -85,21 +110,11 @@ def purchase_result(coupon_id : str):
     result = market1.purchase(market1.current_account.id, coupon)
     return Purchase.ResultPage(result)
 
-@app.get('/detail/{p_id}')
-def detail(p_id: str):
-    return ItemDetail.view_detail(p_id)
-
 @app.post('/add_to_cart/{p_id}/{user_id}')
 def add_to_cart(p_id: str, user_id: str, amount: int):
-    # print("route", amount)
     if not market1.current_account: return Redirect('/login')
     res = market1.add_product_to_cart(p_id, user_id, amount)
     return Redirect(f'/detail/{p_id}')
-
-@app.post('/add_new_comment/{p_id}')
-def add_new_commnet(p_id: str, star: int, new_comment: str):
-    if not market1.current_account: return Redirect('/login')
-    return com.insert_comment(p_id, star, new_comment) 
 
 #delete card code
 @app.delete("/cart/remove/{id}")
@@ -140,6 +155,7 @@ async def apply_coupon(id: str):
     else:
         market1.current_account.update_selected_coupon(None)
     return Redirect("/purchase")
+
 @app.post("/purchase/apply_address/{district}/{province}/{zip_code}/{phone_number}")
 async def apply_address(district : str, province : str, zip_code : str, phone_number : str):
     address = Address(district, province, zip_code, phone_number)
@@ -147,4 +163,7 @@ async def apply_address(district : str, province : str, zip_code : str, phone_nu
         if(a.is_equal(address)):
             market1.current_account.update_selected_address(address)
     return Redirect("/purchase")
+
+#end
+
 serve(port=3000)

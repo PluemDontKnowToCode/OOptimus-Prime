@@ -46,7 +46,7 @@ class Cart:
         if not isinstance(product, Product): return "False"
         if product in self.product_list:
             for i in self.__cart_item_list:
-                if i.is_me(product): i.set_amount(amount)
+                if i.is_me(product): i.amount = amount
                 break
         else:
             self.__cart_item_list.append(StackItem(product, amount))
@@ -54,5 +54,8 @@ class Cart:
         
     def calculate_price(self):
         return sum(item.price for item in self.__cart_item_list)
+    
+    def update_self(self): 
+        for i in self.__cart_item_list: i.update_self()
         
 #endregion

@@ -26,9 +26,9 @@ class StackItem:
     @property
     def amount(self): return self.__amount
     
-    
-    def set_amount(self, a1):
-        self.__amount = self.validate_amount(a1)
+    @amount.setter
+    def amount(self, a1): self.__amount = self.validate_amount(a1)
+
     @property
     def to_json(self): return { self.__product: self.__amount }
 
@@ -36,3 +36,7 @@ class StackItem:
 
     @property
     def price(self): return self.__product.price * self.__amount
+    
+    def update_self(self):
+        remain_stock = self.__product.stock
+        self.amount = remain_stock

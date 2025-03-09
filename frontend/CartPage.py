@@ -6,8 +6,9 @@ from _main  import *
 
 def Page():
     cart = market1.get_customer_cart(market1.current_account.id)
+    cart.update_self()
     page = Title("Cart - Teerawee Shop"), Main(
-        Component.Header(),
+        Component.Header(bool_search = False),
         TitleHeader("My Shopping Cart"),
         Div(
             UpdateCartUI(cart),
@@ -30,7 +31,11 @@ def Page():
                     id ="lenCart"
                 ),
             ),
+            Script(Component.get_warn_js()),
             Style=" display: flex; justify-content: space-between; , boarder : solid; padding-top: 20px;",
+        ),
+        Div(
+            TitleHeader("Unavailable")
         ),
         #Style="background-color: #f5f5f5;"
         Style="padding:0;"

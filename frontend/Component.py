@@ -71,7 +71,7 @@ warn_to_login_modal = Dialog(
             ),
             style = "blackground-color: white;"
         ),
-            
+
     ),
     id = "d2",
     style = "height: 200px; width: 400px;"   
@@ -146,6 +146,7 @@ def validate_png_modal():
 
 def Header(bool_search = True, bool_cart = True, HeaderText = "Teerawee Shop"):
     validate_value()
+    validate_png_modal()
     cart_icon = None
     
     part1 = A(
@@ -160,18 +161,24 @@ def Header(bool_search = True, bool_cart = True, HeaderText = "Teerawee Shop"):
                 """ + ButtonHeaderStyle
             )
     
-    part2 = Form(
-                Input(
-                    placeholder = "search...",
-                    style = "margin: 0px;",
-                    id = "search_word"
+    part2 = Div()
+    
+    if bool_search: part2 = Form(
+                    Div(
+                        Input(
+                            placeholder = "search...",
+                            style = "margin: 0px;",
+                            id = "search_word"
+                            ),
+                        style = "width: 25vw;"
                     ),
-                hx_get = "/search_for_home",
-                hx_trigger = "load, keyup delay:250ms",
-                target_id = "grid_home",
-                style = "margin: 0px;"
+                    hx_get = "/search_for_home",
+                    hx_trigger = "load, keyup delay:250ms",
+                    target_id = "grid_home",
+                    style = "margin: 0px;"
                 )
-    if not bool_search: part2 = Div()
+    
+    
     if bool_cart:
         cart_icon = A(
                         Img(
@@ -183,7 +190,6 @@ def Header(bool_search = True, bool_cart = True, HeaderText = "Teerawee Shop"):
                         style = ButtonHeaderStyle
                     )
     
-    validate_png_modal()
     
     part3 = Div(
                 Div(
@@ -234,12 +240,14 @@ def Header(bool_search = True, bool_cart = True, HeaderText = "Teerawee Shop"):
                 margin-bottom: 20px;
                 """,
         )
+    
     return page
 
 def TitleHeader(text):
-    return H1(text, 
-              Style="""padding-top: 30px; 
-              margin-left: 15%; 
-              display: flex;"""
+    return H1(
+        text, 
+        Style="""padding-top: 30px; 
+        margin-left: 15%; 
+        display: flex;"""
               ),
 

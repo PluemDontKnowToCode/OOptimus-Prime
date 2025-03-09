@@ -96,7 +96,7 @@ def view_detail(p_id: int):
                 Button(
                     "Add to cart",
                     cls = "b10" if login_bool else "a1",
-                ),
+                ) if j1['Stocked'] > 0 else Div(),
                 modal,
             ),
             stlye = "grid-template-columns: 1fr 1fr;"
