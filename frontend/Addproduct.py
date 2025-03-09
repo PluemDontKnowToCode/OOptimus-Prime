@@ -19,7 +19,7 @@ def Page():
             Form(  # ฟอร์มข้อมูลสินค้า
                 Div(Label("Product Name:"), Input(type="text", name="name", id="product_name"), style="margin-bottom: 20px;"),
                 Div(Label("Description:"), Textarea(name="description", rows=3, id="description"), style="margin-bottom: 20px;"),
-                Div(Label("Price ($):"), Input(type="number", name="price", step="0.01", id="price"), style="margin-bottom: 20px;"),
+                Div(Label("Price (฿):"), Input(type="number", name="price", step="0.01", id="price"), style="margin-bottom: 20px;"),
                 Div(Label("Quantity:"), Input(type="number", name="quantity", min=1, value=1, id="quantity"), style="margin-bottom: 20px;"),
                 Div(Button("Confirm", type="button", onclick="submitForm()"), style="margin-top: 20px;"),
                 method="post",
@@ -44,8 +44,8 @@ def Page():
 
 
 def insert_request(p_id: str, name: str, description: str, price: str, quantity: str):
-    seller_id = market1.current_account_seller.id
-    name_seller = market1.current_account_seller
-    r = Requestproduct_class(name_seller, name, description, price, quantity, seller_id)
+    seller_id = market1.current_account.id
+    product = Product(name, market1.generate_product_id(), price ,description, img1="", category="", stock = quantity,market =  market1)
+    r = RequestedProduct(product, market1.current_account)
     market1.add_comment_to_product(p_id, r)
     return Redirect(f'/requestproduct/{p_id}')

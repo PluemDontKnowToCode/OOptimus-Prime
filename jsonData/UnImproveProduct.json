@@ -1,8 +1,9 @@
 {
     "data" : [
         {
-            "name": "Pikajuu",
+            "seller":"S000001",
             "id": "P000004",
+            "name": "Pikajuu",
             "price": 100000,
             "description": "u can pet it now",
             "img": "pikachu.png",

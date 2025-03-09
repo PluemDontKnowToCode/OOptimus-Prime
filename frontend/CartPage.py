@@ -58,7 +58,7 @@ def UpdateCartUI(cart = None):
                             Style="width:500px;"
                         ),
                         Div(
-                            f"Price: ${p['price']}",
+                            f"Price: ฿{p['price']}",
                             Style="padding-top: 10px;"
                         ),
                         Div(

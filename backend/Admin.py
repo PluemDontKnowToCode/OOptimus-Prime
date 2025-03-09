@@ -11,7 +11,16 @@ class Admin(Account):
     def approve_product(self, request):
         if(isinstance(request, RequestedProduct)):
             request.update_status("Approve")
+            super().market.add_product(request.product)
 
-    def rejected_product(self, request):
+    def reject_product(self, request):
         if(isinstance(request, RequestedProduct)):
             request.update_status("Reject")
+
+    def get_requested_product(self):
+        res = []
+        requested = super().market.requested_list
+        for i in requested:
+            if i.status == "Idle":
+                res.append(i)
+        return res

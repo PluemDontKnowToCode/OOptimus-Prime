@@ -19,7 +19,6 @@ import Purchase
 import Profile
 import Register
 import Addproduct
-import Requestproduct
 
 import Comment as com
 import Addproduct as addp
@@ -56,11 +55,6 @@ def addproduct():
 def addproduct(p_id: str, name: str, description: str, price: str, quantity: str):
     if not market1.current_account_seller: return Redirect('/login')
     return addp.insert_request(p_id, name, description, price, quantity)
-
-
-@app.get('/requestproduct')
-def requestproduct():
-    return Requestproduct.Page()
 
 @app.get('/login')
 def login():
@@ -166,4 +160,14 @@ async def apply_address(district : str, province : str, zip_code : str, phone_nu
         if(a.is_equal(address)):
             market1.current_account.update_selected_address(address)
     return Redirect("/purchase")
+
+@app.post("/admin/accept/{id}/{status}")
+async def accept_request(id : str, status : bool):
+    if isinstance(market1.current_account, Admin):
+        if(status):
+            market1.current_account.approve_product(market1.get_requested(id))
+        else:
+            market1.current_account.reject_product(market1.get_requested(id))
+
+    return Redirect("/")
 serve(port=3000)
