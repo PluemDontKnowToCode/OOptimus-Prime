@@ -125,7 +125,7 @@ def view_detail(p_id: int):
                 Card(
                     Div(
                         Div(
-                            f"{lc["name"]}   {"✯" * lc["star"]}",
+                            f"{lc['name']}   {'✯' * lc['star']}",
                             Card(
                                 lc["text"], style = ""
                             )

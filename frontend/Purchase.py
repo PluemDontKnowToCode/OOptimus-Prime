@@ -144,7 +144,7 @@ def PurchasePage():
                             src=i['img'],
                             Style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px;"),
                         Div(f"{i['name']}(x{i['amount']})"),
-                        Div(f"${i['price'] * i['amount']}"),
+                        Div(f"{i['price'] * i['amount']} ฿"),
                         Style="""
                             display: flex;
                             align-items: center;
@@ -171,22 +171,22 @@ def PurchasePage():
                 Div(
                     Div(
                         H3("SubTotal"),
-                        Div(f"${cart.calculate_price()}"),
+                        Div(f"{cart.calculate_price()} ฿"),
                         Style="display: flex; justify-content: space-between; width: 100%;",
                     ),
                     Div(
                         H3("Shipping"),
-                        Div(f"$50"),
+                        Div(f"50 ฿"),
                         Style="display: flex; justify-content: space-between; width: 100%;",
                     ),
                     Div(
                         H3("Discount"),
-                        Div(f"${get_discount_value() * (cart.calculate_price() + 50)}"),
+                        Div(f"{get_discount_value() * (cart.calculate_price() + 50)} ฿"),
                         Style="display: flex; justify-content: space-between; width: 100%;",
                     ),
                     Div(
                         H3("Total"),
-                        Div(f"${cart.calculate_price() + 50 - get_discount_value() * cart.calculate_price()}"),
+                        Div(f"{cart.calculate_price() + 50 - get_discount_value() * cart.calculate_price()} ฿"),
                         Style="display: flex; justify-content: space-between; width: 100%;",
                     ),
                     cls="total",
@@ -321,7 +321,7 @@ def CouponCard(Id,discount, order_min,start_date, end_date,product_count = 0):
         ),
         Hr(),
         P(
-            f"{start_date.strftime("%Y-%m-%d")} ~ {end_date.strftime("%Y-%m-%d")}", 
+            f"{start_date.strftime('%Y-%m-%d')} ~ {end_date.strftime('%Y-%m-%d')}", 
             Style="margin: 0 auto;"
         ),
         SetUpCouponButton(Id),

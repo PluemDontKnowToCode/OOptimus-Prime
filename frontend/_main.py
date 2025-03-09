@@ -18,7 +18,10 @@ import ItemDetail
 import Purchase
 import Profile
 import Register
+import Addproduct
+
 import Comment as com
+import Addproduct as addp
 
 # h1 = "C://Main//Coding//Python//OOPKMITL//Lab9//OOptimus-Prime"
 # sys.path.insert(0, h1)
@@ -45,6 +48,15 @@ def root():
         return admin.Page()
     return Home.Page()
 
+@app.get('/addproduct')
+def addproduct():
+    return Addproduct.Page()
+
+@app.post('/addrequestproduct/{p_id}')
+def addproduct(p_id: str, name: str, description: str, price: str, quantity: str, category: str, image_url: str):
+    if not market1.current_account_seller: return Redirect('/login')
+    return addp.insert_request(p_id, name, description, price, quantity, category, image_url)
+
 @app.get('/login')
 def login():
     return Login.Page()
@@ -58,6 +70,16 @@ def logout():
     market1.clear_current_account()
     return Redirect('/')
 
+@app.get("/admin/create_coupon")
+def create_coupon():
+    if market1.current_account and isinstance(market1.current_account ,Admin): 
+        return admin.CreateCouponPage()
+    return Redirect("/")
+@app.post("add_coupon")
+def add_coupon():
+    if market1.current_account and isinstance(market1.current_account ,Admin): 
+        print("Add")
+    return Redirect("/")
 @app.get('/profile')
 def profile():
     return Profile.page()
@@ -151,7 +173,9 @@ async def apply_coupon(id: str):
     # print("Coupon : " + id)
     # Save selected coupon (assuming it's stored in market1.current_account)
     if(market1.current_account.selected_coupon == None or id != market1.current_account.selected_coupon.id):
-        market1.current_account.update_selected_coupon(market1.get_coupon(id))
+        select = market1.get_coupon(id)
+        if(select.check_condition(market1.current_account.cart)):
+            market1.current_account.update_selected_coupon(market1.get_coupon(id))
     else:
         market1.current_account.update_selected_coupon(None)
     return Redirect("/purchase")
@@ -166,4 +190,13 @@ async def apply_address(district : str, province : str, zip_code : str, phone_nu
 
 #end
 
+@app.post("/admin/accept/{id}/{status}")
+async def accept_request(id : str, status : bool):
+    if isinstance(market1.current_account, Admin):
+        if(status):
+            market1.current_account.approve_product(market1.get_requested(id))
+        else:
+            market1.current_account.reject_product(market1.get_requested(id))
+
+    return Redirect("/")
 serve(port=3000)

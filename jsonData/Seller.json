@@ -1,13 +1,12 @@
 {
     "data" : [
         {
-            "id": "A000009",
-            "name": "Ivy",
-            "password": "ivyTop",
-            "username": "ivyLeaf",
+            "id": "S000001",
+            "name": "Pooh",
+            "password": "Pooh",
+            "username": "Pooh",
             "image": "https://example.com/image9.png",
             "money": 600,
-            "cart" : [],
             "address":[],
             "role" : "Seller",
             "transaction" : []

@@ -2,6 +2,7 @@ import enum
 from datetime import *
 import json
 import os
+import re
 main_path = os.path.dirname(__file__)
 file_path = os.path.join(main_path, '../jsonData')
 
@@ -19,7 +20,7 @@ from backend.Product import *
 from backend.Seller import *
 from backend.StackItem import *
 from backend.Transaction import *
-
+from backend.RequestedProduct import *
 
 #region Market
 class Market():
@@ -32,6 +33,7 @@ class Market():
         self.__admin_list = []
         self.__coupon_list = []
         self.__category_list = []
+        self.__requested_list = []
         #make it private nah
         self.__exist_id = []
 
@@ -50,12 +52,26 @@ class Market():
     def current_account(self):
         return self.__current_user
     
+    @property
+    def requested_list(self):
+        return self.__requested_list
+    
     def update_current_user(self, user : Account):
         if isinstance(user , Account):
             self.__current_user = user
         
-    def generate_id(self):
-        return ""
+    def generate_product_id(self):
+        temp_id = []
+
+        for i in self.product_list:
+            temp_id.append(i.id)
+
+        a = sorted(temp_id)
+        number = int(re.search(r'P(\d+)', a).group(1))
+        number += 1
+        new_id = f"P{number:06d}"
+        print(f"new Id : {new_id}")
+        return new_id
     
     def add_account(self, account):
         if isinstance(account, Customer): self.__customer_list.append(account)
@@ -90,6 +106,11 @@ class Market():
             newCate = Categories(name)
             newCate.add_product(product)
             self.__category_list.append(newCate)
+    
+    def add_requested(self, request):
+        if(isinstance(request, RequestedProduct)):
+            self.__requested_list.append(request)
+            return "Success"
 
     def add_comment_to_product(self, p_id, comment):
         # if isinstance(comment, Comment): return "Type invalid"
@@ -97,7 +118,13 @@ class Market():
         # if not p: return "Not find product"
         p.add_comment(comment)
         # return "Done"
-        
+    
+    def delete_coupon(self, id):
+        for i in self.__coupon_list:
+            if i.id == id:
+                self.__coupon_list.remove(i)
+                return "Remove Success"
+        return "Not Found"
         
     def purchase(self, user_id, coupon = None):
         customer = self.get_account(user_id)
@@ -166,6 +193,14 @@ class Market():
         for p in customer.cart_items:
             res.append(p)
         return res
+    
+    def get_requested(self, id):
+        if isinstance(id, str):
+            for i in self.requested_list:
+                if i.product.id == id:
+                    return i
+                
+        return None
     
     def get_product_detail(self, product): return product.detail
     
@@ -260,15 +295,32 @@ def get_all_coupon():
             res.append(cp)
     return res
 
+def get_all_UnImproveProduct():
+    res = []
+    with open(file_path + '/UnImproveProduct.json', "r") as file01:
+        product_json = json.loads(file01.read())
+        for i in product_json["data"]:
+            # print(i)
+            pd = Product(i, market1)
+            seller = market1.get_account(i["seller"])
+            rp = RequestedProduct(pd, seller)
+            res.append(rp)
+    return res
+
 market1 = Market()
 for i in get_all_account():
     market1.add_account(i)
+
 for i in get_all_product():
     market1.add_product(i)
+
 for i in get_all_coupon():
     market1.add_coupon(i)
-    
-market1.update_current_user(market1.get_account("A000001"))
+
+for i in get_all_UnImproveProduct():
+    market1.add_requested(i)
+
+market1.update_current_user(market1.get_account("M000001"))
 
 # p = market1.get_product("P000001")
 # market1.current_account.cart.add_item(p, 1)

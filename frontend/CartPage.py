@@ -63,7 +63,7 @@ def UpdateCartUI(cart = None):
                             Style="width:500px;"
                         ),
                         Div(
-                            f"Price: ${p['price']}",
+                            f"Price: ฿{p['price']}",
                             Style="padding-top: 10px;"
                         ),
                         Div(
@@ -73,7 +73,7 @@ def UpdateCartUI(cart = None):
                     Div(
                         Button(
                             "X",
-                            hx_delete=f"/cart/remove/{p["id"]}",
+                            hx_delete=f"/cart/remove/{p['id']}",
                             hx_swap="outerHTML"
                         ),
                     ),
