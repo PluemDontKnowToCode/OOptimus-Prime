@@ -29,6 +29,12 @@ def item_post_card(p_img, p_name, p_id, p_price):
                         method = "get",
                         action = f'/detail/{p_id}'
                     ),
+                    # Button(
+                    #     "Detail",
+                    #     hx_get = f'/detail/{p_id}',
+                    #     hx_target = "body",
+                    #     hx_trigger = "click"
+                    # ),
                     Div(
                         f"{p_price} ฿"),
                         style = "display: flex; flex-direction: row; justify-content: space-between; align-items: center; width:100%;"

@@ -60,10 +60,10 @@ def UpdateCartUI(itemDict):
                     ),
                     Div(
                         Div(H3(p["name"])),
-                        Div(
-                            p["description"],
-                            Style="width:500px;"
-                        ),
+                        # Div(
+                        #     p["description"],
+                        #     Style="width:500px;"
+                        # ),
                         Div(
                             f"Price: ฿{p['price']}",
                             Style="padding-top: 10px;"
