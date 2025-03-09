@@ -20,10 +20,10 @@ def Page():
         Grid(
             *[Card(
                 Img(
-                    src = f"{i.image}",
+                    src = f"{i.product.image}",
                     style = "height: 50%; justify-self: center;"),
                 Div(
-                    f"{i.name}"
+                    f"{i.product.name}"
                 ),
                 Div(
                     Form(
@@ -32,10 +32,10 @@ def Page():
                             type = "submit"
                             ),
                         method = "get",
-                        action = f'/detail/{i.id}'
+                        action = f'/detail/{i.product.id}'
                     ),
                     Div(
-                        f"{i.price} ฿"),
+                        f"{i.product.price} ฿"),
                         style = "display: flex; flex-direction: row; justify-content: space-between; align-items: center; width:100%;"
                     ),
                 style = Component.CheckingStyle + "height: 350px; display: flex; flex-direction: column; justify-content: space-between ; align-items: center; gap:10px;"
