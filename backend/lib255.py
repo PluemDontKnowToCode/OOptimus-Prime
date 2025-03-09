@@ -69,7 +69,7 @@ class Market():
             temp_id.append(i.id)
 
         a = sorted(temp_id)
-        number = int(a[-1].remove(now_char))
+        number = int(a[-1].replace(now_char, ""))
         number += 1
         new_id = f"P{number:06d}"
         print(f"new Id : {new_id}")

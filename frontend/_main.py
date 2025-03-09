@@ -188,8 +188,10 @@ def create_coupon():
     return Redirect("/")
 
 @app.post("/admin/add_coupon")
-def add_coupon():
+def add_coupon(discount_percent : int,less_amount : float, product_count : int, duration : int):
+    print("Add")
     if market1.current_account and isinstance(market1.current_account ,Admin): 
+        market1.current_account.create_coupon(discount_percent, less_amount, product_count, duration)
         print("Add")
     return Redirect("/")
 

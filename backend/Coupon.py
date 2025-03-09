@@ -1,23 +1,16 @@
 #region Coupon
-from datetime import *
+from datetime import datetime
 from backend.Cart import *
 
 class Coupon(Object):
-    def __init__(self, id, discount_percent,less_amount : float,product_count = 0, start_time = datetime.now(), end_time = 0):
+    def __init__(self, id, discount_percent,less_amount : float,product_count: int = 0, start_time: datetime = None , end_time: str = 0):
         super().__init__(id)
         self.__discount_percent = discount_percent
         self.__less_amount = less_amount
         self.__product_count = product_count
-        self.__start_time = datetime.strptime(start_time, "%Y-%m-%d")
-        self.__end_time = datetime.strptime(end_time, "%Y-%m-%d")
+        self.__start_time = start_time
+        self.__end_time = end_time
 
-    @property
-    def name(self):
-        return self.__name
-    
-    @property
-    def description(self):
-        return self.__description
     @property
     def discount_percent(self):
         return self.__discount_percent
@@ -31,8 +24,12 @@ class Coupon(Object):
         return self.__product_count
     
     @property
-    def product_accord(self):
-        return self.__product_accord
+    def start_time(self):
+        return self.__start_time
+    
+    @property
+    def end_time(self):
+        return self.__end_time
     
     def to_json(self):
         return {

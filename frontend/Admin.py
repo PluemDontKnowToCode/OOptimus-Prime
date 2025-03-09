@@ -6,12 +6,9 @@ from backend.lib255 import *
 from datetime import datetime
 dotenv.load_dotenv()
 
-requestMock = [
-    [market1.get_account("S000001"), market1.product_list[0], datetime.now()],
-    [market1.get_account("S000001"), market1.product_list[1], datetime.now()],
-]
 def Page():
     requested = market1.current_account.get_requested_product()
+    coupon_list = market1.coupon_list
     page = Title("Admin - Teerawee Shop"), Main(
         Component.Header(False, False, "Admin"),
         Grid(
@@ -38,36 +35,17 @@ def Page():
                     id="manage_coupon_head",
                 ),
                 Div(
+                    Div(*
+                        [
+                            CouponCard(j)
+                            for j in coupon_list
+                        ],
+                        style = "display: flex; ",
+                    ),
                     id="manage_coupon_body",
                     style = "height: 20vw;"
                 ),
                 Style="padding-top:0px;"
-            ),
-            Div(
-                Div(
-                    H1(
-                        "manage event",
-                        Style="margin: 2%;"
-                    ),
-                    Div(
-                        Button(
-                            "Create event",
-                            href="/admin/createEvent"
-                        ),
-                        Style="margin: 2%;"
-                    ),
-                    
-                    Style="""
-                        display: flex; 
-                        justify-content: space-between;
-                        
-                    """,
-                    id="manage_event_head",
-                ),
-                Div(
-                    id="manage_event_body",
-                    style = "height: 20vw;"
-                ),
             ),
              Div(
                 Div(
@@ -85,7 +63,7 @@ def Page():
                 Div(
                     Div(*
                         [
-                            manageRequestedCard(i)
+                            RequestedCard(i)
                             for i in requested
                         ],
                         style = "display: flex; ",
@@ -107,14 +85,34 @@ def Page():
     return page
 
 
-def manageCouponCard():
+def CouponCard(coupon):
+    condition = f"Orders ฿{coupon.less_amount}+"
+    if(coupon.product_count == 0):
+        condition += f" or {coupon.product_count} more products"
+    card = Div(
+        H2(
+            f"{coupon.discount_percent}% OFF", 
+           Style="margin: 0;"
+        ),
+        P(
+            condition, 
+            Style="margin: 0;"
+        ),
+        Hr(),
+        P(
+            f"{coupon.start_time} ~ {coupon.end_time}", 
+            Style="margin: 0 auto;"
+        ),
+        
+        id=coupon.id,
+        Style="border: 1px solid black; padding: 15px; width: 200px; text-align: center; display: inline-block; margin: 10px; position: relative;"
+    )
+    return card
 
-    return 
-
-def manageEventcard():
+def EventCard():
     return
 
-def manageRequestedCard(request):
+def RequestedCard(request):
     id = request.product.id
     return Card(
                 Div(
@@ -152,15 +150,18 @@ def CreateCouponPage():
         Component.Header(False, False, "Create Coupon"),
         Div(
             Form(  # ฟอร์มข้อมูลสินค้า
-                Div(Label("Product Name:"), Input(type="text", name="name", id="product_name"), style="margin-bottom: 20px;"),
-                Div(Label("Description:"), Textarea(name="description", rows=3, id="description"), style="margin-bottom: 20px;"),
-                Div(Label("Price (฿):"), Input(type="number", name="price", step="0.01", id="price"), style="margin-bottom: 20px;"),
-                Div(Label("Quantity:"), Input(type="number", name="quantity", min=1, value=1, id="quantity"), style="margin-bottom: 20px;"),
-                Div(Label("Category (use only English):"), Input(type="text", name="category", id="category"), style="margin-bottom: 20px;"),
-                Div(Label("Image URL:"), Input(type="text", name="image_url", id="image_url"), style="margin-bottom: 20px;"),
-                Div(Button("Confirm", type="button", onclick="submitForm()"), style="margin-top: 20px;"),
-                method="post",
-                action="/add_coupon",
+                
+                Div(Label("Discount Percent:"), Input(type="number", name="discount_percent", min=1, value=1, id="discount_percent"), style="margin-bottom: 20px;"),
+                Div(Label("Less Amount:"), Input(type="number", name="less_amount", min=1, value=1, id="less_amount"), style="margin-bottom: 20px;"),
+                Div(Label("Product Count:"), Input(type="number", name="product_count", min=1, value=1, id="product_count"), style="margin-bottom: 20px;"),
+                Div(Label("Duration:"), Input(type="number", name="duration", min=1, value=1, id="duration"), style="margin-bottom: 20px;"),
+                Div(
+                    Button("Confirm"),
+                    
+                    style="margin-top: 20px;"
+                ),
+                method = "post",
+                action = '/admin/add_coupon', 
                 id="product_form",
                 style="text-align: left; padding: 20px; background-color: #f9f9f9; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);"
             ),

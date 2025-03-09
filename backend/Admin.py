@@ -14,7 +14,7 @@ class Admin(Account):
         new_date = datetime.now() + timedelta(days=duration)
 
         # Convert to string format "YYYY-MM-DD"
-        coupon = Coupon(discount_percent, less_amount, product_count, datetime.now(),new_date)
+        coupon = Coupon(super().market.generate_id(4),discount_percent, less_amount, product_count, datetime.now(),new_date)
         self.market.add_coupon(coupon)
         return "Create Success"
     
