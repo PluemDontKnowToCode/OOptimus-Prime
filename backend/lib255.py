@@ -60,14 +60,16 @@ class Market():
         if isinstance(user , Account):
             self.__current_user = user
         
-    def generate_product_id(self):
+    def generate_id(self, state):
+        var = [[self.__product_list, 'P'], [self.__customer_list, 'A'], [self.__seller_list, 'S'], [self.__admin_list, 'M'], [self.__coupon_list, 'C']]
+        now_list, now_char = var[state]
         temp_id = []
 
-        for i in self.product_list:
+        for i in now_list:
             temp_id.append(i.id)
 
         a = sorted(temp_id)
-        number = int(re.search(r'P(\d+)', a).group(1))
+        number = int(a[-1].remove(now_char))
         number += 1
         new_id = f"P{number:06d}"
         print(f"new Id : {new_id}")
@@ -320,7 +322,7 @@ for i in get_all_coupon():
 for i in get_all_UnImproveProduct():
     market1.add_requested(i)
 
-market1.update_current_user(market1.get_account("A000001"))
+# market1.update_current_user(market1.get_account("A000001"))
 
 # p = market1.get_product("P000001")
 # market1.current_account.cart.add_item(p, 1)
