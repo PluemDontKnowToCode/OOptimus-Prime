@@ -11,16 +11,13 @@ def Page():
     head = Component.Header()
     body = Container(
         Div(
-            Div(  # ส่วนอัปโหลดรูปภาพ
-                Label("Add Picture"),
-                Input(type="file", name="product_image"),
-                style="width: 200px; height: 200px; border: 1px dashed #aaa; display: flex; align-items: center; justify-content: center; text-align: center; padding: 10px;"
-            ),
             Form(  # ฟอร์มข้อมูลสินค้า
                 Div(Label("Product Name:"), Input(type="text", name="name", id="product_name"), style="margin-bottom: 20px;"),
                 Div(Label("Description:"), Textarea(name="description", rows=3, id="description"), style="margin-bottom: 20px;"),
                 Div(Label("Price (฿):"), Input(type="number", name="price", step="0.01", id="price"), style="margin-bottom: 20px;"),
                 Div(Label("Quantity:"), Input(type="number", name="quantity", min=1, value=1, id="quantity"), style="margin-bottom: 20px;"),
+                Div(Label("Category (use only English):"), Input(type="text", name="category", id="category"), style="margin-bottom: 20px;"),
+                Div(Label("Image URL:"), Input(type="text", name="image_url", id="image_url"), style="margin-bottom: 20px;"),
                 Div(Button("Confirm", type="button", onclick="submitForm()"), style="margin-top: 20px;"),
                 method="post",
                 action="/addrequestproduct",
@@ -43,9 +40,9 @@ def Page():
     return page
 
 
-def insert_request(p_id: str, name: str, description: str, price: str, quantity: str):
+def insert_request(p_id: str, name: str, description: str, price: str, quantity: str, category: str, image_url: str):
     seller_id = market1.current_account.id
-    product = Product(name, market1.generate_product_id(), price ,description, img1="", category="", stock = quantity,market =  market1)
+    product = Product(name, market1.generate_product_id(), price ,description, img1=image_url, category=category, stock = quantity,market =  market1)
     r = RequestedProduct(product, market1.current_account)
     market1.add_comment_to_product(p_id, r)
     return Redirect(f'/requestproduct/{p_id}')
