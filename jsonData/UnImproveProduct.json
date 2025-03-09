@@ -1,0 +1,14 @@
+{
+    "data" : [
+        {
+            "name": "Pikajuu",
+            "id": "P000004",
+            "price": 100000,
+            "description": "u can pet it now",
+            "img": "pikachu.png",
+            "category": "pokemon",
+            "stock": 1,
+            "comment": []
+        }        
+    ]
+}

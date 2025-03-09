@@ -18,7 +18,11 @@ import ItemDetail
 import Purchase
 import Profile
 import Register
+import Addproduct
+import Requestproduct
+
 import Comment as com
+import Addproduct as addp
 
 # h1 = "C://Main//Coding//Python//OOPKMITL//Lab9//OOptimus-Prime"
 # sys.path.insert(0, h1)
@@ -44,6 +48,20 @@ def root():
         return admin.Page()
     return Home.Page()
 
+@app.get('/addproduct')
+def addproduct():
+    return Addproduct.Page()
+
+@app.post('/addrequestproduct/{p_id}')
+def addproduct(p_id: str, name: str, description: str, price: str, quantity: str):
+    if not market1.current_account_seller: return Redirect('/login')
+    return addp.insert_request(p_id, name, description, price, quantity)
+
+
+@app.get('/requestproduct')
+def requestproduct():
+    return Requestproduct.Page()
+
 @app.get('/login')
 def login():
     return Login.Page()
@@ -56,6 +74,7 @@ def login_process(name: str, password: str, role: str):
 def logout():
     market1.clear_current_account()
     return Redirect('/')
+
 
 @app.get('/profile')
 def profile():

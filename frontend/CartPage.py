@@ -68,7 +68,7 @@ def UpdateCartUI(cart = None):
                     Div(
                         Button(
                             "X",
-                            hx_delete=f"/cart/remove/{p["id"]}",
+                            hx_delete=f"/cart/remove/{p['id']}",
                             hx_swap="outerHTML"
                         ),
                     ),

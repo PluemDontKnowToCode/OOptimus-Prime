@@ -321,7 +321,7 @@ def CouponCard(Id,discount, order_min,start_date, end_date,product_count = 0):
         ),
         Hr(),
         P(
-            f"{start_date.strftime("%Y-%m-%d")} ~ {end_date.strftime("%Y-%m-%d")}", 
+            f"{start_date.strftime('%Y-%m-%d')} ~ {end_date.strftime('%Y-%m-%d')}", 
             Style="margin: 0 auto;"
         ),
         SetUpCouponButton(Id),
