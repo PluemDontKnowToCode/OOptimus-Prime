@@ -3,6 +3,7 @@ class StackItem:
     def __init__(self, product, amount = 1):
         self.__product = product
         self.__amount = self.validate_amount(amount)
+        self.__available = True
         
     @property
     def inc_item(self): 
@@ -16,7 +17,7 @@ class StackItem:
     def product(self): return self.__product
 
     def validate_amount(self, a1):
-        if a1 >= self.__product.stock:
+        if self.__product.is_greater_than_me(a1):
             return self.__product.stock
         elif a1 <= 0: 
             return None
@@ -39,4 +40,4 @@ class StackItem:
     
     def update_self(self):
         remain_stock = self.__product.stock
-        self.amount = remain_stock
+        if self.amount < remain_stock: self.amount = remain_stock

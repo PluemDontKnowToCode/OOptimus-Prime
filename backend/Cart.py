@@ -56,6 +56,7 @@ class Cart:
         return sum(item.price for item in self.__cart_item_list)
     
     def update_self(self): 
-        for i in self.__cart_item_list: i.update_self()
+        for i in self.__cart_item_list: 
+            i.update_self()
         
 #endregion

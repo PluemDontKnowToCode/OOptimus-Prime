@@ -92,3 +92,5 @@ class Product(Object):
     
     def update_stock(self, a):
         self.__stock += a
+        
+    def is_greater_than_me(self, amount): return amount > self.__stock

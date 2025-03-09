@@ -70,16 +70,6 @@ def logout():
     market1.clear_current_account()
     return Redirect('/')
 
-@app.get("/admin/create_coupon")
-def create_coupon():
-    if market1.current_account and isinstance(market1.current_account ,Admin): 
-        return admin.CreateCouponPage()
-    return Redirect("/")
-@app.post("add_coupon")
-def add_coupon():
-    if market1.current_account and isinstance(market1.current_account ,Admin): 
-        print("Add")
-    return Redirect("/")
 @app.get('/profile')
 def profile():
     return Profile.page()
@@ -190,6 +180,19 @@ async def apply_address(district : str, province : str, zip_code : str, phone_nu
 
 #end
 
+#region Admin and Coupon
+@app.get("/admin/create_coupon")
+def create_coupon():
+    if market1.current_account and isinstance(market1.current_account ,Admin): 
+        return admin.CreateCouponPage()
+    return Redirect("/")
+
+@app.post("/admin/add_coupon")
+def add_coupon():
+    if market1.current_account and isinstance(market1.current_account ,Admin): 
+        print("Add")
+    return Redirect("/")
+
 @app.post("/admin/accept/{id}/{status}")
 async def accept_request(id : str, status : bool):
     if isinstance(market1.current_account, Admin):
@@ -199,4 +202,6 @@ async def accept_request(id : str, status : bool):
             market1.current_account.reject_product(market1.get_requested(id))
 
     return Redirect("/")
+
+#end
 serve(port=3000)
