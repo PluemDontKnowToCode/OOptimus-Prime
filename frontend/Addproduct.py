@@ -14,7 +14,7 @@ def Page():
             Form(  # ฟอร์มข้อมูลสินค้า
                 Div(Label("Product Name:"), Input(type="text", name="name", id="product_name"), style="margin-bottom: 20px;"),
                 Div(Label("Description:"), Textarea(name="description", rows=3, id="description"), style="margin-bottom: 20px;"),
-                Div(Label("Price (฿):"), Input(type="number", name="price", step="0.01", id="price"), style="margin-bottom: 20px;"),
+                Div(Label("Price (฿):"), Input(type="number", name="price", step="1", id="price"), style="margin-bottom: 20px;"),
                 Div(Label("Quantity:"), Input(type="number", name="quantity", min=1, value=1, id="quantity"), style="margin-bottom: 20px;"),
                 Div(Label("Category (use only English):"), Input(type="text", name="category", id="category"), style="margin-bottom: 20px;"),
                 Div(Label("Image URL:"), Input(type="text", name="image_url", id="image_url"), style="margin-bottom: 20px;"),
