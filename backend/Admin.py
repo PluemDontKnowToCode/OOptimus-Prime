@@ -4,11 +4,8 @@ from datetime import datetime, timedelta
 from backend.Coupon import *
 
 class Admin(Account):
-    def __init__():
-        super().__init__(id)
-
-    def __init__(self, d: dict, market = None):
-        super().__init__(d, market)
+    def __init__(self, id = "", name = "", username = "", password ="", money = 0 ,address = [],image = "",market = None):
+        super().__init__(id, name,username, password, money,address, image, market)
 
     def create_coupon(self, discount_percent, less_amount, product_count, duration):
         new_date = datetime.now() + timedelta(days=duration)

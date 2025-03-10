@@ -50,7 +50,6 @@ class Market():
     @property
     def coupon_list(self):
         return self.__coupon_list
-    
     @property
     def current_account(self):
         return self.__current_user
@@ -288,23 +287,44 @@ def get_all_product():
             pd = Product(i, market1)
             res.append(pd)
     return res
-
-def get_all_account():
+def get_all_customer():
     res = []
     with open(file_path + '/Account.json', "r") as file01:
         account_json = json.loads(file01.read())
-        for i in account_json["data"]:
-            ac = Customer(i, market1)
+        for d in account_json["data"]:
+            temp = []
+            temp_coupon = []
+            for i in d['address']:
+                temp.append(Address(i['district'], i['province'], i['zip_code'], i['phone']))
+            for i in d['coupon']:
+                temp_coupon.append(Coupon(i["id"],i['discount_percent'], i['less_amount'], i['product_count'], i['start_time'], i['end_time']))
+
+            ac = Customer(d['id'],d['name'],d['username'],d['password'],d['money'],temp,d['image'],temp_coupon, market1)
             res.append(ac)
+    return res
+
+def get_all_admin():
+    res = []
     with open(file_path + '/Admin.json', "r") as file01:
         account_json = json.loads(file01.read())
-        for i in account_json["data"]:
-            ac = Admin(i, market1)
+        for d in account_json["data"]:
+            temp = []
+            for i in d['address']:
+                temp.append(Address(i['district'], i['province'], i['zip_code'], i['phone']))
+            ac = Admin(d['id'],d['name'],d['username'],d['password'],d['money'],temp, d['image'], market1)
             res.append(ac)
+    return res
+
+def get_all_seller():
+    res = []
     with open(file_path + '/Seller.json', "r") as file01:
         account_json = json.loads(file01.read())
-        for i in account_json["data"]:
-            ac = Seller(i, market1)
+        for d in account_json["data"]:
+            temp_s = []
+            temp_i = []
+            for j in d["product"]:
+                temp_s.append(market1.get_product(j["id"]))
+            ac = Seller(d['id'],d['name'],d['username'],d['password'],d['money'],temp_s,d['image'], market = market1)
             res.append(ac)
     return res
 
@@ -331,20 +351,27 @@ def get_all_UnImproveProduct():
     return res
 
 market1 = Market()
-for i in get_all_account():
-    market1.add_account(i)
 
+
+for i in get_all_customer():
+    market1.add_account(i)
 for i in get_all_product():
     market1.add_product(i)
-
-for i in get_all_coupon():
-    market1.add_coupon(i)
+for i in get_all_seller():
+    market1.add_account(i)
+for i in get_all_admin():
+    market1.add_account(i)
 
 for i in get_all_UnImproveProduct():
     market1.add_requested(i)
 
-market1.update_current_user(market1.get_account('A000001'))
-# p = market1.get_product("A000001")
+for i in get_all_coupon():
+    market1.add_coupon(i)
+
+
+
+
+# p = market1.get_product("P000001")
 # market1.current_account.cart.add_item(p, 1)
 
 # for i in get_all_account():

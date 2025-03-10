@@ -9,7 +9,8 @@
             "money": 600,
             "address":[],
             "role" : "Seller",
-            "transaction" : []
+            "product":[],
+            "unimprove": []
         }
     ]
 }

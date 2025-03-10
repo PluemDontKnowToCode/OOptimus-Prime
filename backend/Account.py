@@ -2,7 +2,7 @@ from backend.Object import *
 from backend.Address import *
 
 class Account(Object):
-    def __init__(self, id = "", name = "", username = "", password ="", money = 0 ,image = "",market = None):
+    def __init__(self, id = "", name = "", username = "", password ="", money = 0 ,address = [],image = "",market = None):
         super().__init__(id)
          #name use for login
         self.__name = name
@@ -11,20 +11,9 @@ class Account(Object):
         self.__image = image
         self.__money = money
         self.__market = market
-        self.__address_list = []
+        
+        self.__address_list = address
 
-    def __init__(self,d: dict, market = None):
-        self.__name = d['name']
-        self.__password = d['password']
-        self.__username = d['username']
-        self.__image = d['image']
-        self.__money = d['money']
-        self.__market = market
-        temp = []
-        for i in d['address']:
-            temp.append(Address(i['district'], i['province'], i['zip_code'], i['phone']))
-        self.__address_list = temp
-        super().__init__(d['id'])
     @property
     def name(self):
         return self.__name

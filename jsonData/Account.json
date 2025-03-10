@@ -14,7 +14,6 @@
                 {"district": "AAC","province":"Baan Opor","zip_code":"25410","phone":"0836694812"},
                 {"district": "AXC","province":"Baan Opor","zip_code":"25410","phone":"0836694812"}
             ],
-            "transaction" : [],
             "coupon" : [
                 {
                     "id" : "C000001",
@@ -43,7 +42,6 @@
             "money": 1200,
             "cart" : [],
             "address":[],
-            "transaction" : [],
             "coupon" : []
         },
         {
@@ -55,7 +53,6 @@
             "money": 800,
             "cart" : [],
             "address":[],
-            "transaction" : [],
             "coupon" : []
         },
         {
@@ -67,7 +64,6 @@
             "money": 1500,
             "cart" : [],
             "address":[],
-            "transaction" : [],
             "coupon" : []
         },
         {
@@ -79,7 +75,6 @@
             "money": 200,
             "cart" : [],
             "address":[],
-            "transaction" : [],
             "coupon" : []
         },
         {
@@ -91,7 +86,6 @@
             "money": 950,
             "cart" : [],
             "address":[],
-            "transaction" : [],
             "coupon" : []
         },
         {
@@ -103,7 +97,6 @@
             "money": 3000,
             "cart" : [],
             "address":[],
-            "transaction" : [],
             "coupon" : []
         },
         {
@@ -115,7 +108,6 @@
             "money": 700,
             "cart" : [],
             "address":[],
-            "transaction" : [],
             "coupon" : []
         }
     ]

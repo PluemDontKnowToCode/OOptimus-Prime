@@ -2,17 +2,15 @@ from backend.Account import *
 from backend.Product import *
 
 class Seller(Account):
-    def __init__(self, id):
-        super().__init__(id)
-        self.__selling_product = []
-        self.__unimproved = []
+    def __init__(self, id= '', name = "", username = "", password ="", money = 0 ,address = [],image = "",selling_product = [], market = None):
+        super().__init__(id, name,username, password, money,address, image, market)
+        self.__selling_product = selling_product
+    
 
     @property
     def selling_product(self):
         return self.__selling_product
 
-    def __init__(self, d: dict, market = None):
-        super().__init__(d, market)
 
     def add_product(self, product : Product):
         self.__selling_product.append(product)

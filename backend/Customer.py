@@ -4,25 +4,14 @@ from backend.Transaction import *
 from backend.Category import *
 
 class Customer(Account):
-    def __init__(self, id= '', name = "", username = "", password ="", money = 0 ,image = "",market = None):
-        super().__init__(id, name,username, password, money, image, market)
+    def __init__(self, id= '', name = "", username = "", password ="", money = 0 ,address = [],image = "",coupon = None,market = None):
+        super().__init__(id, name,username, password, money,address, image, market)
         self.__cart = Cart()
         self.__transaction = []
-        self.__coupon_list = []
+        self.__coupon_list = coupon
         self.__selected_coupon = None
         self.__selected_address= None
     
-    def __init__(self, d: dict, market = None):
-        super().__init__(d, market)
-        self.__cart = Cart() 
-        temp = []
-        for i in d['coupon']:
-            temp.append(Coupon(i["id"],i['discount_percent'], i['less_amount'], i['product_count'], i['start_time'], i['end_time']))
-        self.__coupon_list = temp
-        if(d["transaction"] != None): 
-            self.__transaction = d['transaction']
-        self.__selected_coupon = None
-        self.__selected_address= None
     @property
     def cart(self):
         return self.__cart
