@@ -79,7 +79,7 @@ def Page():
             """
         ),
         
-        Script(Component.get_warn_js() + delete_coupon_pop_up_scirpt),
+        Script(Component.get_warn_js()),
         Style=Component.configHeader
     )
     
@@ -97,7 +97,7 @@ def delete_coupon_dialog(Coupon):
                     Button(
                         "Delete"
                     ),
-                    hx_post="/admin/delete_coupon",
+                    hx_post=f"/admin/delete_coupon/{Coupon.id}",
                     style = "margin-right: 20px; text-decoration: none; background-color: #eee;"
                 ),
                 Button(
@@ -108,18 +108,19 @@ def delete_coupon_dialog(Coupon):
             ),
 
         ),
-        cls = "c_pop_up",
+        cls = f"c_pop_up_{Coupon.id}",
         style = "height: 200px; width: 400px;"   
     ),
 
-delete_coupon_pop_up_scirpt = """
+def delete_coupon_pop_up_scirpt(coupon):
+    return f"""
         const openButton = document.querySelectorAll(".open_button")
         const closeButton = document.querySelector(".close_button")
-        const modal = document.querySelector(".c_pop_up")
+        const modal = document.querySelector(".c_pop_up_{coupon.id}")
         openButton.forEach(button => button.addEventListener("click", () => modal.showModal()))
-        closeButton.addEventListener("click", () => {
+        closeButton.addEventListener("click", () => 
             modal.close()
-        })\n
+        )\n
     """
 def CouponCard(coupon):
     condition = f"Orders ฿{coupon.less_amount}+"
@@ -146,6 +147,7 @@ def CouponCard(coupon):
             Style="margin-left: 90%;"
         ),
         delete_coupon_dialog(coupon),
+        Script(delete_coupon_pop_up_scirpt(coupon)),
         id=coupon.id,
         Style="border: 1px solid black; padding: 15px; width: 200px; text-align: center; display: inline-block; margin: 10px; position: relative;"
     )

@@ -193,8 +193,9 @@ async def add_coupon(discount_percent : int,less_amount : float, product_count :
         market1.current_account.create_coupon(discount_percent, less_amount, product_count, duration)
     return Redirect("/")
 
-@app.post("/admin/delete_coupon")
+@app.post("/admin/delete_coupon/{id}")
 async def delete_coupon(id : str):
+    print(id)
     if market1.current_account and isinstance(market1.current_account ,Admin): 
         print(market1.current_account.delete_coupon(id))
     return Redirect("/")

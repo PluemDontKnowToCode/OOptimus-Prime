@@ -6,6 +6,10 @@ class Seller(Account):
         super().__init__(id)
         self.__selling_product = []
 
+    @property
+    def selling_product(self):
+        return self.__selling_product
+
     def __init__(self, d: dict, market = None):
         super().__init__(d, market)
 
@@ -18,3 +22,4 @@ class Seller(Account):
     def delete_product(self, product_id : str):
         product = super().market.get_product(product_id)
         self.__selling_product.remove(product)
+
