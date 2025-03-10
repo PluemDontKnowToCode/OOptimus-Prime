@@ -163,9 +163,16 @@ def validate_png_modal():
         ),
 
 def coupon_card(coupon_dict):
-    btn1 = None
     def get_button():
-        global login_bool
+        if not market1.is_have_coupon(coupon_dict['id']):
+            btn1 = Button(
+                "Get",
+                hx_get = f"/customer/add_coupon/{coupon_dict['id']}",
+                hx_trigger = "click",
+                hx_swap = "outerHTML"
+            )
+            return btn1
+        return None
         
     res = Card(
         H1(coupon_dict['id']),
@@ -176,17 +183,24 @@ def coupon_card(coupon_dict):
             Li(f"Date Begin: {coupon_dict['start_time']}"),
             Li(f"Date Expire: {coupon_dict['end_time']}")
         ),
-        btn1
+        get_button()
     )
     return res
 
 def coupon_modal():
+    card_list = []
+    for i in market1.coupon_list:
+        if market1.is_have_coupon(i.to_json()['id']):
+            continue
+        card_list.append(coupon_card(i.to_json()))
+    
     modal = Dialog(
         Div(
-            Div(
-                # coupon
-                *[coupon_card(i.to_json()) for i in market1.coupon_list],
-                style = "flex-direction: column;"  
+            Grid(
+                # coupon    
+                
+                # style = "flex-direction: column;"  
+                style = "grid-template-columns: 1fr 1fr 1fr;"
             ),
             style = ""
         ),

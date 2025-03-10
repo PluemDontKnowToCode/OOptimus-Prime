@@ -44,6 +44,11 @@ class Customer(Account):
         self.__coupon_list.append(coupon)
         return "Add Complete"
     
+    def is_have_coupon(self, coupon_id):
+        for i in self.__coupon_list:
+            if i.equal(coupon_id): return True
+        return False
+    
     def update_selected_coupon(self, coupon : Coupon):
         self.__selected_coupon = coupon
         return "Update Coupon Complete"
@@ -80,3 +85,4 @@ class Customer(Account):
             "transaction" : self.__transaction,
             "coupon" : self.__coupon_list
         }
+    

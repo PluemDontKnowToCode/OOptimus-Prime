@@ -217,5 +217,10 @@ async def accept_request(id : str, status : bool):
 
     return Redirect("/")
 
+@app.get("/customer/add_coupon/{coupon_id}")
+def add_coupon_to_account(coupon_id: str):
+    if market1.current_account and isinstance(market1.current_account, Customer):
+        market1.add_coupon_to_account(coupon_id)
+    return Div()
 #end
 serve(port=3000)

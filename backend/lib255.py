@@ -106,6 +106,7 @@ class Market():
             else:
                 self.add_category(product.category ,product)
             return "Done"
+        
     def add_coupon(self, coupon : Coupon):
         if(isinstance(coupon, Coupon)):
             self.__coupon_list.append(coupon)
@@ -136,7 +137,13 @@ class Market():
         # if not p: return "Not find product"
         p.add_comment(comment)
         # return "Done"
-    
+        
+    def add_coupon_to_account(self, coupon_id):
+        res = self.is_have_coupon(coupon_id)
+        if isinstance(res, str): return
+        if not res:
+            self.__current_user.add_coupon(self.get_coupon(coupon_id))
+            
     def delete_coupon(self, id):
         for i in self.__coupon_list:
             if i.id == id:
@@ -263,6 +270,13 @@ class Market():
             lean = i.self_verify(name, password)
             if lean: return i
         return None
+    
+    def is_have_coupon(self, coupon_id):
+        acc = self.__current_user
+        if isinstance(acc, Customer):
+            if acc.is_have_coupon(coupon_id): return True
+            return False
+        return "Invalid"
         
 
 
@@ -369,7 +383,7 @@ for i in get_all_coupon():
     market1.add_coupon(i)
 
 
-
+market1.update_current_user(market1.get_account('A000001'))
 
 # p = market1.get_product("P000001")
 # market1.current_account.cart.add_item(p, 1)
