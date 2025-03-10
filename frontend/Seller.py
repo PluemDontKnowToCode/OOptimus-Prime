@@ -7,23 +7,18 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
 from backend.lib255 import *
 
-
+all_product = get_all_product()
 
 # print(all_product)
 # for p in all_product:
 #     print(f"ID: {p.id}")
-
-def Page():
-    all_UnImproveProduct = market1.requested_list
-    head = Component.Header(False)
-    body = Grid(
-        Grid(
-            *[Card(
+def item_post_card(p_img, p_name, p_id, p_price):
+    res = Card(
                 Img(
-                    src = f"{i.product.image}",
+                    src = f"{p_img}",
                     style = "height: 50%; justify-self: center;"),
                 Div(
-                    f"{i.product.name}"
+                    f"{p_name}"
                 ),
                 Div(
                     Form(
@@ -32,17 +27,107 @@ def Page():
                             type = "submit"
                             ),
                         method = "get",
-                        action = f'/detail/{i.product.id}'
+                        action = f'/detail/{p_id}'
                     ),
+                    # Button(
+                    #     "Detail",
+                    #     hx_get = f'/detail/{p_id}',
+                    #     hx_target = "body",
+                    #     hx_trigger = "click"
+                    # ),
                     Div(
-                        f"{i.product.price} ฿"),
+                        f"{p_price} ฿"),
                         style = "display: flex; flex-direction: row; justify-content: space-between; align-items: center; width:100%;"
                     ),
-                style = Component.CheckingStyle + "height: 350px; display: flex; flex-direction: column; justify-content: space-between ; align-items: center; gap:10px;"
-            ) for i in all_UnImproveProduct],
-            style = "grid-template-columns: 1fr ;"
+                style = "height: 350px; display: flex; flex-direction: column; justify-content: space-between ; align-items: center; gap:10px;"
+            )
+    return res
+
+def get_item_post_card(search_word):
+    list1 = market1.search(search_word)
+    # print(search_word)
+    # print(f"res: {list1}")
+    if not list1: return None
+    return Grid(*[item_post_card(i['img'], i['name'], i['id'], i['price']) for i in list1], style = "grid-template-columns: 1fr 1fr 1fr 1fr;")
+
+def get_item_post_card_by_list(list_temp):
+    list1 = list_temp
+    # print(search_word)
+    # print(f"res: {list1}")
+    if not list1: return None
+    return Grid(*[item_post_card(i['img'], i['name'], i['id'], i['price']) for i in list1], style = "grid-template-columns: 1fr 1fr 1fr 1fr;")
+
+def Category_button(i):
+    
+
+    return Div(
+            Button(
+                i.name,
+                Style="""
+                    color:black;
+                    background:white;
+                    background-color: white;
+                    border: 1px solid black;
+                    padding: 10px 15px;
+                    text-align: left;
+                    font-size: 16px;
+                    cursor: pointer;
+                    width: 100%;
+                """,
+                
+            ),
+            hx_get=f"/category/{i.name}",
+            target_id="grid_home",
+            hx_trigger="click",
+            id="i.name"
+        )
+
+def Page(prodcut_pool = [], search_word = ""):
+    result = None
+    if len(prodcut_pool) == 0 and search_word == "": result = [item_post_card(i.image, i.name, i.id, i.price) for i in all_product]
+    else: result = [item_post_card(i['img'], i['name'], i['id'], i['price']) for i in prodcut_pool]
+    head = Component.Header()
+    body = Grid(
+        Div(
+            Div(
+                "Category",
+                style = "text-align: center;"
+            ),
+            Div(*
+                
+                [
+                    Category_button(i)
+                    for i in market1.category_list
+                ],
+                style="""
+                    display:flex;
+                    flex-direction: column;
+                """
+            ),
+            Div(
+                Form(
+                    Button(
+                        "Add Product",
+                        type="submit",
+                        style="margin: 2px;"
+                    ),
+                    method="get",
+                    action="/addproduct",
+                    style="display: flex; justify-content: flex-end; margin-top: 2px;"
+            ),
+            ),
+            
+            style = Component.CheckingStyle,
         ),
-        style = "grid-template-columns: 25% 70%"
+        Div(
+            
+        ),
+        Div(
+            # *result,
+            style = "grid-template-columns: 1fr 1fr 1fr 1fr;",
+            id = "grid_home"
+        ),
+        style = "grid-template-columns: 10% 1.1% 70%"
     )
     page = Main(
         head,
@@ -53,3 +138,7 @@ def Page():
     )
     return page
     
+
+
+
+

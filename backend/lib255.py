@@ -296,9 +296,15 @@ def get_all_product():
     res = []
     with open(file_path + '/Product.json', "r") as file01:
         product_json = json.loads(file01.read())
-        for i in product_json["data"]:
+        for d in product_json["data"]:
             # print(i)
-            pd = Product(i, market1)
+            temp_c = []
+            for i in d['comment']:
+                acc = market1.get_account(i['owner_id'])
+                # print(f"{acc} {i['owner_id']}")
+                c = Comment(acc.name, i['text'], i['star'], i['owner_id'])
+                temp_c.append(c)
+            pd = Product(name = d['name'],id = d['id'],price = d['price'], description = d['description'], img1 = d['img'], category = d['category'],stock =  d['stock'],comment_list = temp_c,market =  market1)
             res.append(pd)
     return res
 def get_all_customer():
@@ -356,10 +362,11 @@ def get_all_UnImproveProduct():
     res = []
     with open(file_path + '/UnImproveProduct.json', "r") as file01:
         product_json = json.loads(file01.read())
-        for i in product_json["data"]:
+        for d in product_json["data"]:
             # print(i)
-            pd = Product(i, market1)
-            seller = market1.get_account(i["seller"])
+            temp_c = []
+            pd = Product(name = d['name'],id = d['id'],price = d['price'], description = d['description'], img1 = d['img'], category = d['category'],stock =  d['stock'],comment_list = temp_c,market =  market1)
+            seller = market1.get_account(d["seller"])
             rp = RequestedProduct(pd, seller)
             res.append(rp)
     return res
