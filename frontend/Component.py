@@ -8,6 +8,7 @@ from backend.lib255 import *
 
 cartpng = "/cart_removebg_preview.png"
 userpng = "/user_imgpng.png"
+coupon_basetpng ="/coupon_basket.png"
 
 # print(cartpng)
 
@@ -46,7 +47,21 @@ user_png_script = """
         
         closeButton2.addEventListener("click", () => {
             modal2.close()
+        })\n
+    """
+    
+coupon_png_script = """
+        const open_coupon_basket_modal = document.querySelector(".coupon_basket")
+        const close_coupon_basket_modal = document.querySelector(".close_coupon_basket")
+        const modal_coupon_basket = document.querySelector(".coupon_modal")
+        
+        open_coupon_basket_modal.addEventListener("click", () => {
+            modal_coupon_basket.showModal()
         })
+        
+        close_coupon_basket_modal.addEventListener("click", () => {
+            modal_coupon_basket.close()
+        })\n
     """
     
 user_png_modal = None
@@ -83,16 +98,16 @@ def validate_value():
     login_bool = True if current_account else False
     if not login_bool:
         alret_scirpt = """
-        const openButton = document.querySelectorAll(".a1")
-        const closeButton = document.querySelector(".b2")
+        const openButton_warn = document.querySelectorAll(".a1")
+        const closeButton_warn = document.querySelector(".b2")
         const modal = document.getElementById("d2")
-        openButton.forEach(button => button.addEventListener("click", () => modal.showModal()))
-        closeButton.addEventListener("click", () => {
+        openButton_warn.forEach(button => button.addEventListener("click", () => modal.showModal()))
+        closeButton_warn.addEventListener("click", () => {
             modal.close()
         })\n
     """
     else: alret_scirpt = ""
-    alret_scirpt += user_png_script
+    alret_scirpt += (user_png_script + coupon_png_script)
     
 def get_warn_js():
     validate_value()
@@ -142,6 +157,43 @@ def validate_png_modal():
             ),
             cls = "user_icon_dialog",
         ),
+
+def coupon_card(coupon_dict):
+    btn1 = None
+    def get_button():
+        global login_bool
+        
+    res = Card(
+        H1(coupon_dict['id']),
+        Ul(
+            Li(f"Discount: {coupon_dict['discount_percent']}%"),
+            Li(f"Least Cost: ${coupon_dict['less_amount']}"),
+            Li(f"Least Amount: {coupon_dict['product_count']}"),
+            Li(f"Date Begin: {coupon_dict['start_time']}"),
+            Li(f"Date Expire: {coupon_dict['end_time']}")
+        ),
+        btn1
+    )
+    return res
+
+def coupon_modal():
+    modal = Dialog(
+        Div(
+            Div(
+                # coupon
+                *[coupon_card(i.to_json()) for i in market1.coupon_list],
+                style = "flex-direction: column;"  
+            ),
+            style = ""
+        ),
+        Button(
+                "close",
+                cls = "close_coupon_basket",
+                style = "margin-left: 1vw;"
+        ),
+        cls = "coupon_modal"
+    )
+    return modal
     
 
 def Header(bool_search = True, bool_cart = True, HeaderText = "Teerawee Shop"):

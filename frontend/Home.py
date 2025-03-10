@@ -9,9 +9,6 @@ from backend.lib255 import *
 
 all_product = get_all_product()
 
-# print(all_product)
-# for p in all_product:
-#     print(f"ID: {p.id}")
 def item_post_card(p_img, p_name, p_id, p_price):
     res = Card(
                 Img(
@@ -74,10 +71,7 @@ def Category_button(i):
         """
     )
 
-def Page(prodcut_pool = [], search_word = ""):
-    result = None
-    if len(prodcut_pool) == 0 and search_word == "": result = [item_post_card(i.image, i.name, i.id, i.price) for i in all_product]
-    else: result = [item_post_card(i['img'], i['name'], i['id'], i['price']) for i in prodcut_pool]
+def Page():
     head = Component.Header()
     body = Grid(
         Div(
@@ -107,7 +101,16 @@ def Page(prodcut_pool = [], search_word = ""):
             style = "grid-template-columns: 1fr 1fr 1fr 1fr;",
             id = "grid_home"
         ),
-        style = "grid-template-columns: 10% 1.1% 70%"
+        Div(
+            # coupon
+            Img(
+                src = Component.coupon_basetpng,
+                cls = "coupon_basket" if Component.login_bool else "a1"
+            ),
+            Component.coupon_modal()
+            # style = "border: solid;",
+        ),
+        style = "grid-template-columns: 10% 1.1% 70% 10%"
     )
     page = Main(
         head,
