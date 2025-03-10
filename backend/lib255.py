@@ -10,7 +10,7 @@ from backend.Account import *
 from backend.Address import *
 from backend.Admin import *
 from backend.Cart import *
-from backend.Categories import *
+from backend.Category import *
 from backend.Comment import *
 from backend.Coupon import *
 from backend.Customer import *
@@ -27,6 +27,8 @@ class Market():
 
     def __init__(self):
         self.__current_user = None
+        
+        self.__selected_category = None
         self.__seller_list = []
         self.__customer_list = []
         self.__product_list = []
@@ -60,6 +62,16 @@ class Market():
     def category_list(self):
         return self.__category_list
     
+    @property
+    def selected_category(self):
+        return self.__selected_category
+    
+    def update_selected_category(self, category):
+        if isinstance(category, Category):
+            self.__selected_category = category
+            return "Update Category Success"
+        return "Update Category Failed"
+    
     def update_current_user(self, user : Account):
         if isinstance(user , Account):
             self.__current_user = user
@@ -88,7 +100,7 @@ class Market():
         if isinstance(product, Product):
             self.__product_list.append(product)
 
-            category = self.get_categories(product.category)
+            category = self.get_category(product.category)
             if(category != None):
                 category.add_product(product)
             else:
@@ -105,11 +117,11 @@ class Market():
             if i.equal(u_id): i.add_to_cart(p1, amount); return "Product was added to cart"
 
     def add_category(self, name):
-        self.__category_list.append(Categories(name))
+        self.__category_list.append(Category(name))
     
     def add_category(self, name, product : Product):
         if(isinstance(product , Product)):
-            newCate = Categories(name)
+            newCate = Category(name)
             newCate.add_product(product)
             self.__category_list.append(newCate)
     
@@ -182,7 +194,7 @@ class Market():
                 return i
         return None
     
-    def get_categories(self, name):
+    def get_category(self, name):
         for i in self.__category_list:
             if(name == i.name):
                 return i
@@ -223,8 +235,12 @@ class Market():
     # def search(self, name , tag):
     #     return [p.to_json() for p in self.__product_list if name.lower() in p.name.lower()]
     
-    # def search(self, tag):
-    #     return
+    #search by category
+    def search_by_category(self, tag_name):
+        selected = self.get_category(tag_name)
+        if selected:
+            return selected.get_product_list()
+        return "Not Found"
     
     @property
     def update_product(self):
