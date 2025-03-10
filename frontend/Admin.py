@@ -88,8 +88,8 @@ def Page():
 def delete_coupon_dialog(Coupon):
     return Dialog(
         Div(
-            Div(
-                f"Are you sure to delete this coupon {Coupon.discount_percent}",
+            H2(
+                f"Are you sure to delete this coupon: {Coupon.discount_percent} % OFF",
                 style = "margin-bottom: 20px;"
             ),
             Div(
@@ -146,7 +146,7 @@ def CouponCard(coupon):
         Button(
             "X",
             cls = f"open_button_c_{coupon.id}",
-            Style="margin-left: 90%;"
+            Style="margin-left: 60%;"
         ),
         delete_coupon_dialog(coupon),
         Script(delete_coupon_pop_up_scirpt(coupon)),
