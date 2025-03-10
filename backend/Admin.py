@@ -21,7 +21,7 @@ class Admin(Account):
     def approve_product(self, request):
         if(isinstance(request, RequestedProduct)):
             request.update_status("Approve")
-            request.seller.add
+            request.seller.add_product(request.product)
             super().market.add_product(request.product)
 
     def reject_product(self, request):
