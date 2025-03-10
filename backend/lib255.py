@@ -322,7 +322,7 @@ for i in get_all_coupon():
 for i in get_all_UnImproveProduct():
     market1.add_requested(i)
 
-# market1.update_current_user(market1.get_account("A000001"))
+market1.update_current_user(market1.get_account("M000001"))
 
 # p = market1.get_product("P000001")
 # market1.current_account.cart.add_item(p, 1)

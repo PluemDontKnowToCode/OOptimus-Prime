@@ -102,7 +102,7 @@ def delete_coupon_dialog(Coupon):
                 ),
                 Button(
                     "Cancel",
-                    cls = "close_button"
+                    cls = f"close_button_c_{Coupon.id}"
                 ),
                 style = "blackground-color: white;"
             ),
@@ -114,13 +114,15 @@ def delete_coupon_dialog(Coupon):
 
 def delete_coupon_pop_up_scirpt(coupon):
     return f"""
-        const openButton = document.querySelectorAll(".open_button")
-        const closeButton = document.querySelector(".close_button")
-        const modal = document.querySelector(".c_pop_up_{coupon.id}")
-        openButton.forEach(button => button.addEventListener("click", () => modal.showModal()))
-        closeButton.addEventListener("click", () => 
-            modal.close()
-        )\n
+        const openButton_c{coupon.id} = document.querySelector(".open_button_c_{coupon.id}")
+        const closeButton_c{coupon.id} = document.querySelector(".close_button_c_{coupon.id}")
+        const modal_c{coupon.id} = document.querySelector(".c_pop_up_{coupon.id}")
+        openButton_c{coupon.id}.addEventListener("click", () => {{
+            modal_c{coupon.id}.showModal()
+        }})
+        closeButton_c{coupon.id}.addEventListener("click", () => {{
+            modal_c{coupon.id}.close()
+        }})\n
     """
 def CouponCard(coupon):
     condition = f"Orders ฿{coupon.less_amount}+"
@@ -143,7 +145,7 @@ def CouponCard(coupon):
         ),
         Button(
             "X",
-            cls = "open_button",
+            cls = f"open_button_c_{coupon.id}",
             Style="margin-left: 90%;"
         ),
         delete_coupon_dialog(coupon),
