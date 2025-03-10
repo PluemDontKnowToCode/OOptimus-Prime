@@ -182,17 +182,21 @@ async def apply_address(district : str, province : str, zip_code : str, phone_nu
 
 #region Admin and Coupon
 @app.get("/admin/create_coupon")
-def create_coupon():
+def create_coupon_page():
     if market1.current_account and isinstance(market1.current_account ,Admin): 
         return admin.CreateCouponPage()
     return Redirect("/")
 
-@app.post("/admin/add_coupon")
-def add_coupon(discount_percent : int,less_amount : float, product_count : int, duration : int):
-    print("Add")
+@app.post("/admin/create_coupon")
+async def add_coupon(discount_percent : int,less_amount : float, product_count : int, duration : int):
     if market1.current_account and isinstance(market1.current_account ,Admin): 
         market1.current_account.create_coupon(discount_percent, less_amount, product_count, duration)
-        print("Add")
+    return Redirect("/")
+
+@app.post("/admin/delete_coupon")
+async def delete_coupon(id : str):
+    if market1.current_account and isinstance(market1.current_account ,Admin): 
+        print(market1.current_account.delete_coupon(id))
     return Redirect("/")
 
 @app.post("/admin/accept/{id}/{status}")

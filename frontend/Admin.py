@@ -78,18 +78,55 @@ def Page():
                 
             """
         ),
-        Script(Component.get_warn_js()),
+        
+        Script(Component.get_warn_js() + delete_coupon_pop_up_scirpt),
         Style=Component.configHeader
     )
     
     return page
 
+def delete_coupon_dialog(Coupon):
+    return Dialog(
+        Div(
+            Div(
+                f"Are you sure to delete this coupon {Coupon.discount_percent}",
+                style = "margin-bottom: 20px;"
+            ),
+            Div(
+                A(
+                    Button(
+                        "Delete"
+                    ),
+                    hx_post="/admin/delete_coupon",
+                    style = "margin-right: 20px; text-decoration: none; background-color: #eee;"
+                ),
+                Button(
+                    "Cancel",
+                    cls = "close_button"
+                ),
+                style = "blackground-color: white;"
+            ),
 
+        ),
+        cls = "c_pop_up",
+        style = "height: 200px; width: 400px;"   
+    ),
+
+delete_coupon_pop_up_scirpt = """
+        const openButton = document.querySelectorAll(".open_button")
+        const closeButton = document.querySelector(".close_button")
+        const modal = document.querySelector(".c_pop_up")
+        openButton.forEach(button => button.addEventListener("click", () => modal.showModal()))
+        closeButton.addEventListener("click", () => {
+            modal.close()
+        })\n
+    """
 def CouponCard(coupon):
     condition = f"Orders ฿{coupon.less_amount}+"
     if(coupon.product_count == 0):
         condition += f" or {coupon.product_count} more products"
     card = Div(
+        
         H2(
             f"{coupon.discount_percent}% OFF", 
            Style="margin: 0;"
@@ -103,14 +140,16 @@ def CouponCard(coupon):
             f"{coupon.start_time} ~ {coupon.end_time}", 
             Style="margin: 0 auto;"
         ),
-        
+        Button(
+            "X",
+            cls = "open_button",
+            Style="margin-left: 90%;"
+        ),
+        delete_coupon_dialog(coupon),
         id=coupon.id,
         Style="border: 1px solid black; padding: 15px; width: 200px; text-align: center; display: inline-block; margin: 10px; position: relative;"
     )
     return card
-
-def EventCard():
-    return
 
 def RequestedCard(request):
     id = request.product.id
@@ -161,7 +200,7 @@ def CreateCouponPage():
                     style="margin-top: 20px;"
                 ),
                 method = "post",
-                action = '/admin/add_coupon', 
+                action = '/admin/create_coupon', 
                 id="product_form",
                 style="text-align: left; padding: 20px; background-color: #f9f9f9; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);"
             ),
