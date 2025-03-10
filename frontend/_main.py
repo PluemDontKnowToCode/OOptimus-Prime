@@ -52,10 +52,10 @@ def root():
 def addproduct():
     return Addproduct.Page()
 
-@app.post('/addrequestproduct/{p_id}')
-def addproduct(p_id: str, name: str, description: str, price: str, quantity: str, category: str, image_url: str):
+@app.post('/addrequestproduct')
+def addproduct(name: str, description: str, price: str, quantity: str, category: str, image_url: str):
     if isinstance(market1.current_account, Seller): 
-        return addp.insert_request(p_id, name, description, price, quantity, category, image_url)
+        return addp.insert_request( name, description, price, quantity, category, image_url)
     return Redirect('/login')
     
 

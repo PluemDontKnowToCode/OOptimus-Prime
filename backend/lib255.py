@@ -234,6 +234,8 @@ class Market():
     
     def view_product_detail(self, product_id):
         product = self.get_product(product_id)
+        if not product:
+            product = self.get_requested(product_id).product
         return self.get_product_detail(product)
     
     def search(self, name):

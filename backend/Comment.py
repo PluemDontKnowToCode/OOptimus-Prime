@@ -24,4 +24,8 @@ class Comment:
     @property
     def star(self):
         return self.__star
+    
+    @property
+    def user_id(self):
+        return self.__user_id
 #endregion

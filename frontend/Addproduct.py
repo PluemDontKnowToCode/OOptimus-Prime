@@ -40,9 +40,6 @@ def Page():
     return page
 
 
-def insert_request(p_id: str, name: str, description: str, price: str, quantity: str, category: str, image_url: str):
-    seller_id = market1.current_account.id
-    product = Product(name, market1.generate_id(0), price ,description, img1=image_url, category=category, stock = quantity,market =  market1)
-    r = RequestedProduct(product, market1.current_account)
-    market1.add_requested(p_id, r)
+def insert_request(name: str, description: str, price: str, quantity: str, category: str, image_url: str):
+    market1.current_account.create_product(name,price ,description, image_url, category, quantity)
     return Redirect(f'/')

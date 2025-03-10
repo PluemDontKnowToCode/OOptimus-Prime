@@ -1,5 +1,6 @@
 from backend.Account import *
 from backend.Product import *
+from backend.RequestedProduct import *
 
 class Seller(Account):
     def __init__(self, id= '', name = "", username = "", password ="", money = 0 ,address = [],image = "",selling_product = [], market = None):
@@ -11,16 +12,13 @@ class Seller(Account):
     def selling_product(self):
         return self.__selling_product
 
-
+    def create_product(self, name):
+        product = Product(name, self.market.generate_id(0), price ,description, img1=image_url, category=category, stock = quantity,market =  market1)
+        r = RequestedProduct(product, self)
+        self.market.add_requested(r)
+        return "success"
     def add_product(self, product : Product):
         self.__selling_product.append(product)
         return "Seller Add Complete"
 
-    def delete_product(self, product : Product):
-        self.__selling_product.remove(product)
-        return "Seller Remove Complete"
-
-    def delete_product(self, product_id : str):
-        product = super().market.get_product(product_id)
-        self.__selling_product.remove(product)
 

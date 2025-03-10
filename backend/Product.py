@@ -6,12 +6,12 @@ class Product(Object):
     #image is list na
     def __init__(self, name = '', id = '', price = 0, description = '', img1 = '', category = '', stock = 0,comment_list = [],market = None):
         self.__name = name
-        self.__price = price
+        self.__price = int(price)
         self.__description = description
         self.__img = img1
         self.__category = category
         self.__comment_list = comment_list
-        self.__stock = stock
+        self.__stock = int(stock)
         self.__market = market
         super().__init__(id)
 
