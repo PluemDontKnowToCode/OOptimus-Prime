@@ -18,20 +18,20 @@ headerfontStyle = """   color: #ffffff
 ButtonHeaderStyle = "margin-right: 10px;"
 CheckingStyle = "border: solid;"
 
-login_bool = True
+login_bool = False
 
 add_to_cart_script = """
-        const openButton = document.querySelector(".b10")
-        const closeButton = document.querySelector(".b2")
-        const modal = document.querySelector(".d1")
+        const openButton1 = document.querySelector(".b10")
+        const closeButton1 = document.querySelector(".b2")
+        const modal1 = document.querySelector(".d1")
         
-        openButton.addEventListener("click", () => {
-            modal.showModal()
+        openButton1.addEventListener("click", () => {
+            modal1.showModal()
         })
         
-        closeButton.addEventListener("click", () => {
+        closeButton1.addEventListener("click", () => {
             modal.close()
-        })
+        })\n
     """
 
 alret_scirpt = ""
@@ -107,11 +107,15 @@ def validate_value():
         })\n
     """
     else: alret_scirpt = ""
-    alret_scirpt += (user_png_script + coupon_png_script)
+    alret_scirpt += user_png_script
     
 def get_warn_js():
     validate_value()
     return alret_scirpt
+
+def get_home_js():
+    validate_value()
+    return alret_scirpt + coupon_png_script
 
 def validate_png_modal():
     validate_value()

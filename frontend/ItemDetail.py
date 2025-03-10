@@ -72,7 +72,7 @@ def view_detail(p_id: int):
     p_image = market1.get_product_image(p_id)
     login_bool = Component.login_bool
     js_for_dialog = Component.get_warn_js() 
-    if login_bool: js_for_dialog += "\n" + Component.add_to_cart_script 
+    if login_bool: js_for_dialog += ("\n" + Component.add_to_cart_script)
     validate_variable(p_id)
     # print(f"Login_bool {login_bool}")
     # print(f"JS {js_for_dialog}\n\n\nand Modal {modal}")

@@ -124,7 +124,7 @@ def Page():
         head,
         body,
         Component.warn_to_login_modal,
-        Script(Component.get_warn_js()),
+        Script(Component.get_home_js()),
         style = Component.configHeader
     )
     return page
