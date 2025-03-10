@@ -1,6 +1,7 @@
 from backend.Account import *
 from backend.Coupon import *
 from backend.Transaction import *
+from backend.Category import *
 
 class Customer(Account):
     def __init__(self, id= '', name = "", username = "", password ="", money = 0 ,image = "",market = None):
@@ -40,6 +41,7 @@ class Customer(Account):
     def selected_address(self):
         return self.__selected_address
 
+    
     @property
     def cart_items(self): return self.__cart.get_cart_item
     
@@ -61,6 +63,7 @@ class Customer(Account):
         self.__selected_address = address
         return "Update Address Complete"
 
+   
     def add_to_cart(self, product : Product, amount):
         return self.__cart.add_item(product, amount)
         

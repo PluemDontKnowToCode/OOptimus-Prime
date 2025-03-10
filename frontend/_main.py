@@ -54,7 +54,7 @@ def addproduct():
 
 @app.post('/addrequestproduct/{p_id}')
 def addproduct(p_id: str, name: str, description: str, price: str, quantity: str, category: str, image_url: str):
-    if not market1.current_account_seller: return Redirect('/login')
+    if not isinstance(market1.current_account, Seller) : return Redirect('/login')
     return addp.insert_request(p_id, name, description, price, quantity, category, image_url)
 
 @app.get('/login')
@@ -92,6 +92,12 @@ def searching2(search_word: str):
 @app.get('/search_for_seller')
 def searching3(search_word: str):
     pass
+
+
+@app.get('/category/{name}')
+async def search_by_category(name : str):
+    market1.update_selected_category(market1.get_category(name))
+    return Home.get_item_post_card_by_list(market1.search_by_category(tag_name = name))
 #end
 
 #region Item's Detail
@@ -103,6 +109,7 @@ def detail(p_id: str):
 def add_new_commnet(p_id: str, star: int, new_comment: str):
     if not market1.current_account: return Redirect('/login')
     return com.insert_comment(p_id, star, new_comment) 
+
 #end
 
 #region Cart and Payment

@@ -18,7 +18,7 @@ def Page():
                 Div(Label("Quantity:"), Input(type="number", name="quantity", min=1, value=1, id="quantity"), style="margin-bottom: 20px;"),
                 Div(Label("Category (use only English):"), Input(type="text", name="category", id="category"), style="margin-bottom: 20px;"),
                 Div(Label("Image URL:"), Input(type="text", name="image_url", id="image_url"), style="margin-bottom: 20px;"),
-                Div(Button("Confirm", type="button", onclick="submitForm()"), style="margin-top: 20px;"),
+                Div(Button("Confirm"), style="margin-top: 20px;"),
                 method="post",
                 action="/addrequestproduct",
                 id="product_form",
@@ -44,5 +44,5 @@ def insert_request(p_id: str, name: str, description: str, price: str, quantity:
     seller_id = market1.current_account.id
     product = Product(name, market1.generate_id(0), price ,description, img1=image_url, category=category, stock = quantity,market =  market1)
     r = RequestedProduct(product, market1.current_account)
-    market1.add_comment_to_product(p_id, r)
-    return Redirect(f'/requestproduct/{p_id}')
+    market1.add_requested(p_id, r)
+    return Redirect(f'/')

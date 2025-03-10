@@ -55,21 +55,29 @@ def get_item_post_card_by_list(list_temp):
     return Grid(*[item_post_card(i['img'], i['name'], i['id'], i['price']) for i in list1], style = "grid-template-columns: 1fr 1fr 1fr 1fr;")
 
 def Category_button(i):
-    # return Button(
-    #     i.name,
-    #     Style="""
-    #         color:black;
-    #         background:white;
-    #     """
-    # )
-    return A(
-        i.name,
-        href="",
-        Style="""
-            color:black;
-            background:white;
-        """
-    )
+    
+
+    return Div(
+            Button(
+                i.name,
+                Style="""
+                    color:black;
+                    background:white;
+                    background-color: white;
+                    border: 1px solid black;
+                    padding: 10px 15px;
+                    text-align: left;
+                    font-size: 16px;
+                    cursor: pointer;
+                    width: 100%;
+                """,
+                
+            ),
+            hx_get=f"/category/{i.name}",
+            target_id="grid_home",
+            hx_trigger="click",
+            id="i.name"
+        )
 
 def Page():
     head = Component.Header()

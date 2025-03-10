@@ -2,7 +2,7 @@ from backend.Product import *
 
 
 #region Categories
-class Categories:
+class Category:
 
     #collect product as id
     def __init__(self,name):

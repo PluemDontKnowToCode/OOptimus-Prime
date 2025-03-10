@@ -5,7 +5,8 @@ class Seller(Account):
     def __init__(self, id):
         super().__init__(id)
         self.__selling_product = []
-        self.__unimprove
+        self.__unimproved = []
+
     @property
     def selling_product(self):
         return self.__selling_product
