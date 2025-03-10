@@ -50,6 +50,30 @@ def get_item_post_card(search_word):
     if not list1: return None
     return Grid(*[item_post_card(i['img'], i['name'], i['id'], i['price']) for i in list1], style = "grid-template-columns: 1fr 1fr 1fr 1fr;")
 
+def get_item_post_card_by_list(list_temp):
+    list1 = list_temp
+    # print(search_word)
+    # print(f"res: {list1}")
+    if not list1: return None
+    return Grid(*[item_post_card(i['img'], i['name'], i['id'], i['price']) for i in list1], style = "grid-template-columns: 1fr 1fr 1fr 1fr;")
+
+def Category_button(i):
+    # return Button(
+    #     i.name,
+    #     Style="""
+    #         color:black;
+    #         background:white;
+    #     """
+    # )
+    return A(
+        i.name,
+        href="",
+        Style="""
+            color:black;
+            background:white;
+        """
+    )
+
 def Page(prodcut_pool = [], search_word = ""):
     result = None
     if len(prodcut_pool) == 0 and search_word == "": result = [item_post_card(i.image, i.name, i.id, i.price) for i in all_product]
@@ -61,7 +85,19 @@ def Page(prodcut_pool = [], search_word = ""):
                 "Category",
                 style = "text-align: center;"
             ),
-            style = Component.CheckingStyle
+            Div(*
+                
+                [
+                    Category_button(i)
+                    for i in market1.category_list
+                ],
+                style="""
+                    display:flex;
+                    flex-direction: column;
+                """
+            ),
+            
+            style = Component.CheckingStyle,
         ),
         Div(
             

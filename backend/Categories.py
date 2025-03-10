@@ -7,23 +7,30 @@ class Categories:
     #collect product as id
     def __init__(self,name):
         self.__name = name
-        self.__product = []
+        self.__product_list = []
 
     @property
     def name(self):
         return self.__name
     
     @property
-    def products(self):
-        return self.__product
-    
+    def product_list(self):
+        return self.__product_list
+
+    def get_product_list(self):
+        res = []
+        for i in self.__product_list:
+            res.append(i.to_json())
+        return res
+
+
     def add_product(self, product : Product):
         if isinstance(product, list):
-            self.__product.extend(product)
+            self.__product_list.extend(product)
         else:
-            self.__product.append(product)
+            self.__product_list.append(product)
         return "success"
     def remove_product(self, product : Product):
-        self.__product.remove(product)
+        self.__product_list.remove(product)
         return "success"
 #endregion
