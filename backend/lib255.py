@@ -40,7 +40,7 @@ class Market():
 
     @property
     def account_list(self):
-        return self.__seller_list + self.__customer_list
+        return self.__seller_list + self.__customer_list + self.__admin_list
     
     @property
     def product_list(self):
@@ -305,8 +305,23 @@ class Market():
             return False
         return "Invalid"
         
+    def validate_register(self,name : str, password : str, r_password : str, role : str):
+        if(password != r_password):
+            return 'error'
+        if role == "customer":
+            new_account = Customer(id=self.generate_id(1),name=  name,username= name,password= password, money =10000, market= market1)
+        elif role == "seller":
+            new_account = Seller(id=self.generate_id(2),name=  name,username= name,password= password, money =10000, market= market1)
+            
+        self.update_current_user(new_account)
+        self.add_account(new_account)
+        return "success"
 
-
+    def is_user_exist(self, username ,password):
+        for i in self.account_list:
+            if i.username == username and i.password == password:
+                return False
+        return True
 #endregion
 
 def create_json(list1, list2):
