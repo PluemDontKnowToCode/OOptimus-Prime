@@ -99,13 +99,6 @@ def PurchasePage():
                     cls="address",
                     Style="padding-top: 1%;"
                 ),
-                Hr(
-                    Style="""
-                        margin: 0 auto;
-                        width:80%;
-                        border: 1px solid blue;
-                    """
-                ),
                 Div(
                     Div(
                         H3("Available Coupon"),
@@ -317,7 +310,7 @@ def CouponCard(Id,discount, order_min,start_date, end_date,product_count = 0):
         ),
         P(
             condition, 
-            Style="margin: 0;"
+            Style="margin: 0;width:100%;"
         ),
         Hr(),
         P(

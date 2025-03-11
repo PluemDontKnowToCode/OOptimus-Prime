@@ -166,7 +166,7 @@ class Market():
         
         if(coupon != None):
             if(self.get_coupon(coupon.id)):
-                if(coupon.check_condition(cart)):
+                if not (coupon.check_condition(cart)):
                     return "Coupon Condition Not Met"
                 discountPercent = self.get_coupon(coupon.id).discount_percent
                 price -= price * discountPercent
@@ -181,6 +181,7 @@ class Market():
 
         customer.update_money(price)
         customer.clear_cart()
+        customer.delete_coupon(coupon)
 
         for p in cart.product_list:
             customer.add_transaction(Transaction(p.id))
@@ -409,7 +410,7 @@ for i in get_all_coupon():
     market1.add_coupon(i)
 
 
-market1.update_current_user(market1.get_account('S000001'))
+market1.update_current_user(market1.get_account('A000001'))
 
 # p = market1.get_product("P000001")
 # market1.current_account.cart.add_item(p, 1)

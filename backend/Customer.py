@@ -44,6 +44,13 @@ class Customer(Account):
         self.__coupon_list.append(coupon)
         return "Add Complete"
     
+    def delete_coupon(self, coupon : Coupon):
+        for i in self.__coupon_list:
+            if i.equal(coupon.id):
+                self.__coupon_list.remove(i)
+                return "Remove Complete"
+        return "Not Found"
+    
     def is_have_coupon(self, coupon_id):
         for i in self.__coupon_list:
             if i.equal(coupon_id): return True
