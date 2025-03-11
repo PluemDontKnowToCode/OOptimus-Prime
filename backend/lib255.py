@@ -41,7 +41,7 @@ class Market():
 
     @property
     def account_list(self):
-        return self.__seller_list + self.__customer_list
+        return self.__seller_list + self.__customer_list + self.__admin_list
     
     @property
     def product_list(self):
@@ -85,7 +85,6 @@ class Market():
         var = [[self.__product_list, 'P'], [self.__customer_list, 'A'], [self.__seller_list, 'S'], [self.__admin_list, 'M'], [self.__coupon_list, 'C']]
         now_list, now_char = var[state]
         temp_id = []
-
         for i in now_list:
             temp_str: str = i.id
             temp_id.append(temp_str.removeprefix(now_char))
@@ -162,9 +161,6 @@ class Market():
             return "User Not Found"
             
         cart = customer.cart
-
-        stack_item_list = cart.get_cart_item
-        print(f"GET stack item {stack_item_list}")
         
         price = cart.calculate_price()
         
@@ -172,7 +168,7 @@ class Market():
             if(self.get_coupon(coupon.id)):
                 if not (coupon.check_condition(cart)):
                     return "Coupon Condition Not Met"
-                discountPercent = self.get_coupon(coupon.id).discount_percent
+                discountPercent = coupon.discount_percent
                 price -= price * discountPercent
             else:
                 return "Coupon Not Found"
@@ -185,7 +181,9 @@ class Market():
         trans1 = Transaction(stack_product, amount)
         customer.add_transaction(trans1)
         
-        if coupon: customer.delete_coupon(coupon)
+        if coupon: 
+            customer.update_selected_coupon(None)
+            customer.delete_coupon(coupon)
 
         for i in cart.get_cart_item:
             i.product.update_stock(-1 * i.amount)
@@ -316,8 +314,24 @@ class Market():
             return False
         return "Invalid"
         
+    def validate_register(self,name : str, password : str, r_password : str, role : str):
+        if(password != r_password):
+            return 'error'
+        if self.is_user_exist(name, password): return "error"
+        if role == "customer":
+            new_account = Customer(id=self.generate_id(1),name=  name,username= name,password= password, money =10000, market= market1)
+        elif role == "seller":
+            new_account = Seller(id=self.generate_id(2),name=  name,username= name,password= password, money =10000, market= market1)
+            
+        self.update_current_user(new_account)
+        self.add_account(new_account)
+        return "success"
 
-
+    def is_user_exist(self, username ,password):
+        for i in self.account_list:
+            if i.username == username and i.password == password:
+                return True
+        return False
 #endregion
 
 def create_json(list1, list2):

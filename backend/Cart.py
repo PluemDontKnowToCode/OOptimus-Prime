@@ -50,7 +50,7 @@ class Cart:
         return [i.amount for i in self.__cart_item_list]
 
     def remove_item(self, product):
-        if isinstance(product, Product): return "Invalid type"
+        if not isinstance(product, Product): return "Invalid type"
         for i in self.__cart_item_list:
             if i.product.equal(product.id):
                 self.__cart_item_list.remove(i)

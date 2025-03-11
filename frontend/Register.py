@@ -53,13 +53,4 @@ def page():
     return page
 
 def validate_register(name : str, password : str, r_password : str, role : str):
-    if(password != r_password):
-        return 'error'
-    if role == "customer":
-        new_account = Customer(id=market1.generate_id(1),name=  name,username= name,password= password, money =10000, market= market1)
-    elif role == "seller":
-        new_account = Seller(id=market1.generate_id(1),name=  name,username= name,password= password, money =10000, market= market1)
-        
-    market1.update_current_user(new_account)
-    market1.add_account(new_account)
-    return "success"
+    return market1.validate_register(name, password, r_password, role)
