@@ -55,7 +55,7 @@ def addproduct():
 @app.post('/addrequestproduct')
 def addproduct(name: str, description: str, price: str, quantity: str, category: str, image_url: str):
     if isinstance(market1.current_account, Seller): 
-        return addp.insert_request( name, description, price, quantity, category, image_url)
+        return addp.insert_request(name, description, price, quantity, category, image_url)
     return Redirect('/login')
     
 
