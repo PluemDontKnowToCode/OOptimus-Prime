@@ -58,7 +58,7 @@ def validate_register(name : str, password : str, r_password : str, role : str):
     if role == "customer":
         new_account = Customer(id=market1.generate_id(1),name=  name,username= name,password= password, money =10000, market= market1)
     elif role == "seller":
-        new_account = Seller(id=market1.generate_id(1),name=  name,username= name,password= password, money =10000, market= market1)
+        new_account = Seller(id=market1.generate_id(2),name=  name,username= name,password= password, money =10000, market= market1)
         
     market1.update_current_user(new_account)
     market1.add_account(new_account)

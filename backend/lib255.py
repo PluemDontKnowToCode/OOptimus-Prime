@@ -84,7 +84,6 @@ class Market():
         var = [[self.__product_list, 'P'], [self.__customer_list, 'A'], [self.__seller_list, 'S'], [self.__admin_list, 'M'], [self.__coupon_list, 'C']]
         now_list, now_char = var[state]
         temp_id = []
-
         for i in now_list:
             temp_str: str = i.id
             temp_id.append(temp_str.removeprefix(now_char))
