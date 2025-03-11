@@ -66,7 +66,7 @@ def login():
 
 @app.get('/login_process')
 def login_process(name: str, password: str, role: str):
-    return Login.validate_login(name, password, role)
+    return market1.validate_login(name, password, role)
 
 @app.get('/logout')
 def logout():

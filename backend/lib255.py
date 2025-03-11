@@ -1,5 +1,6 @@
-import enum
+from fasthtml.common import *
 from datetime import *
+import enum
 import json
 import os
 import re
@@ -284,19 +285,28 @@ class Market():
     
     def clear_current_account(self):
         self.__current_user = None
+
+    def list_for_verify_user(self, name, role):
+        res = None
+        if "admin" in name.lower(): res = self.__admin_list
+        elif role == "customer": res = self.__customer_list
+        elif role == "seller": res = self.__seller_list
+        return res
+
+    def request_to_self_verify(self, account, name, password):
+        return account.self_verify(name, password)
     
     def verify_user(self, name, password, role):
-        list1 = None
-        if "admin" in name.lower(): list1 = self.__admin_list
-        elif role == "customer": list1 = self.__customer_list
-        elif role == "seller": list1 = self.__seller_list
-        
-        else: return list1
-        
+        list1 = self.list_for_verify_user(name, role)
         for i in list1:
-            lean = i.self_verify(name, password)
-            if lean: return i
+            if self.request_to_self_verify(i, name, password): return i
         return None
+    
+    def validate_login(self, name: str, password: str, role: str):
+        acc = self.verify_user(name, password, role)
+        if not acc: return Redirect('/login')
+        self.update_current_user(acc)
+        return Redirect('/')
     
     def is_have_coupon(self, coupon_id):
         acc = self.__current_user

@@ -71,10 +71,3 @@ def Page():
         """
     )
     return page
-
-def validate_login(name: str, password: str, role: str):
-    # print(f"name, pass, role: {name}, {password}, {role}")
-    acc = market1.verify_user(name, password, role)
-    market1.update_current_user(acc)
-    if(market1.current_account): return Redirect('/')
-    return Redirect('/login')
