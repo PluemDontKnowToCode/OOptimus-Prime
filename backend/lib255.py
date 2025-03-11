@@ -14,7 +14,6 @@ from backend.Category import *
 from backend.Comment import *
 from backend.Coupon import *
 from backend.Customer import *
-from backend.DiscountProduct import *
 from backend.Object import *
 from backend.Product import *
 from backend.Seller import *
@@ -167,7 +166,7 @@ class Market():
         
         if(coupon != None):
             if(self.get_coupon(coupon.id)):
-                if(coupon.check_condition(cart)):
+                if not (coupon.check_condition(cart)):
                     return "Coupon Condition Not Met"
                 discountPercent = self.get_coupon(coupon.id).discount_percent
                 price -= price * discountPercent
@@ -182,6 +181,7 @@ class Market():
 
         customer.update_money(price)
         customer.clear_cart()
+        customer.delete_coupon(coupon)
 
         for p in cart.product_list:
             customer.add_transaction(Transaction(p.id))

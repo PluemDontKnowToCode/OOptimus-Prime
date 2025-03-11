@@ -42,10 +42,12 @@ class Coupon(Object):
         }
     def check_condition(self, cart : Cart):
         if cart.size < self.__product_count: 
+            print("Count Error")
             return False
         if cart.calculate_price() < self.__less_amount:
+            print("Price Error")
             return False
-        if datetime.now() < self.__start_time or datetime.now() > self.__end_time: 
+        if not (self.__start_time <= datetime.now() <= self.__end_time): 
             return False
         return True
 #endregion
