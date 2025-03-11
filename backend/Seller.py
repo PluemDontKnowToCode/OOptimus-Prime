@@ -3,7 +3,7 @@ from backend.Product import *
 from backend.RequestedProduct import *
 
 class Seller(Account):
-    def __init__(self, id= '', name = "", username = "", password ="", money = 0 ,address = [],image = "",selling_product = [], market = None):
+    def __init__(self, id= '', name = "", username = "", password ="", money = 10000 ,address = [],image = "user_imgpng.png",selling_product = [], market = None):
         super().__init__(id, name,username, password, money,address, image, market)
         self.__selling_product = selling_product
     

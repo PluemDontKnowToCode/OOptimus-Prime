@@ -2,7 +2,7 @@ from backend.Object import *
 from backend.Address import *
 
 class Account(Object):
-    def __init__(self, id = "", name = "", username = "", password ="", money = 0 ,address = [],image = "",market = None):
+    def __init__(self, id = "", name = "", username = "", password ="", money = 10000 ,address = [],image = "user_imgpng.png",market = None):
         super().__init__(id)
          #name use for login
         self.__name = name

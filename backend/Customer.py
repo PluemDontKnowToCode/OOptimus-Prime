@@ -4,7 +4,7 @@ from backend.Transaction import *
 from backend.Category import *
 
 class Customer(Account):
-    def __init__(self, id= '', name = "", username = "", password ="", money = 0 ,address = [],image = "",coupon = None,market = None):
+    def __init__(self, id= '', name = "", username = "", password ="", money = 10000 ,address = [],image = "user_imgpng.png",coupon = [],market = None):
         super().__init__(id, name,username, password, money,address, image, market)
         self.__cart = Cart()
         self.__transaction = []

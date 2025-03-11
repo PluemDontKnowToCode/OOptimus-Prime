@@ -68,7 +68,7 @@ def PurchasePage():
     if(market1.current_account.selected_coupon != None):
         s_coupon = market1.current_account.selected_coupon.id
     page = Title("Cart - Teerawee Shop"), Main(
-        Component.Header(),
+        Component.Header(False),
         Component.TitleHeader("Purchase"),
         Div(
             Div(
@@ -214,7 +214,7 @@ def PurchasePage():
 def ResultPage(result):
     if(result == "success"):
         page = Title("Cart - Teerawee Shop"), Main(
-            Component.Header(),
+            Component.Header(False),
             Component.TitleHeader("Purchase Result"),
             Div(
                 H3("Thank you for your purchase"),
@@ -302,16 +302,20 @@ def AddressCard(a):
                 )
 def CouponCard(Id,discount, order_min,start_date, end_date,product_count = 0):
     condition = f"Orders ฿{order_min}+"
+    subCon = ""
     if(product_count > 0):
-        condition += f" or {product_count} more products"
+        subCon = f"and {product_count} more products"
     card = Div(
         H2(
             f"{discount}% OFF", 
            Style="margin: 0;"
         ),
-        P(
+        Div(
             condition, 
-            Style="margin: 0;width:100%;"
+            Style="width:100%;"
+        ), 
+        Div(
+            subCon
         ),
         Hr(),
         P(
