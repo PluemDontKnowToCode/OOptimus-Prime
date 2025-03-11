@@ -3,7 +3,7 @@ from datetime import datetime
 from backend.Cart import *
 
 class Coupon(Object):
-    def __init__(self, id, discount_percent,less_amount : float,product_count: int = 0, start_time: datetime = None , end_time: str = 0):
+    def __init__(self, id, discount_percent,less_amount : float,product_count: int = 0, start_time: datetime = None , end_time: datetime = None):
         super().__init__(id)
         self.__discount_percent = discount_percent
         self.__less_amount = less_amount
@@ -25,11 +25,11 @@ class Coupon(Object):
     
     @property
     def start_time(self):
-        return self.__start_time
+        return self.__start_time.strftime("%Y-%m-%d")
     
     @property
     def end_time(self):
-        return self.__end_time
+        return self.__end_time.strftime("%Y-%m-%d")
     
     def to_json(self):
         return {
@@ -37,8 +37,8 @@ class Coupon(Object):
             "discount_percent" : self.__discount_percent,
             "less_amount" : self.__less_amount,
             "product_count" : self.__product_count,
-            "start_time" : self.__start_time,
-            "end_time" : self.__end_time
+            "start_time" : self.__start_time.strftime("%Y-%m-%d"),
+            "end_time" : self.__end_time.strftime("%Y-%m-%d")
         }
     def check_condition(self, cart : Cart):
         if cart.size < self.__product_count: 

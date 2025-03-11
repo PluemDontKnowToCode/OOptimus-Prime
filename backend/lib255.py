@@ -319,7 +319,9 @@ def get_all_customer():
             for i in d['address']:
                 temp.append(Address(i['district'], i['province'], i['zip_code'], i['phone']))
             for i in d['coupon']:
-                temp_coupon.append(Coupon(i["id"],i['discount_percent'], i['less_amount'], i['product_count'], i['start_time'], i['end_time']))
+                start_time = datetime.strptime(i['start_time'], "%Y-%m-%d")
+                end_time = datetime.strptime(i['end_time'], "%Y-%m-%d")
+                temp_coupon.append(Coupon(i["id"],i['discount_percent'], i['less_amount'], i['product_count'],start_time, end_time))
 
             ac = Customer(d['id'],d['name'],d['username'],d['password'],d['money'],temp,d['image'],temp_coupon, market1)
             res.append(ac)
@@ -356,7 +358,9 @@ def get_all_coupon():
     with open(file_path + '/Coupon.json', "r") as file01:
         coupon_json = json.loads(file01.read())
         for i in coupon_json["data"]:
-            cp = Coupon(i["id"],i['discount_percent'], i['less_amount'], i['product_count'], i['start_time'], i['end_time'])
+            start_time = datetime.strptime(i['start_time'], "%Y-%m-%d")
+            end_time = datetime.strptime(i['end_time'], "%Y-%m-%d")
+            cp = Coupon(i["id"],i['discount_percent'], i['less_amount'], i['product_count'], start_time, end_time)
             res.append(cp)
     return res
 

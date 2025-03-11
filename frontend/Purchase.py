@@ -308,7 +308,7 @@ def AddressCard(a):
                 )
 def CouponCard(Id,discount, order_min,start_date, end_date,product_count = 0):
     condition = f"Orders ฿{order_min}+"
-    if(product_count == 0):
+    if(product_count > 0):
         condition += f" or {product_count} more products"
     card = Div(
         H2(
@@ -321,7 +321,7 @@ def CouponCard(Id,discount, order_min,start_date, end_date,product_count = 0):
         ),
         Hr(),
         P(
-            f"{start_date.strftime('%Y-%m-%d')} ~ {end_date.strftime('%Y-%m-%d')}", 
+            f"{start_date} ~ {end_date}", 
             Style="margin: 0 auto;"
         ),
         SetUpCouponButton(Id),

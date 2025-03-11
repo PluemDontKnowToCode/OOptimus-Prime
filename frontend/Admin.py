@@ -126,8 +126,8 @@ def delete_coupon_pop_up_scirpt(coupon):
     """
 def CouponCard(coupon):
     condition = f"Orders ฿{coupon.less_amount}+"
-    if(coupon.product_count == 0):
-        condition += f" or {coupon.product_count} more products"
+    if(coupon.product_count > 0):
+        condition += f" and {coupon.product_count} more products"
     card = Div(
         
         H2(
