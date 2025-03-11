@@ -21,7 +21,7 @@ def page():
         Button(
             "Profile", 
             type="button", 
-            onclick="showContent('profile')" if role_bool else "",  
+            onclick="showContent('profile')",  
             style="margin-top: 10px; width: 100%;"
         ),
         Button(
@@ -33,7 +33,7 @@ def page():
         Button(
             "Coupon", 
             type="button", 
-            onclick="showContent('coupon')" if role_bool else "",  
+            onclick="showContent('coupon')",  
             style="margin-top: 10px; width: 100%;"
         ) if role_bool else Div(),
         Button(
@@ -205,7 +205,7 @@ def page():
         .catch(error => console.error("Error:", error));
     }
 
-    fufunction updateProfileImage(event) {
+    function updateProfileImage(event) {
         var file = event.target.files[0];
         if (!file) {
             alert("No file selected!");
@@ -215,9 +215,8 @@ def page():
         reader.onload = function(e) {
             document.getElementById('profileImage').src = e.target.result;
         };
-        reader.readAsDataURL(file);"
-        
-    }                
+        reader.readAsDataURL(file);
+    }
     """)
     script += Component.get_warn_js()
 

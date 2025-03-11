@@ -91,14 +91,13 @@ class Market():
         self.current_account.address_list[:] = [address for address in self.current_account.address_list if address.district != district]
     
     def update_address(self, old_district, new_district, new_province, new_zip_code, new_phone_number):
-        if isinstance(self.current_account, Customer):
-            for address in self.current_account.address_list:
-                if address.district == old_district:
-                    address.district = new_district
-                    address.province = new_province
-                    address.zip_code = new_zip_code
-                    address.phone_number = new_phone_number
-                    break
+        for address in self.current_account.address_list:
+            if address.district == old_district:
+                address.district = new_district
+                address.province = new_province
+                address.zip_code = new_zip_code
+                address.phone_number = new_phone_number
+                break
 
     def update_selected_category(self, category):
         if isinstance(category, Category):

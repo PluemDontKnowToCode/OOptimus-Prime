@@ -127,10 +127,7 @@ async def delete_address(request: Request):
     market1.delete_address(district)
     return JSONResponse({'success': True})
 
-@app.post('/address/update')
-def update_address(old_district: str, new_district: str, new_province: str, new_zip_code: str, new_phone_number: str):
-    market1.update_address(old_district, new_district, new_province, new_zip_code, new_phone_number)
-    return JSONResponse({'success': True})
+
 
 @app.get('/transaction')
 def transaction():

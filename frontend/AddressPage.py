@@ -15,10 +15,10 @@ def page():
 
     # Add the "X" button to navigate back to the profile page
     back_button = Button(
-        "X",
+        "Back",
         type="button",
         onclick="window.location.href = '/profile'",
-        style="position: absolute; top: 30px; right: 30px; background-color: red; color: white; border: none; padding: 30px; border-radius: 50%; cursor: pointer;"
+        style="position: absolute; top: 20px; right: 20px; background-color: blue; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer;"
     )
 
     # Form for adding new addresses
@@ -44,12 +44,7 @@ def page():
                 Div(f"Zip Code: {address.zip_code}", id=f"zip_{address.zip_code}", style="margin-top: 10px; padding: 5px;"),
                 Div(f"Phone Number: {address.phone_number}", id=f"phone_{address.phone_number}", style="margin-top: 10px; padding: 5px;"),
                 
-                Button(
-                    "Edit",
-                    type="button",
-                    onclick=f"toggleEditAddress('{address.district}')",
-                    style="margin-top: 10px;"
-                ),
+                
                 Button(
                     "Delete",
                     type="button",
@@ -57,42 +52,7 @@ def page():
                     style="margin-top: 10px; background-color: red; color: white; border: none; cursor: pointer;"
                 ),
                 
-                Div(
-                    Input(type="text",
-                        id=f"editDistrict_{address.district}",
-                        value=address.district,
-                        onclick="toggleEditAddress{address.district}", 
-                        style="display: none; margin-top: 10px;"),
-                    Input(type="text",
-                        id=f"editProvince_{address.province}",
-                        value=address.province,
-                        onclick= "toggleEditAddress{address.province}", 
-                        style="display: none; margin-top: 10px;"),
-                    Input(type="text",
-                        id=f"editZip_{address.zip_code}",
-                        value=address.zip_code,
-                        onclick="toggleEditAddress{address.zip_code}" , 
-                        style="display: none; margin-top: 10px;"),
-                    Input(type="text",
-                        id=f"editPhone_{address.phone_number}",
-                        value=address.phone_number,
-                        onclick= "toggleEditAddress{address.phone_number}", 
-                        style="display: none; margin-top: 10px;"),
-                    Button(
-                        "Save",
-                        type="button",
-                        id=f"saveAddressButton_{address.district}",
-                        onclick=f"saveAddress(event, '{address.district}')",
-                        style="display: none; margin-top: 10px;"
-                    ),
-                    Button(
-                        "Cancel",
-                        type="button",
-                        onclick=f"cancelEditAddress('{address.district}')",
-                        style="display: none; margin-top: 10px;"
-                    ),
-                    style="display: none; flex-direction: column; gap: 10px;"
-                ),
+                
                 style="margin-top: 10px; padding: 10px; border: 1px solid #ccc; background-color: #fff; color: #121212; border-radius: 5px; width: 300px;"  # Adjusted width for the cards
             ) for address in sorted(address_list, key=lambda x: x.district)  # Sorting by district (you can adjust this to another field if needed)
         ],
@@ -108,82 +68,11 @@ def page():
     )
 
     script = ("""
-        function toggleEditAddress(district) {
-            document.getElementById('editDistrict_' + district).style.display = 'block';
-            document.getElementById('editProvince_' + district).style.display = 'block';
-            document.getElementById('editZip_' + district).style.display = 'block';
-            document.getElementById('editPhone_' + district).style.display = 'block';
-            document.getElementById('saveAddressButton_' + district).style.display = 'block';
-            document.getElementById('cancelAddress_' + district).style.display = 'block';
-
-            document.getElementById('district_' + district).style.display = 'none';
-            document.getElementById('province_' + district).style.display = 'none';
-            document.getElementById('zip_' + district).style.display = 'none';
-            document.getElementById('phone_' + district).style.display = 'none';
-        }
-
-        function saveAddress(event, old_district) {
-            event.preventDefault(); // Prevent page refresh
-
-            var updatedDistrict = document.getElementById('editDistrict_' + old_district).value;
-            var updatedProvince = document.getElementById('editProvince_' + old_district).value;
-            var updatedZip = document.getElementById('editZip_' + old_district).value;
-            var updatedPhone = document.getElementById('editPhone_' + old_district).value;
-
-            fetch('/address/update', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    old_district: old_district,
-                    new_district: updatedDistrict,
-                    new_province: updatedProvince,
-                    new_zip_code: updatedZip,
-                    new_phone_number: updatedPhone
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    document.getElementById('editDistrict_' + old_district).style.display = 'none';
-                    document.getElementById('editProvince_' + old_district).style.display = 'none';
-                    document.getElementById('editZip_' + old_district).style.display = 'none';
-                    document.getElementById('editPhone_' + old_district).style.display = 'none';
-                    document.getElementById('saveAddressButton_' + old_district).style.display = 'none';
-                    document.getElementById('cancelAddress_' + old_district).style.display = 'none';
-
-                    document.getElementById('district_' + old_district).innerText = 'District: ' + updatedDistrict;
-                    document.getElementById('province_' + old_district).innerText = 'Province: ' + updatedProvince;
-                    document.getElementById('zip_' + old_district).innerText = 'Zip Code: ' + updatedZip;
-                    document.getElementById('phone_' + old_district).innerText = 'Phone Number: ' + updatedPhone;
-
-                    document.getElementById('district_' + old_district).style.display = 'block';
-                    document.getElementById('province_' + old_district).style.display = 'block';
-                    document.getElementById('zip_' + old_district).style.display = 'block';
-                    document.getElementById('phone_' + old_district).style.display = 'block';
-                } else {
-                    alert('Failed to update address.');
-                }
-            })
-            .catch(error => console.error('Error:', error));
-        }
-
-        function cancelEditAddress(district) {
-            document.getElementById('editDistrict_' + district).style.display = 'none';
-            document.getElementById('editProvince_' + district).style.display = 'none';
-            document.getElementById('editZip_' + district).style.display = 'none';
-            document.getElementById('editPhone_' + district).style.display = 'none';
-            document.getElementById('saveAddressButton_' + district).style.display = 'none';
-            document.getElementById('cancelAddress_' + district).style.display = 'none';
-
-            document.getElementById('district_' + district).style.display = 'block';
-            document.getElementById('province_' + district).style.display = 'block';
-            document.getElementById('zip_' + district).style.display = 'block';
-            document.getElementById('phone_' + district).style.display = 'block';
-        }
+        
 
         function deleteAddress(district) {
+            console.log('Attempting to delete address:', district); // Debug log
+
             fetch('/address/delete', {
                 method: 'POST',
                 headers: {
@@ -191,8 +80,12 @@ def page():
                 },
                 body: JSON.stringify({ district: district })
             })
-            .then(response => response.json())
+            .then(response => {
+                console.log('Response received:', response); // Debug log
+                return response.json();
+            })
             .then(data => {
+                console.log('Data received:', data); // Debug log
                 if (data.success) {
                     alert('Address deleted successfully!');
                     window.location.reload();
@@ -200,7 +93,10 @@ def page():
                     alert('Failed to delete address.');
                 }
             })
-            .catch(error => console.error('Error:', error));
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while deleting the address.');
+            });
         }
 
         function validateAddressForm() {

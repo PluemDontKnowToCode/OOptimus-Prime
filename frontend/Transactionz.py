@@ -19,7 +19,7 @@ def transaction_modal_script(count):
         close_transaction_{count}.addEventListener("click", () => {{
             transaction_show_modal_{count}.close()
         }})
-"""
+    """
     return scr
 
 def create_modal(data, count, net_price):
@@ -58,12 +58,24 @@ def Page():
         for i in range(len(transaction_list)):
             card.append(create_card(i, transaction_list[i].date, transaction_list[i].data, transaction_list[i].net_price))
     
+    # Create the "Back" button to navigate back to the profile page
+    back_button = Button(
+        "Back",
+        type="button",
+        onclick="window.location.href = '/profile'",
+         style="position: absolute; top: 10px; right: 20px; background-color: blue; color: white; border: none; padding: 20px; border-radius: 20px; cursor: pointer;"
+    )
+    
     page = Div(
         Component.Header(False, HeaderText = "Transaction"),
+        Div(
+        back_button,  # Add the back button to the page
         Div(
             *card
         ),
         Script(Component.get_warn_js()),
+        style="flex-grow: 1; padding: 20px; background-color: #121212; position: relative;"
+        )
     )
 
     return page
