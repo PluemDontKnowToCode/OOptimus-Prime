@@ -44,6 +44,10 @@ class Cart:
             res.append(dict1)
         # print(res)
         return res
+    
+    @property
+    def each_stack_amount(self):
+        return [i.amount for i in self.__cart_item_list]
 
     def remove_item(self, product):
         if isinstance(product, Product): return "Invalid type"

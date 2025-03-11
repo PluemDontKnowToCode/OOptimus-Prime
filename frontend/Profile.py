@@ -22,13 +22,13 @@ def page():
             type="button", 
             onclick="showContent('profile')" if role_bool else "",  
             style="margin-top: 10px; width: 100%;"
-        ),
-        Button(
-            "Transaction", 
-            type="button", 
-            onclick="showContent('transaction')",
-            style="margin-top: 10px; width: 100%;"
-        ) if role_bool else Div(),
+    ),
+            Button(
+                "Transaction", 
+                type="button", 
+                onclick="window.location.href = ('/transaction')",
+                style="margin-top: 10px; width: 100%;"
+            ) if role_bool else Div(),
         Button(
             "Coupon", 
             type="button", 

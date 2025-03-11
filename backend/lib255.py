@@ -161,6 +161,9 @@ class Market():
             return "User Not Found"
             
         cart = customer.cart
+
+        stack_item_list = cart.get_cart_item
+        print(f"GET stack item {stack_item_list}")
         
         price = cart.calculate_price()
         
@@ -175,16 +178,19 @@ class Market():
                 
         if(price > customer.money):
             return "Not Enough Money"
+
+        stack_product = cart.product_list
+        amount =  cart.each_stack_amount
+        trans1 = Transaction(stack_product, amount)
+        customer.add_transaction(trans1)
         
+        if coupon: customer.delete_coupon(coupon)
+
         for i in cart.get_cart_item:
             i.product.update_stock(-1 * i.amount)
 
         customer.update_money(price)
         customer.clear_cart()
-        customer.delete_coupon(coupon)
-
-        for p in cart.product_list:
-            customer.add_transaction(Transaction(p.id))
         
         return "success"
     
@@ -254,6 +260,11 @@ class Market():
     
     def search(self, name):
         return [p.to_json() for p in self.__product_list if name.lower() in p.name.lower()]
+    
+    def get_transaction_list(self):
+        if not self.__current_user: return
+        if isinstance(self.__current_user, Customer): 
+            return self.__current_user.get_transaction_list()
     
     # def search(self, name , tag):
     #     return [p.to_json() for p in self.__product_list if name.lower() in p.name.lower()]
@@ -396,10 +407,13 @@ market1 = Market()
 
 for i in get_all_customer():
     market1.add_account(i)
+
 for i in get_all_product():
     market1.add_product(i)
+
 for i in get_all_seller():
     market1.add_account(i)
+
 for i in get_all_admin():
     market1.add_account(i)
 

@@ -19,6 +19,7 @@ import Purchase
 import Profile
 import Register
 import Addproduct
+import Transactionz
 
 import Comment as com
 import Addproduct as addp
@@ -84,6 +85,10 @@ def profile():
 def profile_change_name(new_username: str):
     market1.change_username(new_username)
     return Redirect('/profile')
+
+@app.get('/transaction')
+def transaction():
+    return Transactionz.Page()
 
 #end
 
@@ -229,5 +234,6 @@ def add_coupon_to_account(coupon_id: str):
     if market1.current_account and isinstance(market1.current_account, Customer):
         market1.add_coupon_to_account(coupon_id)
     return Div()
+
 #end
 serve(port=3000)

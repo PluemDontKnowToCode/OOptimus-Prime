@@ -71,8 +71,8 @@ class Customer(Account):
     def clear_cart(self):
         self.__cart.clear()
 
-    def add_transaction(self,product_id):
-        self.__transaction.append(Transaction(self.id,product_id))
+    def add_transaction(self, transaction1):
+        if isinstance(transaction1, Transaction): self.__transaction.append(transaction1)
         return
     
     def update_money(self, amount):
@@ -80,6 +80,9 @@ class Customer(Account):
         return
     
     def view_product_detail(self, product_id): return self.__market.view_product_detail(product_id)
+
+    def get_transaction_list(self):
+        return self.__transaction
 
     def to_json(self):
         return {

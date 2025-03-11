@@ -246,6 +246,7 @@ def ResultPage(result):
             Style="padding: 0px;",
         )
     return page
+
 def AddressCard(a):
     temp = Address(a['district'],a["province"],a["zip_code"],a["phone"])
     if(temp.is_equal(market1.current_account.selected_address)):
