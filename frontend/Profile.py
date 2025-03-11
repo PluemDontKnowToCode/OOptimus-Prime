@@ -151,28 +151,32 @@ def page():
         ),
         
         Div(
+    Div(
+        *[
             Div(
-                *[
-                    Div(
-                        Div(f"Discount Percent: {coupon.discount_percent}%", style="margin-top: 10px; padding: 5px;"),
-                        Div(f"Less Amount: {coupon.less_amount}", style="margin-top: 10px; padding: 5px;"),
-                        Div(f"Product Count: {coupon.product_count}", style="margin-top: 10px; padding: 5px;"),
-                        Div(f"Start Time: {coupon.start_time}", style="margin-top: 10px; padding: 5px;"),
-                        Div(f"End Time: {coupon.end_time}", style="margin-top: 10px; padding: 5px;"),
-                        Button(
-                            "Use",
-                            type="button",
-                            onclick="window.location.href='http://localhost:3000/cart';",
-                            style="margin-top: 10px; padding: 5px; border: center;"
-                        ),
-                        style="margin-top: 10px; padding: 10px; border: 1px solid #ccc; background-color: #fff; color: #121212; border-radius: 5px; width: 300px;"
-                    ) for coupon in coupon_list
-                ],
-                id="couponContent",
-                style="display: none; flex-direction: row; gap: 20px; margin-top: 20px; flex-wrap: wrap;"
-            ),
-        ) if role_bool else Div(),
-        style="flex-grow: 1; padding: 20px; background-color: #121212;" 
+                H1(f"{coupon.id}", style="margin-top: 20px; padding: 10px; font-weight: bold;"),
+                Ul(
+                    Li(f"Discount: {coupon.discount_percent}%"),
+                    Li(f"Least Cost: ${coupon.less_amount}"),
+                    Li(f"Least Amount: {coupon.product_count}"),
+                    Li(f"Date Begin: {coupon.start_time}"),
+                    Li(f"Date Expire: {coupon.end_time}"),
+                    style="list-style-type: none; padding: 20; margin: 10px 0;"
+                ),
+                Button(
+                    "Use",
+                    type="button",
+                    onclick="window.location.href='http://localhost:3000/cart';",
+                    style="margin-top: 10px; padding: 10px; border: none; background-color: #007bff; color: white; border-radius: 5px; cursor: pointer;"
+                ),
+                style="margin-top: 10px; padding: 20px; border: 1px solid #ccc; background-color: #2c214e;; color: #121212; border-radius: 10px; width: 300px; box-shadow: 2px 2px 10px rgba(0,0,0,0.1);"
+            ) for coupon in coupon_list
+        ],
+        id="couponContent",
+        style="display: none; flex-direction: row; gap: 20px; margin-top: 20px; flex-wrap: wrap;"
+    ),
+) if role_bool else Div(),
+style="flex-grow: 1; padding: 20px; background-color: #121212;"
     )
 
     main_content = Div(
@@ -314,3 +318,4 @@ def page():
     )
     
     return page
+
