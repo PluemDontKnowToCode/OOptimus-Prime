@@ -81,8 +81,9 @@ def page():
                         style="display: none; margin-top: 5px;"
                     ),
                     method="post",
-                    action="/update_username",
-                    style="display: flex; flex-direction: column; gap: 5px; align-items: center; margin-top: 10px;"
+                    action="/profile",
+                    style="display: flex; flex-direction: column; gap: 5px; align-items: center; margin-top: 10px;",
+                    onsubmit="saveUsername(event)"
                 ),
                 Input(
                     type="file",
@@ -112,18 +113,27 @@ def page():
                             style="margin-top: 10px;"
                         ),
                         
-                        Div(
+                        Form(
                             Input(type="text", id=f"editDistrict_{address.district}", value=address.district, style="display: none; margin-top: 10px;"),
                             Input(type="text", id=f"editProvince_{address.province}", value=address.province, style="display: none; margin-top: 10px;"),
                             Input(type="text", id=f"editZip_{address.zip_code}", value=address.zip_code, style="display: none; margin-top: 10px;"),
                             Input(type="text", id=f"editPhone_{address.phone_number}", value=address.phone_number, style="display: none; margin-top: 10px;"),
                             Button(
                                 "Save",
-                                type="button",
-                                onclick=f"saveAddress('{address.district}')",
+                                type="submit",
+                                id=f"saveAddressButton_{address.district}",
                                 style="display: none; margin-top: 10px;"
                             ),
-                            style="display: none; flex-direction: column;"
+                            Button(
+                                "Cancel",
+                                type="button",
+                                onclick=f"cancelEditAddress('{address.district}')",
+                                style="display: none; margin-top: 10px;"
+                            ),
+                            method="post",
+                            action="/profile",
+                            style="display: none; flex-direction: column; gap: 10px; align-items: center; margin-top: 10px;",
+                            onsubmit=f"saveAddress(event, '{address.district}')"
                         ),
                         style="margin-top: 10px; padding: 10px; border: 1px solid #ccc; background-color: #fff; color: #121212; border-radius: 5px; width: 300px;"  # Adjusted width for the cards
                     ) for address in sorted(address_list, key=lambda x: x.district)  # Sorting by district (you can adjust this to another field if needed)
@@ -140,9 +150,26 @@ def page():
         ),
         
         Div(
-            "Coupons used...",
-            id="couponContent",
-            style="display: none;"
+            Div(
+                *[
+                    Div(
+                        Div(f"Discount Percent: {coupon.discount_percent}%", style="margin-top: 10px; padding: 5px;"),
+                        Div(f"Less Amount: {coupon.less_amount}", style="margin-top: 10px; padding: 5px;"),
+                        Div(f"Product Count: {coupon.product_count}", style="margin-top: 10px; padding: 5px;"),
+                        Div(f"Start Time: {coupon.start_time}", style="margin-top: 10px; padding: 5px;"),
+                        Div(f"End Time: {coupon.end_time}", style="margin-top: 10px; padding: 5px;"),
+                        Button(
+                            "Use",
+                            type="button",
+                            onclick="window.location.href='http://localhost:3000/cart';",
+                            style="margin-top: 10px; padding: 5px; border: center;"
+                        ),
+                        style="margin-top: 10px; padding: 10px; border: 1px solid #ccc; background-color: #fff; color: #121212; border-radius: 5px; width: 300px;"
+                    ) for coupon in coupon_list
+                ],
+                id="couponContent",
+                style="display: none; flex-direction: row; gap: 20px; margin-top: 20px; flex-wrap: wrap;"
+            ),
         ),
         style="flex-grow: 1; padding: 20px; background-color: #121212;" 
     )
@@ -154,10 +181,11 @@ def page():
     )
 
     script = Script("""
+                    
         function showContent(contentType) {
-         document.getElementById('profileContent').style.display = 'none';
-          document.getElementById('transactionContent').style.display = 'none';
-         document.getElementById('couponContent').style.display = 'none';
+        document.getElementById('profileContent').style.display = 'none';
+        document.getElementById('transactionContent').style.display = 'none';
+        document.getElementById('couponContent').style.display = 'none';
         document.getElementById('addressContent').style.display = 'none';
 
          if (contentType === 'profile') {
@@ -167,20 +195,28 @@ def page():
          } else if (contentType === 'transaction') {
         document.getElementById('transactionContent').style.display = 'block';
          } else if (contentType === 'coupon') {
-        document.getElementById('couponContent').style.display = 'block';
+        document.getElementById('couponContent').style.display = 'flex';  // Ensure couponContent is displayed
+        document.getElementById('couponContent').style.flexDirection = 'row';  // Set coupon cards to horizontal layout
         }
         }
-
 
         function toggleEditAddress(district) {
             document.getElementById('editDistrict_' + district).style.display = 'block';
             document.getElementById('editProvince_' + district).style.display = 'block';
             document.getElementById('editZip_' + district).style.display = 'block';
             document.getElementById('editPhone_' + district).style.display = 'block';
-            document.getElementById('saveAddress_' + district).style.display = 'block';
+            document.getElementById('saveAddressButton_' + district).style.display = 'block';
+            document.getElementById('cancelAddress_' + district).style.display = 'block';
+
+            document.getElementById('district_' + district).style.display = 'none';
+            document.getElementById('province_' + district).style.display = 'none';
+            document.getElementById('zip_' + district).style.display = 'none';
+            document.getElementById('phone_' + district).style.display = 'none';
         }
 
-        function saveAddress(district) {
+        function saveAddress(event, district) {
+            event.preventDefault(); // Prevent page refresh
+
             var updatedDistrict = document.getElementById('editDistrict_' + district).value;
             var updatedProvince = document.getElementById('editProvince_' + district).value;
             var updatedZip = document.getElementById('editZip_' + district).value;
@@ -190,12 +226,32 @@ def page():
             document.getElementById('editProvince_' + district).style.display = 'none';
             document.getElementById('editZip_' + district).style.display = 'none';
             document.getElementById('editPhone_' + district).style.display = 'none';
-            document.getElementById('saveAddress_' + district).style.display = 'none';
+            document.getElementById('saveAddressButton_' + district).style.display = 'none';
+            document.getElementById('cancelAddress_' + district).style.display = 'none';
 
             document.getElementById('district_' + district).innerText = 'District: ' + updatedDistrict;
             document.getElementById('province_' + district).innerText = 'Province: ' + updatedProvince;
             document.getElementById('zip_' + district).innerText = 'Zip Code: ' + updatedZip;
             document.getElementById('phone_' + district).innerText = 'Phone Number: ' + updatedPhone;
+
+            document.getElementById('district_' + district).style.display = 'block';
+            document.getElementById('province_' + district).style.display = 'block';
+            document.getElementById('zip_' + district).style.display = 'block';
+            document.getElementById('phone_' + district).style.display = 'block';
+        }
+
+        function cancelEditAddress(district) {
+            document.getElementById('editDistrict_' + district).style.display = 'none';
+            document.getElementById('editProvince_' + district).style.display = 'none';
+            document.getElementById('editZip_' + district).style.display = 'none';
+            document.getElementById('editPhone_' + district).style.display = 'none';
+            document.getElementById('saveAddressButton_' + district).style.display = 'none';
+            document.getElementById('cancelAddress_' + district).style.display = 'none';
+
+            document.getElementById('district_' + district).style.display = 'block';
+            document.getElementById('province_' + district).style.display = 'block';
+            document.getElementById('zip_' + district).style.display = 'block';
+            document.getElementById('phone_' + district).style.display = 'block';
         }
 
         function toggleUsernameEdit() {
@@ -213,6 +269,31 @@ def page():
                 usernameDisplay.style.display = 'block';
             }
         }
+                    
+    function saveUsername(event) {
+    event.preventDefault(); // Prevent page refresh
+
+    var newUsername = document.getElementById("usernameInput").value;
+
+    fetch("/profile", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ new_username: newUsername }) // Ensure proper JSON format
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            document.getElementById("usernameDisplay").innerText = newUsername;
+            toggleUsernameEdit();
+            alert("Username updated successfully!");
+            window.location.href = 'http://localhost:3000/profile';
+        } else {
+            alert("Update failed! " + (data.message || ""));
+        }
+    })
+    .catch(error => console.error("Error:", error));
+}
+
 
         function updateProfileImage(event) {
             var reader = new FileReader();
@@ -231,4 +312,3 @@ def page():
     )
     
     return page
-
