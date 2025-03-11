@@ -235,7 +235,13 @@ class Market():
     def get_product_detail(self, product): return product.detail
     
     def get_product_image(self, p_id):
-        return self.get_product(p_id).image
+        res = None
+        if self.get_product(p_id): res = self.get_product(p_id).image
+        elif self.get_requested(p_id): res = self.get_requested(p_id).image
+        return res
+    
+    def is_product_approve(self, p_id):
+        return isinstance(self.get_product(p_id), Product)
     
     def get_requested_image(self, p_id):
         return self.get_requested(p_id).product.image

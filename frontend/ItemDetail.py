@@ -10,7 +10,9 @@ user_id = ""
 modal = None
 
 def my_modal(p_id, user_id):
-    p_stock = market1.get_product(p_id).stock
+    p = market1.get_product(p_id)
+    if not p: p = market1.get_requested(p_id)
+    p_stock = p.stock
     add_to_cart_modal = Dialog(
         Div(
             H3("Pick amount", style = "margin-left: 10px; margin-top: 20px"), H3(f"Aavaiable: {p_stock}", style = "margin-left: 10px; margin-top: 20px"),
@@ -69,13 +71,11 @@ def view_detail(p_id: int):
     list_dis = ["Name", "Price", "Stocked", "Description"]
     j1 = create_json(list_dis, p)
     p_image = market1.get_product_image(p_id)
+    approve_bool = market1.is_product_approve(p_id)
     login_bool = Component.login_bool
-    js_for_dialog = Component.get_warn_js() 
+    js_for_dialog = Component.get_warn_js()
     if login_bool: js_for_dialog += ("\n" + Component.add_to_cart_script)
     validate_variable(p_id)
-    # print(f"Login_bool {login_bool}")
-    # print(f"JS {js_for_dialog}\n\n\nand Modal {modal}")
-    # print(f"JS{js_for_dialog}\n\nMy modal\n{to_xml(modal)}\n")
     
     part_header = Component.Header(False)
 
@@ -95,14 +95,15 @@ def view_detail(p_id: int):
                 Button(
                     "Add to cart",
                     cls = "b10" if login_bool else "a1",
-                ) if j1['Stocked'] > 0 else Div(),
+                ) if (j1['Stocked'] > 0 and approve_bool) else Div(),
                 modal,
             ),
             stlye = "grid-template-columns: 1fr 1fr;"
         ),
     ),
 
-    part_add_comment = Titled(
+    part_add_comment = Div()
+    if (approve_bool and login_bool): part_add_comment = Titled(
         "Add your opinion",
         Form(
             Div(Input(type = "number", id = "star", max = "5", min = "1", value = 3), style = "width: 5%;"),
@@ -113,9 +114,7 @@ def view_detail(p_id: int):
         )
     ),
     
-    if not login_bool: part_add_comment = None
-
-
+    
     part_comment = Titled("Comment")
     if len(c) > 0:
         part_comment = Titled(
@@ -143,6 +142,8 @@ def view_detail(p_id: int):
                 """
         ),
     ),
+
+    if not approve_bool: part_comment = Div()
 
 
     page = Main(

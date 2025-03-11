@@ -23,8 +23,16 @@ class RequestedProduct:
         return self.__create_at
     
     @property
+    def image(self):
+        return self.__product.image
+    
+    @property
     def status(self):
         return self.__status
+    
+    @property
+    def stock(self):
+        return self.__product.stock
 
     def update_status(self, new_status):
         self.__status = new_status
