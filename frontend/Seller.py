@@ -7,11 +7,86 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
 from backend.lib255 import *
 
-all_product = get_all_product()
 
-# print(all_product)
-# for p in all_product:
-#     print(f"ID: {p.id}")
+
+def Page():
+    my_product = market1.current_account.selling_product
+    requested = market1.current_account.get_requested_product()
+    page = Title("Seller -Teerawee Shop"), Main(
+        Component.Header(False, False, "Seller"),
+        Grid(
+            Div(
+                Div(
+                    H1(
+                        "My Product",
+                        Style="margin: 2%;"
+                    ),
+                    A(
+                        Button(
+                            "Add Product",
+                            
+                        ),
+                        href="/addproduct",
+                        Style="margin: 2%;"
+                    ),
+                    
+                    Style="""
+                        display: flex; 
+                        justify-content: space-between;
+                        
+                    """,
+                    id="manage_coupon_head",
+                ),
+                Div(
+                    Div(*
+                        [
+                            item_post_card(j.image, j.name, j.id, j.price)
+                            for j in my_product
+                        ],
+                        style = "display: flex; ",
+                    ),
+                    id="manage_coupon_body",
+                    style = "height: 20vw;"
+                ),
+                Style="padding-top:0px;"
+            ),
+             Div(
+                Div(
+                    H1(
+                        "manage Requested Product",
+                        Style="margin: 2%;"
+                    ),
+                    
+                    Style="""
+                        display: flex;
+                        
+                    """,
+                    id="manage_requested_head",
+                ),
+                Div(
+                    Div(*
+                        [
+                            item_post_card(i.image, i.name, i.id, i.price)
+                            for i in requested
+                        ],
+                        style = "display: flex; ",
+                    ),
+                    id="manage_requested_body",
+                    style = "height: 20vw;"
+                ),
+            ),
+            Style = """
+                grid-template-columns: 1fr;
+                grid-template-rows: 1fr 1fr;
+                
+            """
+        ),
+        Script(Component.get_warn_js()),
+        style = Component.configHeader
+    )
+       
+    return page
+    
 def item_post_card(p_img, p_name, p_id, p_price):
     res = Card(
                 Img(
@@ -42,103 +117,6 @@ def item_post_card(p_img, p_name, p_id, p_price):
                 style = "height: 350px; display: flex; flex-direction: column; justify-content: space-between ; align-items: center; gap:10px;"
             )
     return res
-
-def get_item_post_card(search_word):
-    list1 = market1.search(search_word)
-    # print(search_word)
-    # print(f"res: {list1}")
-    if not list1: return None
-    return Grid(*[item_post_card(i['img'], i['name'], i['id'], i['price']) for i in list1], style = "grid-template-columns: 1fr 1fr 1fr 1fr;")
-
-def get_item_post_card_by_list(list_temp):
-    list1 = list_temp
-    # print(search_word)
-    # print(f"res: {list1}")
-    if not list1: return None
-    return Grid(*[item_post_card(i['img'], i['name'], i['id'], i['price']) for i in list1], style = "grid-template-columns: 1fr 1fr 1fr 1fr;")
-
-def Category_button(i):
-    
-
-    return Div(
-            Button(
-                i.name,
-                Style="""
-                    color:black;
-                    background:white;
-                    background-color: white;
-                    border: 1px solid black;
-                    padding: 10px 15px;
-                    text-align: left;
-                    font-size: 16px;
-                    cursor: pointer;
-                    width: 100%;
-                """,
-                
-            ),
-            hx_get=f"/category/{i.name}",
-            target_id="grid_home",
-            hx_trigger="click",
-            id="i.name"
-        )
-
-def Page(prodcut_pool = [], search_word = ""):
-    result = None
-    if len(prodcut_pool) == 0 and search_word == "": result = [item_post_card(i.image, i.name, i.id, i.price) for i in all_product]
-    else: result = [item_post_card(i['img'], i['name'], i['id'], i['price']) for i in prodcut_pool]
-    head = Component.Header()
-    body = Grid(
-        Div(
-            Div(
-                "Category",
-                style = "text-align: center;"
-            ),
-            Div(*
-                
-                [
-                    Category_button(i)
-                    for i in market1.category_list
-                ],
-                style="""
-                    display:flex;
-                    flex-direction: column;
-                """
-            ),
-            Div(
-                Form(
-                    Button(
-                        "Add Product",
-                        type="submit",
-                        style="margin: 2px;"
-                    ),
-                    method="get",
-                    action="/addproduct",
-                    style="display: flex; justify-content: flex-end; margin-top: 2px;"
-            ),
-            ),
-            
-            style = Component.CheckingStyle,
-        ),
-        Div(
-            
-        ),
-        Div(
-            # *result,
-            style = "grid-template-columns: 1fr 1fr 1fr 1fr;",
-            id = "grid_home"
-        ),
-        style = "grid-template-columns: 10% 1.1% 70%"
-    )
-    page = Main(
-        head,
-        body,
-        Component.warn_to_login_modal,
-        Script(Component.get_warn_js()),
-        style = Component.configHeader
-    )
-    return page
-    
-
 
 
 
