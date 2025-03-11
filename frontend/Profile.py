@@ -7,11 +7,12 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from backend.lib255 import *
 
 def page():
+    role_bool = isinstance(market1.current_account, Customer)
     current_account = market1.current_account
     profile_image_url = current_account.image  
-    username = current_account.username 
-    address_list = current_account.address_list
-    coupon_list = current_account.coupon_list 
+    username = current_account.name 
+    if role_bool: address_list = current_account.address_list
+    if role_bool: coupon_list = current_account.coupon_list 
 
     part_header = Component.Header(False)
     
@@ -19,7 +20,7 @@ def page():
         Button(
             "Profile", 
             type="button", 
-            onclick="showContent('profile')",  
+            onclick="showContent('profile')" if role_bool else "",  
             style="margin-top: 10px; width: 100%;"
         ),
         Button(
@@ -27,13 +28,13 @@ def page():
             type="button", 
             onclick="showContent('transaction')",
             style="margin-top: 10px; width: 100%;"
-        ),
+        ) if role_bool else Div(),
         Button(
             "Coupon", 
             type="button", 
             onclick="showContent('coupon')",
             style="margin-top: 10px; width: 100%;"
-        ),
+        ) if role_bool else Div(),
         style="display: flex; flex-direction: column; gap: 10px; width: 250px; padding: 10px; border-right: solid 1px #ccc; height: 100vh; background-color: #121212;"
     )
 
@@ -140,7 +141,7 @@ def page():
                 ],
                 id="addressContent",
                 style="display: flex; flex-direction: row; gap: 20px; margin-top: 20px; flex-wrap: wrap;"  # Ensure cards wrap in a row
-            ),
+            ) if role_bool else Div(),
         ),
         
         Div(
@@ -170,7 +171,7 @@ def page():
                 id="couponContent",
                 style="display: none; flex-direction: row; gap: 20px; margin-top: 20px; flex-wrap: wrap;"
             ),
-        ),
+        ) if role_bool else Div(),
         style="flex-grow: 1; padding: 20px; background-color: #121212;" 
     )
 
@@ -180,15 +181,14 @@ def page():
         style="display: flex; height: 100vh; background-color: #121212;"
     )
 
-    script = Script("""
-                    
+    script = ("""
         function showContent(contentType) {
         document.getElementById('profileContent').style.display = 'none';
         document.getElementById('transactionContent').style.display = 'none';
         document.getElementById('couponContent').style.display = 'none';
         document.getElementById('addressContent').style.display = 'none';
 
-         if (contentType === 'profile') {
+        if (contentType === 'profile') {
         document.getElementById('profileContent').style.display = 'block';
         document.getElementById('addressContent').style.display = 'flex';  // Ensure addressContent is displayed
         document.getElementById('addressContent').style.flexDirection = 'row';  // Set address cards to horizontal layout
@@ -292,22 +292,24 @@ def page():
         }
     })
     .catch(error => console.error("Error:", error));
-}
+    }
 
 
-        function updateProfileImage(event) {
-            var reader = new FileReader();
-            reader.onload = function(e) {
-                document.getElementById('profileImage').src = e.target.result;
-            }
-            reader.readAsDataURL(event.target.files[0]);
+    function updateProfileImage(event) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('profileImage').src = e.target.result;
         }
+        reader.readAsDataURL(event.target.files[0]);
+    }\n
     """)
+
+    script += Component.get_warn_js()
 
     page = Main(
         part_header,
         main_content,
-        script,
+        Script(script),
         style=Component.configHeader
     )
     

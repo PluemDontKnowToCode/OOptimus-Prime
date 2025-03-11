@@ -18,10 +18,6 @@ class Account(Object):
     def name(self):
         return self.__name
     
-    @name.setter
-    def name(self, new_name):
-        self.__name = new_name
-    
     @property
     def password(self):
         return self.__password
@@ -29,10 +25,6 @@ class Account(Object):
     @property 
     def username(self):
         return self.__username
-    
-    @username.setter
-    def username(self, new_name):
-        self.__username = new_name
     
     @property
     def image(self):
@@ -71,3 +63,6 @@ class Account(Object):
         for i in self.__address_list:
             res.append(i.to_json())
         return res
+    
+    def rename(self, new_name):
+        self.__name = new_name

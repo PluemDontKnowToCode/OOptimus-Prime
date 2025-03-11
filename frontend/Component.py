@@ -181,7 +181,8 @@ def coupon_card(coupon_dict):
             Li(f"Date Begin: {coupon_dict['start_time']}"),
             Li(f"Date Expire: {coupon_dict['end_time']}")
         ),
-        get_button()
+        get_button(),
+        style = "width: 20vw;"
     )
     return res
 
@@ -193,19 +194,22 @@ def coupon_modal():
         card_list.append(coupon_card(i.to_json()))
     
     modal = Dialog(
-        Div(
-            Grid(
-                # coupon    
-                *card_list,
-                # style = "flex-direction: column;"  
-                style = "grid-template-columns: 1fr 1fr 1fr;"
+        Grid(
+            Div(
+                Grid(
+                    # coupon    
+                    *card_list,
+                    # style = "flex-direction: column;"  
+                    style = "grid-template-columns: 1fr 1fr 1fr;"
+                ) if len(card_list) > 0 else H1("No coupon to redeem", style = "font-color: black;"),
+                style = "background-color: grey; width: 75vw;"
             ),
-            style = ""
-        ),
-        Button(
-                "close",
-                cls = "close_coupon_basket",
-                style = "margin-left: 1vw;"
+            Button(
+                    "close",
+                    cls = "close_coupon_basket",
+                    style = "margin-left: 1vw; margin-top: 5vw;"
+            ),
+            style = "grid-template-columns: 9fr 1fr;"
         ),
         cls = "coupon_modal"
     )

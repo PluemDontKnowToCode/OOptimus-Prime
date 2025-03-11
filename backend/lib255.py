@@ -77,9 +77,9 @@ class Market():
             self.__current_user = user
 
     def change_username(self, new_name):
-        if isinstance(self.__current_user, Customer):
-            self.__current_user.username = new_name
-            print(f'newName {new_name}\nnowName {self.__current_user.name}')
+        if isinstance(self.__current_user, Account):
+            self.__current_user.rename(new_name)
+        return None
         
     def generate_id(self, state):
         var = [[self.__product_list, 'P'], [self.__customer_list, 'A'], [self.__seller_list, 'S'], [self.__admin_list, 'M'], [self.__coupon_list, 'C']]
@@ -410,7 +410,7 @@ for i in get_all_coupon():
     market1.add_coupon(i)
 
 
-market1.update_current_user(market1.get_account('S000001'))
+market1.update_current_user(market1.get_account('A000001'))
 
 # p = market1.get_product("P000001")
 # market1.current_account.cart.add_item(p, 1)
