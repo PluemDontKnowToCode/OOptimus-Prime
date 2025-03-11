@@ -53,4 +53,4 @@ def page():
     return page
 
 def validate_register(name : str, password : str, r_password : str, role : str):
-    return market1.validate_register(name, password, r_password)
+    return market1.validate_register(name, password, r_password, role)

@@ -160,9 +160,6 @@ class Market():
             return "User Not Found"
             
         cart = customer.cart
-
-        stack_item_list = cart.get_cart_item
-        print(f"GET stack item {stack_item_list}")
         
         price = cart.calculate_price()
         
@@ -170,7 +167,7 @@ class Market():
             if(self.get_coupon(coupon.id)):
                 if not (coupon.check_condition(cart)):
                     return "Coupon Condition Not Met"
-                discountPercent = self.get_coupon(coupon.id).discount_percent
+                discountPercent = coupon.discount_percent
                 price -= price * discountPercent
             else:
                 return "Coupon Not Found"
@@ -308,6 +305,7 @@ class Market():
     def validate_register(self,name : str, password : str, r_password : str, role : str):
         if(password != r_password):
             return 'error'
+        if self.is_user_exist(name, password): return "error"
         if role == "customer":
             new_account = Customer(id=self.generate_id(1),name=  name,username= name,password= password, money =10000, market= market1)
         elif role == "seller":
@@ -320,8 +318,8 @@ class Market():
     def is_user_exist(self, username ,password):
         for i in self.account_list:
             if i.username == username and i.password == password:
-                return False
-        return True
+                return True
+        return False
 #endregion
 
 def create_json(list1, list2):
