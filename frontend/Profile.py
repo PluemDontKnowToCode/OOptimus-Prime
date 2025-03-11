@@ -18,32 +18,32 @@ def page():
     part_header = Component.Header(False)
     
     left_menu = Div(
-    Button(
-        "Profile", 
-        type="button", 
-        onclick="showContent('profile')" if role_bool else "",  
-        style="margin-top: 10px; width: 100%;"
-    ),
-    Button(
-        "Transaction", 
-        type="button", 
-        onclick="window.location.href = '/transaction'",  
-        style="margin-top: 10px; width: 100%;"
-    ) if role_bool else Div(),
-    Button(
-        "Coupon", 
-        type="button", 
-        onclick="showContent('coupon')" if role_bool else "",  
-        style="margin-top: 10px; width: 100%;"
-    ) if role_bool else Div(),
-    Button(
-        "Address",
-        type="button",
-        onclick="window.location.href = '/address'",
-        style="margin-top: 10px; width: 100%; background-color: green; color: white;"
-    ) if role_bool else Div(),
-    style="display: flex; flex-direction: column; gap: 10px; width: 250px; padding: 10px; border-right: solid 1px #ccc; height: 100vh; background-color: #121212;"
-)
+        Button(
+            "Profile", 
+            type="button", 
+            onclick="showContent('profile')" if role_bool else "",  
+            style="margin-top: 10px; width: 100%;"
+        ),
+        Button(
+            "Transaction", 
+            type="button", 
+            onclick="window.location.href = '/transaction'",  
+            style="margin-top: 10px; width: 100%;"
+        ) if role_bool else Div(),
+        Button(
+            "Coupon", 
+            type="button", 
+            onclick="showContent('coupon')" if role_bool else "",  
+            style="margin-top: 10px; width: 100%;"
+        ) if role_bool else Div(),
+        Button(
+            "Address",
+            type="button",
+            onclick="window.location.href = '/address'",
+            style="margin-top: 10px; width: 100%; background-color: green; color: white;"
+        ) if role_bool else Div(),
+        style="display: flex; flex-direction: column; gap: 10px; width: 250px; padding: 10px; border-right: solid 1px #ccc; height: 100vh; background-color: #121212;"
+    )
 
     content_area = Div(
         Div(
@@ -166,7 +166,6 @@ def page():
         }
     }
 
-
     function toggleUsernameEdit() {
         var usernameInput = document.getElementById('usernameInput');
         var saveButton = document.getElementById('saveUsernameButton');
@@ -206,7 +205,7 @@ def page():
         .catch(error => console.error("Error:", error));
     }
 
-    function updateProfileImage(event) {
+    fufunction updateProfileImage(event) {
         var file = event.target.files[0];
         if (!file) {
             alert("No file selected!");
@@ -216,10 +215,10 @@ def page():
         reader.onload = function(e) {
             document.getElementById('profileImage').src = e.target.result;
         };
-        reader.readAsDataURL(file);
-    }
-""")
-
+        reader.readAsDataURL(file);"
+        
+    }                
+    """)
     script += Component.get_warn_js()
 
     page = Main(

@@ -95,9 +95,21 @@ def profile_change_name(new_username: str):
     return Redirect('/profile')
 
 @app.post('/profile/update_image')
-def update_profile_image(new_image_url: str):
-    market1.update_image(new_image_url)
-    return Redirect('/profile')
+async def update_profile_image(request: Request):
+    form = await request.form()
+    file = form.get('file')
+    
+    if not file:
+        return JSONResponse({'success': False, 'message': 'No file uploaded.'})
+    
+    # Save the file to a desired location
+    file_location = f"static/profile_images/{file.filename}"
+    with open(file_location, "wb") as f:
+        f.write(file.file.read())
+    
+    # Update the profile image URL
+    market1.update_image(file_location)
+    return JSONResponse({'success': True, 'image_url': file_location})
 
 @app.get('/address')
 def address():
@@ -109,8 +121,15 @@ def add_address(district: str, province: str, zip_code: str, phone_number: str):
     return Redirect('/address')
 
 @app.post('/address/delete')
-def delete_address(district: str):
+async def delete_address(request: Request):
+    data = await request.json()
+    district = data.get('district')
     market1.delete_address(district)
+    return JSONResponse({'success': True})
+
+@app.post('/address/update')
+def update_address(old_district: str, new_district: str, new_province: str, new_zip_code: str, new_phone_number: str):
+    market1.update_address(old_district, new_district, new_province, new_zip_code, new_phone_number)
     return JSONResponse({'success': True})
 
 @app.get('/transaction')

@@ -68,6 +68,10 @@ class Market():
     def selected_category(self):
         return self.__selected_category
     
+    def update_image(self, new_image_url):
+        if isinstance(self.current_account, Customer):
+            self.current_account.image = new_image_url
+
     def add_address(self, district, province, zip_code, phone_number):
         if isinstance(self.current_account, Customer):
             # Check if any field is empty
@@ -84,9 +88,18 @@ class Market():
             return {'success': True}
 
     def delete_address(self, district):
-        if isinstance(self.current_account, Customer):
-            self.current_account.address_list = [address for address in self.current_account.address_list if address.district != district]
+        self.current_account.address_list[:] = [address for address in self.current_account.address_list if address.district != district]
     
+    def update_address(self, old_district, new_district, new_province, new_zip_code, new_phone_number):
+        if isinstance(self.current_account, Customer):
+            for address in self.current_account.address_list:
+                if address.district == old_district:
+                    address.district = new_district
+                    address.province = new_province
+                    address.zip_code = new_zip_code
+                    address.phone_number = new_phone_number
+                    break
+
     def update_selected_category(self, category):
         if isinstance(category, Category):
             self.__selected_category = category

@@ -122,30 +122,51 @@ def page():
             document.getElementById('phone_' + district).style.display = 'none';
         }
 
-        function saveAddress(event, district) {
+        function saveAddress(event, old_district) {
             event.preventDefault(); // Prevent page refresh
 
-            var updatedDistrict = document.getElementById('editDistrict_' + district).value;
-            var updatedProvince = document.getElementById('editProvince_' + district).value;
-            var updatedZip = document.getElementById('editZip_' + district).value;
-            var updatedPhone = document.getElementById('editPhone_' + district).value;
+            var updatedDistrict = document.getElementById('editDistrict_' + old_district).value;
+            var updatedProvince = document.getElementById('editProvince_' + old_district).value;
+            var updatedZip = document.getElementById('editZip_' + old_district).value;
+            var updatedPhone = document.getElementById('editPhone_' + old_district).value;
 
-            document.getElementById('editDistrict_' + district).style.display = 'none';
-            document.getElementById('editProvince_' + district).style.display = 'none';
-            document.getElementById('editZip_' + district).style.display = 'none';
-            document.getElementById('editPhone_' + district).style.display = 'none';
-            document.getElementById('saveAddressButton_' + district).style.display = 'none';
-            document.getElementById('cancelAddress_' + district).style.display = 'none';
+            fetch('/address/update', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    old_district: old_district,
+                    new_district: updatedDistrict,
+                    new_province: updatedProvince,
+                    new_zip_code: updatedZip,
+                    new_phone_number: updatedPhone
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById('editDistrict_' + old_district).style.display = 'none';
+                    document.getElementById('editProvince_' + old_district).style.display = 'none';
+                    document.getElementById('editZip_' + old_district).style.display = 'none';
+                    document.getElementById('editPhone_' + old_district).style.display = 'none';
+                    document.getElementById('saveAddressButton_' + old_district).style.display = 'none';
+                    document.getElementById('cancelAddress_' + old_district).style.display = 'none';
 
-            document.getElementById('district_' + district).innerText = 'District: ' + updatedDistrict;
-            document.getElementById('province_' + district).innerText = 'Province: ' + updatedProvince;
-            document.getElementById('zip_' + district).innerText = 'Zip Code: ' + updatedZip;
-            document.getElementById('phone_' + district).innerText = 'Phone Number: ' + updatedPhone;
+                    document.getElementById('district_' + old_district).innerText = 'District: ' + updatedDistrict;
+                    document.getElementById('province_' + old_district).innerText = 'Province: ' + updatedProvince;
+                    document.getElementById('zip_' + old_district).innerText = 'Zip Code: ' + updatedZip;
+                    document.getElementById('phone_' + old_district).innerText = 'Phone Number: ' + updatedPhone;
 
-            document.getElementById('district_' + district).style.display = 'block';
-            document.getElementById('province_' + district).style.display = 'block';
-            document.getElementById('zip_' + district).style.display = 'block';
-            document.getElementById('phone_' + district).style.display = 'block';
+                    document.getElementById('district_' + old_district).style.display = 'block';
+                    document.getElementById('province_' + old_district).style.display = 'block';
+                    document.getElementById('zip_' + old_district).style.display = 'block';
+                    document.getElementById('phone_' + old_district).style.display = 'block';
+                } else {
+                    alert('Failed to update address.');
+                }
+            })
+            .catch(error => console.error('Error:', error));
         }
 
         function cancelEditAddress(district) {
