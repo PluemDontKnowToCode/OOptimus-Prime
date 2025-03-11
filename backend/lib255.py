@@ -14,7 +14,6 @@ from backend.Category import *
 from backend.Comment import *
 from backend.Coupon import *
 from backend.Customer import *
-from backend.DiscountProduct import *
 from backend.Object import *
 from backend.Product import *
 from backend.Seller import *
