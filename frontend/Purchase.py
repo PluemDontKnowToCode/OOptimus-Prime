@@ -214,7 +214,7 @@ def PurchasePage():
 def ResultPage(result):
     if(result == "success"):
         page = Title("Cart - Teerawee Shop"), Main(
-            Component.Header(),
+            Component.Header(False),
             Component.TitleHeader("Purchase Result"),
             Div(
                 H3("Thank you for your purchase"),
@@ -303,7 +303,7 @@ def CouponCard(Id,discount, order_min,start_date, end_date,product_count = 0):
     condition = f"Orders ฿{order_min}+"
     subCon = ""
     if(product_count > 0):
-        subCon = f"or {product_count} more products"
+        subCon = f"and {product_count} more products"
     card = Div(
         H2(
             f"{discount}% OFF", 

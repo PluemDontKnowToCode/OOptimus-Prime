@@ -2,17 +2,17 @@
     "data": [
         {
             "name": "Book",
-            "id": "P000001",
+            "id": "P1",
             "price": 200,
             "description": "Book that everyone can read",
             "img": "book1.png",
             "category": "Book",
             "stock": 10,
-            "comment": [{ "owner_id": "A000001", "text": "This product was improved!", "star": 5 }]
+            "comment": [{ "owner_id": "A1", "text": "This product was improved!", "star": 5 }]
         },
         {
             "name": "Book more cost",
-            "id": "P000002",
+            "id": "P2",
             "price": 250,
             "description": "Book that rich guy can read",
             "img": "book2.png",
@@ -22,7 +22,7 @@
         },
         {
             "name": "Chocolate Bar",
-            "id": "P000003",
+            "id": "P3",
             "price": 10,
             "description": "Delicious bar",
             "img": "chocolate1.png",
@@ -32,17 +32,17 @@
         },
         {
             "name": "Wireless Headphones",
-            "id": "P000004",
+            "id": "P4",
             "price": 1200,
             "description": "Noise-cancelling wireless headphones",
             "img": "headphones1.png",
             "category": "Electronics",
             "stock": 15,
-            "comment": [{ "owner_id": "A000002", "text": "Great sound quality!", "star": 4 }]
+            "comment": [{ "owner_id": "A2", "text": "Great sound quality!", "star": 4 }]
         },
         {
             "name": "Gaming Mouse",
-            "id": "P000005",
+            "id": "P5",
             "price": 850,
             "description": "High precision gaming mouse",
             "img": "mouse1.png",
@@ -52,17 +52,17 @@
         },
         {
             "name": "Coffee Mug",
-            "id": "P000006",
+            "id": "P6",
             "price": 150,
             "description": "Ceramic mug for coffee lovers",
             "img": "mug1.png",
             "category": "Home & Kitchen",
             "stock": 50,
-            "comment": [{ "owner_id": "A000003", "text": "Keeps coffee hot!", "star": 5 }]
+            "comment": [{ "owner_id": "A3", "text": "Keeps coffee hot!", "star": 5 }]
         },
         {
             "name": "Portable Charger",
-            "id": "P000007",
+            "id": "P7",
             "price": 600,
             "description": "Fast charging 10000mAh power bank",
             "img": "charger1.png",
@@ -72,17 +72,17 @@
         },
         {
             "name": "Running Shoes",
-            "id": "P000008",
+            "id": "P8",
             "price": 2500,
             "description": "Lightweight and comfortable running shoes",
             "img": "shoes1.png",
             "category": "Sports",
             "stock": 20,
-            "comment": [{ "owner_id": "A000004", "text": "Perfect fit and great comfort!", "star": 5 }]
+            "comment": [{ "owner_id": "A4", "text": "Perfect fit and great comfort!", "star": 5 }]
         },
         {
             "name": "Bluetooth Speaker",
-            "id": "P000009",
+            "id": "P9",
             "price": 1800,
             "description": "Portable and powerful Bluetooth speaker",
             "img": "speaker1.jpg",
@@ -92,7 +92,7 @@
         },
         {
             "name": "Desk Lamp",
-            "id": "P000010",
+            "id": "P10",
             "price": 500,
             "description": "LED desk lamp with adjustable brightness",
             "img": "lamp1.jpeg",
@@ -102,17 +102,17 @@
         },
         {
             "name": "Smartwatch",
-            "id": "P000011",
+            "id": "P11",
             "price": 3200,
             "description": "Waterproof smartwatch with heart rate monitor",
             "img": "smartwatch1.jpg",
             "category": "Electronics",
             "stock": 18,
-            "comment": [{ "owner_id": "A000005", "text": "Very useful for tracking fitness!", "star": 4 }]
+            "comment": [{ "owner_id": "A5", "text": "Very useful for tracking fitness!", "star": 4 }]
         },
         {
             "name": "Yoga Mat",
-            "id": "P000012",
+            "id": "P12",
             "price": 750,
             "description": "Non-slip yoga mat for home workouts",
             "img": "yogamat1.jpg",
@@ -122,7 +122,7 @@
         },
         {
             "name": "USB Flash Drive",
-            "id": "P000013",
+            "id": "P13",
             "price": 400,
             "description": "32GB high-speed USB drive",
             "img": "usb1.jpeg",
@@ -132,17 +132,17 @@
         },
         {
             "name": "Mechanical Keyboard",
-            "id": "P000014",
+            "id": "P14",
             "price": 2500,
             "description": "RGB mechanical keyboard with tactile switches",
             "img": "keyboard1.jpg",
             "category": "Electronics",
             "stock": 20,
-            "comment": [{ "owner_id": "A000006", "text": "Great feel and responsive keys!", "star": 5 }]
+            "comment": [{ "owner_id": "A6", "text": "Great feel and responsive keys!", "star": 5 }]
         },
         {
             "name": "Smart TV",
-            "id": "P000015",
+            "id": "P15",
             "price": 12000,
             "description": "4K UHD Smart TV with built-in streaming apps",
             "img": "tv1.jpeg",
@@ -152,7 +152,7 @@
         },
         {
             "name": "Board Game",
-            "id": "P000016",
+            "id": "P16",
             "price": 900,
             "description": "Fun strategy board game for friends & family",
             "img": "boardgame1.jpeg",
@@ -162,7 +162,7 @@
         },
         {
             "name": "Wireless Earbuds",
-            "id": "P000017",
+            "id": "P17",
             "price": 1500,
             "description": "True wireless earbuds with noise cancellation",
             "img": "earbuds1.jpg",
@@ -172,7 +172,7 @@
         },
         {
             "name": "Electric Kettle",
-            "id": "P000018",
+            "id": "P18",
             "price": 800,
             "description": "1.5L stainless steel electric kettle",
             "img": "kettle1.jpeg",
@@ -182,7 +182,7 @@
         },
         {
             "name": "Fitness Tracker",
-            "id": "P000019",
+            "id": "P19",
             "price": 1800,
             "description": "Waterproof fitness tracker with step counter",
             "img": "fitnesstracker1.jpg",
@@ -192,7 +192,7 @@
         },
         {
             "name": "Camping Tent",
-            "id": "P000020",
+            "id": "P20",
             "price": 3500,
             "description": "Waterproof 4-person camping tent",
             "img": "tent1.jpeg",
@@ -202,7 +202,7 @@
         },
         {
             "name": "Laptop Stand",
-            "id": "P000021",
+            "id": "P21",
             "price": 1200,
             "description": "Adjustable aluminum laptop stand",
             "img": "laptopstand1.jpg",
@@ -212,7 +212,7 @@
         },
         {
             "name": "Wireless Keyboard",
-            "id": "P000022",
+            "id": "P22",
             "price": 1100,
             "description": "Compact wireless keyboard with Bluetooth",
             "img": "keyboard2.jpg",
@@ -222,17 +222,17 @@
         },
         {
             "name": "Action Camera",
-            "id": "P000023",
+            "id": "P23",
             "price": 4500,
             "description": "Waterproof 4K action camera",
             "img": "camera1.jpg",
             "category": "Electronics",
             "stock": 12,
-            "comment": [{ "owner_id": "A000007", "text": "Great for recording outdoor adventures!", "star": 5 }]
+            "comment": [{ "owner_id": "A7", "text": "Great for recording outdoor adventures!", "star": 5 }]
         },
         {
             "name": "Gaming Chair",
-            "id": "P000024",
+            "id": "P24",
             "price": 8500,
             "description": "Ergonomic gaming chair with lumbar support",
             "img": "chair1.jpeg",
@@ -242,7 +242,7 @@
         },
         {
             "name": "Trekking Backpack",
-            "id": "P000025",
+            "id": "P25",
             "price": 2800,
             "description": "Durable 50L trekking backpack",
             "img": "backpack1.jpeg",
@@ -252,7 +252,7 @@
         },
         {
             "name": "Noise Cancelling Headphones",
-            "id": "P000026",
+            "id": "P26",
             "price": 5000,
             "description": "Premium over-ear noise cancelling headphones",
             "img": "headphones2.jpg",
@@ -262,7 +262,7 @@
         },
         {
             "name": "Mini Projector",
-            "id": "P000027",
+            "id": "P27",
             "price": 3800,
             "description": "Portable mini projector with HD resolution",
             "img": "projector1.jpg",
@@ -272,7 +272,7 @@
         },
         {
             "name": "Smartphone Tripod",
-            "id": "P000028",
+            "id": "P28",
             "price": 700,
             "description": "Adjustable tripod stand for mobile photography",
             "img": "tripod1.jpeg",
@@ -282,7 +282,7 @@
         },
         {
             "name": "Mechanical Pencil Set",
-            "id": "P000029",
+            "id": "P29",
             "price": 300,
             "description": "Professional drafting mechanical pencil set",
             "img": "pencil1.jpeg",
@@ -292,7 +292,7 @@
         },
         {
             "name": "Leather Wallet",
-            "id": "P000030",
+            "id": "P30",
             "price": 900,
             "description": "Genuine leather wallet with RFID protection",
             "img": "wallet1.png",

@@ -76,6 +76,13 @@ def logout():
 def register():
     return Register.page()
 
+@app.post('/register')
+async def registor(name : str, password : str, r_password : str, role : str):
+    result = Register.validate_register(name, password, r_password, role)
+    if(result == 'success'):
+        return Redirect("/")
+    return Redirect("/register")
+
 @app.get('/profile')
 def profile():
     return Profile.page()

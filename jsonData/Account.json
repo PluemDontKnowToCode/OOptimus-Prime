@@ -1,7 +1,7 @@
 {
     "data": [
         {
-            "id": "A000001",
+            "id": "A1",
             "name": "Alice",
             "password": "pass123",
             "username": "alice01",
@@ -10,13 +10,13 @@
             "cart" : [],
             "address": [
                 {"district": "XYZ","province":"Baan Opor","zip_code":"61000","phone":"0845658790"},
-                {"district": "ABC","province":"Baan Opor","zip_code":"25410","phone":"0836694812"},
-                {"district": "AAC","province":"Baan Opor","zip_code":"25410","phone":"0836694812"},
-                {"district": "AXC","province":"Baan Opor","zip_code":"25410","phone":"0836694812"}
+                {"district": "ABC","province":"Baan Opal","zip_code":"25410","phone":"0836694812"},
+                {"district": "AAC","province":"Baan Otae","zip_code":"73000","phone":"0634382674"},
+                {"district": "AXC","province":"Baan Pooh","zip_code":"37810","phone":"0890004814"}
             ],
             "coupon" : [
                 {
-                    "id" : "C000001",
+                    "id" : "C1",
                     "discount_percent": 10,
                     "less_amount": 199,
                     "product_count": 5,
@@ -24,7 +24,7 @@
                     "end_time": "2026-03-02"
                 },
                 {
-                    "id" : "C000002",
+                    "id" : "C2",
                     "discount_percent": 20,
                     "less_amount": 299,
                     "product_count": 3,
@@ -34,7 +34,7 @@
             ]
         },
         {
-            "id": "A000002",
+            "id": "A2",
             "name": "Bob",
             "password": "securePass",
             "username": "bob99",
@@ -45,7 +45,7 @@
             "coupon" : []
         },
         {
-            "id": "A000003",
+            "id": "A3",
             "name": "Charlie",
             "password": "charliePass",
             "username": "charlieC",
@@ -56,7 +56,7 @@
             "coupon" : []
         },
         {
-            "id": "A000004",
+            "id": "A4",
             "name": "David",
             "password": "davidKey",
             "username": "davidKing",
@@ -67,7 +67,7 @@
             "coupon" : []
         },
         {
-            "id": "A000005",
+            "id": "A5",
             "name": "Eve",
             "password": "eveSecret",
             "username": "eve007",
@@ -78,7 +78,7 @@
             "coupon" : []
         },
         {
-            "id": "A000006",
+            "id": "A6",
             "name": "Frank",
             "password": "frankCode",
             "username": "frankyF",
@@ -89,7 +89,7 @@
             "coupon" : []
         },
         {
-            "id": "A000007",
+            "id": "A7",
             "name": "Grace",
             "password": "gracePwd",
             "username": "gracefulG",
@@ -100,7 +100,7 @@
             "coupon" : []
         },
         {
-            "id": "A000008",
+            "id": "A8",
             "name": "Hank",
             "password": "hankSafe",
             "username": "hankH",

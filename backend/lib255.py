@@ -89,7 +89,7 @@ class Market():
             temp_id.append(i.id)
 
         a = sorted(temp_id)
-        number = int(a[-1].replace(now_char, ""))
+        number = int(a[0].replace(now_char, ""))
         number += 1
         new_id = f"P{number:06d}"
         print(f"new Id : {new_id}")
@@ -290,6 +290,7 @@ class Market():
     def is_have_coupon(self, coupon_id):
         acc = self.__current_user
         if isinstance(acc, Customer):
+            if len(acc.coupon_list) == 0: return False
             if acc.is_have_coupon(coupon_id): return True
             return False
         return "Invalid"

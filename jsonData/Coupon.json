@@ -1,7 +1,7 @@
 {
     "data" : [
         {
-            "id" : "C000001",
+            "id" : "C1",
             "discount_percent": 10,
             "less_amount": 199,
             "product_count": 5,
@@ -9,7 +9,7 @@
             "end_time": "2026-03-02"
         },
         {
-            "id" : "C000002",
+            "id" : "C2",
             "discount_percent": 20,
             "less_amount": 299,
             "product_count": 3,
@@ -17,7 +17,7 @@
             "end_time": "2026-05-02"
         },
         {
-            "id": "C000003",
+            "id": "C3",
             "discount_percent": 15,
             "less_amount": 150,
             "product_count": 4,
@@ -25,7 +25,7 @@
             "end_time": "2026-06-10"
         },
         {
-            "id": "C000004",
+            "id": "C4",
             "discount_percent": 25,
             "less_amount": 350,
             "product_count": 2,
@@ -33,7 +33,7 @@
             "end_time": "2026-07-15"
         },
         {
-            "id": "C000005",
+            "id": "C5",
             "discount_percent": 30,
             "less_amount": 400,
             "product_count": 6,
@@ -41,7 +41,7 @@
             "end_time": "2026-08-20"
         },
         {
-            "id": "C000006",
+            "id": "C6",
             "discount_percent": 12,
             "less_amount": 180,
             "product_count": 5,
@@ -49,7 +49,7 @@
             "end_time": "2026-09-25"
         },
         {
-            "id": "C000007",
+            "id": "C7",
             "discount_percent": 18,
             "less_amount": 250,
             "product_count": 3,
@@ -57,7 +57,7 @@
             "end_time": "2026-10-30"
         },
         {
-            "id": "C000008",
+            "id": "C8",
             "discount_percent": 22,
             "less_amount": 320,
             "product_count": 4,
