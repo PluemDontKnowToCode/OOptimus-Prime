@@ -180,7 +180,9 @@ class Market():
         trans1 = Transaction(stack_product, amount)
         customer.add_transaction(trans1)
         
-        if coupon: customer.delete_coupon(coupon)
+        if coupon: 
+            customer.update_selected_coupon(None)
+            customer.delete_coupon(coupon)
 
         for i in cart.get_cart_item:
             i.product.update_stock(-1 * i.amount)
