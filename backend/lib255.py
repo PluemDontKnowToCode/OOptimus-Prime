@@ -237,6 +237,9 @@ class Market():
     def get_product_image(self, p_id):
         return self.get_product(p_id).image
     
+    def get_requested_image(self, p_id):
+        return self.get_requested(p_id).product.image
+    
     def view_product_detail(self, product_id):
         product = self.get_product(product_id)
         if not product:
@@ -401,7 +404,7 @@ for i in get_all_coupon():
     market1.add_coupon(i)
 
 
-market1.update_current_user(market1.get_account('A000001'))
+market1.update_current_user(market1.get_account('S000001'))
 
 # p = market1.get_product("P000001")
 # market1.current_account.cart.add_item(p, 1)

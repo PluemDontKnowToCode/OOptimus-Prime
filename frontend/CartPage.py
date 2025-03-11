@@ -46,7 +46,6 @@ def Page():
     return page
 
 
-
 def UpdateCartUI(itemDict):
     if(isinstance(itemDict, list)):
         return Div(*

@@ -28,8 +28,6 @@ class RequestedProduct:
 
     def update_status(self, new_status):
         self.__status = new_status
-        if(new_status == "Approve"):
-            self.seller.add_product(self.product)
         return "success"
 
 
