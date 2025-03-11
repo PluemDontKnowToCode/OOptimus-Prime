@@ -7,6 +7,7 @@ from _main  import *
 def Page():
     cart = market1.get_customer_cart(market1.current_account.id)
     cart.update_self()
+    unable_list = cart.get_unavailable_product
     page = Title("Cart - Teerawee Shop"), Main(
         Component.Header(bool_search = False),
         TitleHeader("My Shopping Cart"),
@@ -36,9 +37,9 @@ def Page():
         Div(
             TitleHeader("Unavailable"),
             Div(
-                UpdateCartUI(cart.get_unavailable_product)
+                UpdateCartUI(unable_list)
             ),
-        ),
+        ) if len(unable_list) > 0 else Div(),
         Script(Component.get_warn_js()),
         #Style="background-color: #f5f5f5;"
         Style="padding:0;"

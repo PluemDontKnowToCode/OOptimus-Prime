@@ -76,6 +76,10 @@ def view_detail(p_id: int):
     js_for_dialog = Component.get_warn_js()
     if login_bool: js_for_dialog += ("\n" + Component.add_to_cart_script)
     validate_variable(p_id)
+    role = None
+    if isinstance(market1.current_account, Customer): role = "customer"
+    if isinstance(market1.current_account, Seller): role = "seller"
+    if isinstance(market1.current_account, Admin): role = "admin"
     
     part_header = Component.Header(False)
 
@@ -95,7 +99,7 @@ def view_detail(p_id: int):
                 Button(
                     "Add to cart",
                     cls = "b10" if login_bool else "a1",
-                ) if (j1['Stocked'] > 0 and approve_bool) else Div(),
+                ) if (j1['Stocked'] > 0 and role == "customer") else Div(),
                 modal,
             ),
             stlye = "grid-template-columns: 1fr 1fr;"

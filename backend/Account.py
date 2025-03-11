@@ -11,7 +11,6 @@ class Account(Object):
         self.__image = image
         self.__money = money
         self.__market = market
-        
         self.__address_list = address
 
     @property
