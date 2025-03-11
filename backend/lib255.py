@@ -1,5 +1,8 @@
 from fasthtml.common import *
+from fasthtml.common import *
+import enum
 from datetime import *
+import enum
 import json
 import os
 import enum
@@ -21,7 +24,6 @@ from backend.Seller import *
 from backend.StackItem import *
 from backend.Transaction import *
 from backend.RequestedProduct import *
-
 #region Market
 class Market():
 
@@ -65,6 +67,25 @@ class Market():
     @property
     def selected_category(self):
         return self.__selected_category
+    
+    def add_address(self, district, province, zip_code, phone_number):
+        if isinstance(self.current_account, Customer):
+            # Check if any field is empty
+            if not district or not province or not zip_code or not phone_number:
+                return {'success': False, 'message': 'All fields are required.'}
+            
+            # Check if the address already exists
+            for address in self.current_account.address_list:
+                if address.district == district and address.province == province and address.zip_code == zip_code and address.phone_number == phone_number:
+                    return {'success': False, 'message': 'Address already exists.'}
+            
+            new_address = Address(district=district, province=province, zip_code=zip_code, phone_number=phone_number)
+            self.current_account.address_list.append(new_address)
+            return {'success': True}
+
+    def delete_address(self, district):
+        if isinstance(self.current_account, Customer):
+            self.current_account.address_list = [address for address in self.current_account.address_list if address.district != district]
     
     def update_selected_category(self, category):
         if isinstance(category, Category):
@@ -182,8 +203,8 @@ class Market():
         customer.add_transaction(trans1)
         
         if coupon: 
-            customer.update_selected_coupon(None)
-            customer.delete_coupon(coupon)
+             customer.update_selected_coupon(None)
+             customer.delete_coupon(coupon)
 
         for i in cart.get_cart_item:
             i.product.update_stock(-1 * i.amount)
@@ -293,10 +314,23 @@ class Market():
 
     def request_to_self_verify(self, account, name, password):
         return account.self_verify(name, password)
+
+    def list_for_verify_user(self, name, role):
+        res = None
+        if "admin" in name.lower(): res = self.__admin_list
+        elif role == "customer": res = self.__customer_list
+        elif role == "seller": res = self.__seller_list
+        return res
+
+    def request_to_self_verify(self, account, name, password):
+        return account.self_verify(name, password)
     
     def verify_user(self, name, password, role):
         list1 = self.list_for_verify_user(name, role)
+        list1 = self.list_for_verify_user(name, role)
+        
         for i in list1:
+            if self.request_to_self_verify(i, name, password): return i
             if self.request_to_self_verify(i, name, password): return i
         return None
     
@@ -313,7 +347,13 @@ class Market():
             if acc.is_have_coupon(coupon_id): return True
             return False
         return "Invalid"
-        
+
+    def validate_login(self, name: str, password: str, role: str):
+        acc = self.verify_user(name, password, role)
+        if not acc: return Redirect('/login')
+        self.update_current_user(acc)
+        return Redirect('/')
+     
     def validate_register(self,name : str, password : str, r_password : str, role : str):
         if(password != r_password):
             return 'error'

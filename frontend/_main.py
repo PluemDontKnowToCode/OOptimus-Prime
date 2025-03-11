@@ -20,6 +20,7 @@ import Profile
 import Register
 import Addproduct
 import Transactionz
+import AddressPage
 
 import Comment as com
 import Addproduct as addp
@@ -92,6 +93,25 @@ def profile():
 def profile_change_name(new_username: str):
     market1.change_username(new_username)
     return Redirect('/profile')
+
+@app.post('/profile/update_image')
+def update_profile_image(new_image_url: str):
+    market1.update_image(new_image_url)
+    return Redirect('/profile')
+
+@app.get('/address')
+def address():
+    return AddressPage.page()
+
+@app.post('/address/add')
+def add_address(district: str, province: str, zip_code: str, phone_number: str):
+    market1.add_address(district, province, zip_code, phone_number)
+    return Redirect('/address')
+
+@app.post('/address/delete')
+def delete_address(district: str):
+    market1.delete_address(district)
+    return JSONResponse({'success': True})
 
 @app.get('/transaction')
 def transaction():
@@ -244,3 +264,4 @@ def add_coupon_to_account(coupon_id: str):
 
 #end
 serve(port=3000)
+
