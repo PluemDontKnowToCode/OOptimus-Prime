@@ -86,13 +86,13 @@ class Market():
         temp_id = []
 
         for i in now_list:
-            temp_id.append(i.id)
+            temp_str: str = i.id
+            temp_id.append(temp_str.removeprefix(now_char))
 
-        a = sorted(temp_id)
-        number = int(a[0].replace(now_char, ""))
-        number += 1
-        new_id = f"P{number:06d}"
-        print(f"new Id : {new_id}")
+        temp_id.sort()
+        number = int(temp_id[-1]) + 1
+        new_id = f"{now_char}{number}"
+        print(f"NEW ID: {new_id}")
         return new_id
     
     def add_account(self, account):
