@@ -81,9 +81,9 @@ def page():
                         style="display: none; margin-top: 5px;"
                     ),
                     method="post",
-                    action="/profile",
+                    action="/profile/change_name/",
                     style="display: flex; flex-direction: column; gap: 5px; align-items: center; margin-top: 10px;",
-                    onsubmit="saveUsername(event)"
+                    # onsubmit="saveUsername(event)"
                 ),
                 Input(
                     type="file",

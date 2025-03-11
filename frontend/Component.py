@@ -10,8 +10,6 @@ cartpng = "/cart_removebg_preview.png"
 userpng = "/user_imgpng.png"
 coupon_basetpng ="/coupon_basket.png"
 
-# print(cartpng)
-
 configHeader = "padding-top: 0px;"
 headerfontStyle = """   color: #ffffff
                         """
@@ -198,7 +196,7 @@ def coupon_modal():
         Div(
             Grid(
                 # coupon    
-                
+                *card_list,
                 # style = "flex-direction: column;"  
                 style = "grid-template-columns: 1fr 1fr 1fr;"
             ),

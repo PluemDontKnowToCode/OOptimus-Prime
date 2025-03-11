@@ -40,10 +40,9 @@ def my_modal(p_id, user_id):
                     style = "display: flex; justify-content: space-betwewen;"
                 
             ),
-            style = "border: solid; background-color: #708090; height: 28%; width: 20%;"
+            style = "border: solid; background-color: #708090; height: 25vw; width: 20vw;"
         ),
-        cls = "d1",
-        style = "position: fixed;"
+        cls = "d1"
     ),
     return add_to_cart_modal
 

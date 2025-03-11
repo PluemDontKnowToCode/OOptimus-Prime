@@ -72,13 +72,18 @@ def logout():
     market1.clear_current_account()
     return Redirect('/')
 
+@app.get('/register')
+def register():
+    return Register.page()
+
 @app.get('/profile')
 def profile():
     return Profile.page()
 
-@app.get('/register')
-def register():
-    return Register.page()
+@app.post('/profile/change_name')
+def profile_change_name(new_username: str):
+    market1.change_username(new_username)
+    return Redirect('/profile')
 
 #end
 
@@ -87,12 +92,12 @@ def register():
 def searching1(search_word: str):
     return Home.get_item_post_card(search_word)
 
-@app.get('/search_for_cart')
-def searching2(search_word: str):
-    pass
+# @app.get('/search_for_cart')
+# def searching2(search_word: str):
+#     pass
 
 @app.get('/search_for_seller')
-def searching3(search_word: str):
+def searching2(search_word: str):
     pass
 
 

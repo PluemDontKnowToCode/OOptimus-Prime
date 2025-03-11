@@ -75,6 +75,11 @@ class Market():
     def update_current_user(self, user : Account):
         if isinstance(user , Account):
             self.__current_user = user
+
+    def change_username(self, new_name):
+        if isinstance(self.__current_user, Customer):
+            self.__current_user.username = new_name
+            print(f'newName {new_name}\nnowName {self.__current_user.name}')
         
     def generate_id(self, state):
         var = [[self.__product_list, 'P'], [self.__customer_list, 'A'], [self.__seller_list, 'S'], [self.__admin_list, 'M'], [self.__coupon_list, 'C']]

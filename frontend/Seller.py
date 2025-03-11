@@ -9,9 +9,6 @@ from backend.lib255 import *
 
 all_product = get_all_product()
 
-# print(all_product)
-# for p in all_product:
-#     print(f"ID: {p.id}")
 def item_post_card(p_img, p_name, p_id, p_price):
     res = Card(
                 Img(
