@@ -127,8 +127,7 @@ class Market():
         for i in now_list:
             temp_str: str = i.id
             temp_id.append(temp_str.removeprefix(now_char))
-
-        temp_id.sort()
+            
         number = int(temp_id[-1]) + 1
         new_id = f"{now_char}{number}"
         print(f"NEW ID: {new_id}")
@@ -210,6 +209,7 @@ class Market():
                 discountPercent = coupon.discount_percent
                 price -= price * discountPercent
             else:
+                customer.delete_coupon(coupon)
                 return "Coupon Not Found"
                 
         if(price > customer.money):

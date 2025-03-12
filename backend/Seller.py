@@ -10,12 +10,18 @@ class Seller(Account):
 
     @property
     def selling_product(self):
-        return self.__selling_product
+        all_request = self.market.requested_list
+        res = []
+        for i in all_request:
+            if i.seller.id == self.id and i.status == "Approve":
+                res.append(i.product)
+        return res
+    
     def get_requested_product(self):
         all_request = self.market.requested_list
         res = []
         for i in all_request:
-            if i.seller == self and i.status == "Idle":
+            if i.seller.id == self.id and i.status == "Idle":
                 res.append(i.product)
         return res
     def create_product(self, name,price ,description, image_url, category, quantity):
