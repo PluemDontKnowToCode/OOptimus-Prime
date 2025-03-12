@@ -81,7 +81,7 @@ def view_detail(p_id: int):
     if isinstance(market1.current_account, Seller): role = "seller"
     if isinstance(market1.current_account, Admin): role = "admin"
     
-    part_header = Component.Header(False)
+    part_header = Component.Header(False, True if role == "customer" else False)
 
     part_detail = Titled(
         "Detail",
@@ -107,7 +107,7 @@ def view_detail(p_id: int):
     ),
 
     part_add_comment = Div()
-    if (approve_bool and login_bool): part_add_comment = Titled(
+    if (login_bool and role == "customer"): part_add_comment = Titled(
         "Add your opinion",
         Form(
             Div(Input(type = "number", id = "star", max = "5", min = "1", value = 3), style = "width: 5%;"),
@@ -120,7 +120,7 @@ def view_detail(p_id: int):
     
     
     part_comment = Titled("Comment")
-    if len(c) > 0:
+    if len(c) > 0 and (role != "admin"):
         part_comment = Titled(
             "Comment",
             Div(*[
@@ -146,9 +146,8 @@ def view_detail(p_id: int):
                 """
         ),
     ),
-
+        
     if not approve_bool: part_comment = Div()
-
 
     page = Main(
         part_header,

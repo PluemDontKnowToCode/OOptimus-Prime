@@ -157,7 +157,7 @@ class Market():
     def add_product_to_cart(self, p_id, u_id, amount):
         p1 = self.get_product(p_id)
         if not p1: return
-        for i in self.__customer_list:
+        for i in self.__customer_list:  
             if i.equal(u_id): i.add_to_cart(p1, amount); return "Product was added to cart"
 
     def add_category(self, name):
