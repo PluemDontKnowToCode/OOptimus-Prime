@@ -11,6 +11,7 @@ class Customer(Account):
         self.__coupon_list = coupon
         self.__selected_coupon = None
         self.__selected_address= None
+        self.__image = image
     
     @property
     def cart(self):
@@ -33,6 +34,14 @@ class Customer(Account):
     
     @property
     def cart_items(self): return self.__cart.get_cart_item
+
+    @property
+    def image(self):
+        return self.__image
+
+    @image.setter
+    def image(self, value):
+        self.__image = value
     
     def get_coupon(self):
         res = []

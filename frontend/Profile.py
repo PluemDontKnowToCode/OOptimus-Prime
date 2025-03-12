@@ -12,7 +12,6 @@ def page():
     profile_image_url = current_account.image  
     username = current_account.name 
     money = current_account.money
-    if role_bool: address_list = current_account.address_list
     if role_bool: coupon_list = current_account.coupon_list 
 
     part_header = Component.Header(False)
@@ -69,13 +68,14 @@ def page():
                     Button(
                         "Change profile", 
                         type="button", 
+                        id="changeProfileButton",
                         onclick="document.getElementById('fileInput').click();",
                         style="margin-top: 10px;"
                     ),
                     style="display: flex; gap: 10px; align-items: center;"
                 ), 
                 Div(
-                    f"{money} Baht",
+                    f"Money :{money} Baht",
                     id="moneyDisplay",
                     style="text-align: center; font-size: 18px; margin-top: 10px;"
                 ),
@@ -211,11 +211,37 @@ def page():
             alert("No file selected!");
             return;
         }
+
+        // Display the selected image before uploading
         var reader = new FileReader();
         reader.onload = function(e) {
             document.getElementById('profileImage').src = e.target.result;
         };
         reader.readAsDataURL(file);
+
+        // Convert the image to base64 and send it to the server
+        reader.onloadend = function() {
+            var base64String = reader.result.replace("data:", "").replace(/^.+,/, "");
+
+            var formData = new FormData();
+            formData.append("file", base64String);
+            formData.append("filename", file.name);
+
+            fetch("/profile/update_image", {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById('profileImage').src = data.image_url;  // Update to the URL from the server
+                    alert("Profile image updated successfully!");
+                } else {
+                    alert("Upload failed: " + data.message);
+                }
+            })
+            .catch(error => console.error("Error:", error));
+        };
     }
     """)
     script += Component.get_warn_js()

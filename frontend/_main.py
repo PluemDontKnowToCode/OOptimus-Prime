@@ -8,6 +8,10 @@ from backend.lib255 import *
 from dotenv import load_dotenv
 load_dotenv()
 
+from fastapi import FastAPI, Request
+from fastapi.responses import JSONResponse, FileResponse
+import os
+import base64
 import Component
 import Admin as admin
 import Home
@@ -30,6 +34,8 @@ import Addproduct as addp
 from backend.lib255 import *
 
 # print(market1.current_account.name)
+
+
 
 main_path = os.path.dirname(__file__) + "\\asset"
 # print(main_path)
@@ -97,19 +103,36 @@ def profile_change_name(new_username: str):
 @app.post('/profile/update_image')
 async def update_profile_image(request: Request):
     form = await request.form()
-    file = form.get('file')
+    base64_str = form.get('file')
+    filename = form.get('filename')
     
-    if not file:
+    if not base64_str or not filename:
         return JSONResponse({'success': False, 'message': 'No file uploaded.'})
     
-    # Save the file to a desired location
-    file_location = f"static/profile_images/{file.filename}"
-    with open(file_location, "wb") as f:
-        f.write(file.file.read())
+    # Decode the base64 string and save the file
+    file_location = f"static/profile_images/{filename}"
+    try:
+        # Ensure the directory exists
+        os.makedirs(os.path.dirname(file_location), exist_ok=True)
+
+        with open(file_location, "wb") as f:
+            f.write(base64.b64decode(base64_str))
+        
+        # Update the profile image URL
+        image_url = f"/profile_images/{filename}"
+        market1.update_image(image_url)
+        return JSONResponse({'success': True, 'image_url': image_url})
     
-    # Update the profile image URL
-    market1.update_image(file_location)
-    return JSONResponse({'success': True, 'image_url': file_location})
+    except Exception as e:
+        return JSONResponse({'success': False, 'message': str(e)})
+
+@app.get('/profile_images/{filename}')
+async def get_profile_image(filename: str):
+    file_path = f"static/profile_images/{filename}"
+    if os.path.exists(file_path):
+        return FileResponse(file_path)
+    return JSONResponse({'success': False, 'message': 'File not found'})
+
 
 @app.get('/address')
 def address():

@@ -71,6 +71,12 @@ class Market():
     def update_image(self, new_image_url):
         if isinstance(self.current_account, Customer):
             self.current_account.image = new_image_url
+            # Save the updated account information to the database or file
+            self.save_account(self.current_account)
+
+    def save_account(self, account):
+        # Implement the logic to save the account information to the database or file
+        pass
 
     def add_address(self, district, province, zip_code, phone_number):
         if isinstance(self.current_account, Customer):
