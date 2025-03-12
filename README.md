@@ -8,6 +8,15 @@ To run this project locally, ensure you have Python installed. Then, follow thes
 1. **Clone the Repository**:
    ```bash
    git clone https://github.com/PluemDontKnowToCode/OOptimus-Prime.git
-   cd OOptimus-Prime
-   python frontend/_main.py
    ```
+2 **Set Up Project**:
+   ```bash
+   cd OOptimus-Prime
+   pip install -r requirements.txt
+   ```
+3.**Run Project**
+   ```bash
+   cd OOptimus-Prime
+   python -u ./_main.py
+   ```
+   or run ***run.bat***
