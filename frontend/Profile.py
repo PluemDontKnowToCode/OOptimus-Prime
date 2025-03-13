@@ -141,7 +141,7 @@ def page():
                 style="display: none; flex-direction: row; gap: 20px; margin-top: 20px; flex-wrap: wrap;"
             ),
         ) if role_bool else Div(),
-        style="flex-grow: 1; padding: 20px; background-color: #121212;"
+        style="flex-grow: 1; padding: 20px;"
     )
 
     main_content = Div(
