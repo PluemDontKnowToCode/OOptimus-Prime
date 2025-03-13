@@ -266,10 +266,10 @@ def AddressCard(a):
                         ),
                     Div(
                         Button(
-                            "X",
+                            "Selected",
                             hx_post = f"/purchase/apply_address/{a['district']}/{a['province']}/{a['zip_code']}/{a['phone']}",
                             Style="""
-                                margin-left:80%;
+                                margin-left:60%;
                                 background-color: #ffffff;
                                 color: #000000
                             """,
@@ -293,9 +293,9 @@ def AddressCard(a):
                         ),
                     Div(
                         Button(
-                            "X",
+                            "Select",
                             hx_post = f"/purchase/apply_address/{a['district']}/{a['province']}/{a['zip_code']}/{a['phone']}",
-                            Style="""margin-left:80%;
+                            Style="""margin-left:60%;
                             """
                             )
                     )

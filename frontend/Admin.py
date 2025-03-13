@@ -195,9 +195,9 @@ def CreateCouponPage():
             Form(  # ฟอร์มข้อมูลสินค้า
                 
                 Div(Label("Discount Percent:"), Input(type="number", name="discount_percent", min=1, value=1, id="discount_percent"), style="margin-bottom: 20px;"),
-                Div(Label("Less Amount:"), Input(type="number", name="less_amount", min=1, value=1, id="less_amount"), style="margin-bottom: 20px;"),
+                Div(Label("Less Amount ฿:"), Input(type="number", name="less_amount", min=1, value=1, id="less_amount"), style="margin-bottom: 20px;"),
                 Div(Label("Product Count:"), Input(type="number", name="product_count", min=1, value=1, id="product_count"), style="margin-bottom: 20px;"),
-                Div(Label("Duration:"), Input(type="number", name="duration", min=1, value=1, id="duration"), style="margin-bottom: 20px;"),
+                Div(Label("Duration (days):"), Input(type="number", name="duration", min=1, value=1, id="duration"), style="margin-bottom: 20px;"),
                 Div(
                     Button("Confirm"),
                     
