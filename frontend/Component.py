@@ -91,9 +91,9 @@ warn_to_login_modal = Dialog(
 ),
 
 def validate_value():
-    current_account = market1.current_account
+    current_user = market1.current_user
     global alret_scirpt, login_bool
-    login_bool = True if current_account else False
+    login_bool = True if current_user else False
     if not login_bool:
         alret_scirpt = """
         const openButton_warn = document.querySelectorAll(".a1")
@@ -162,7 +162,7 @@ def validate_png_modal():
 
 def coupon_card(coupon_dict):
     def get_button():
-        if not market1.is_have_coupon(coupon_dict['id']):
+        if not market1.is_current_user_have_coupon(coupon_dict['id']):
             btn1 = Button(
                 "Get",
                 hx_get = f"/customer/add_coupon/{coupon_dict['id']}",
@@ -189,7 +189,7 @@ def coupon_card(coupon_dict):
 def coupon_modal():
     card_list = []
     for i in market1.coupon_list:
-        if market1.is_have_coupon(i.to_json()['id']):
+        if market1.is_current_user_have_coupon(i.to_json()['id']):
             continue
         card_list.append(coupon_card(i.to_json()))
     
@@ -279,7 +279,7 @@ def Header(bool_search = True, bool_cart = True, HeaderText = "Teerawee Shop"):
                 style = ButtonHeaderStyle + "",
                 cls = "user_png1"
                 )
-    if market1.current_account and isinstance(market1.current_account, Seller): 
+    if market1.current_user and isinstance(market1.current_user, Seller): 
         part3 = Div(
                     Div(
                         A(

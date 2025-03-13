@@ -51,7 +51,7 @@ def my_modal(p_id, user_id):
 
 
 def validate_variable(p_id):
-    acc = market1.current_account
+    acc = market1.current_user
     global user_id, modal
     if acc:
         user_id = acc.id
@@ -77,9 +77,9 @@ def view_detail(p_id: int):
     if login_bool: js_for_dialog += ("\n" + Component.add_to_cart_script)
     validate_variable(p_id)
     role = None
-    if isinstance(market1.current_account, Customer): role = "customer"
-    if isinstance(market1.current_account, Seller): role = "seller"
-    if isinstance(market1.current_account, Admin): role = "admin"
+    if isinstance(market1.current_user, Customer): role = "customer"
+    if isinstance(market1.current_user, Seller): role = "seller"
+    if isinstance(market1.current_user, Admin): role = "admin"
     
     part_header = Component.Header(False, True if role == "customer" else False)
 

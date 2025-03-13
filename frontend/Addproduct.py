@@ -41,5 +41,5 @@ def Page():
 
 
 def insert_request(name: str, description: str, price: str, quantity: str, category: str, image_url: str):
-    market1.current_account.create_product(name, price ,description, image_url, category, quantity)
+    market1.current_user.create_product(name, price ,description, image_url, category, quantity)
     return Redirect(f'/')

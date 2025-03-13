@@ -7,9 +7,9 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from backend.lib255 import *
 
 def page():
-    role_bool = isinstance(market1.current_account, Customer)
-    current_account = market1.current_account
-    address_list = current_account.address_list if role_bool else []
+    role_bool = isinstance(market1.current_user, Customer)
+    current_user = market1.current_user
+    address_list = current_user.address_list if role_bool else []
 
     part_header = Component.Header(False)
 

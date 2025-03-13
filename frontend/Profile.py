@@ -7,12 +7,12 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from backend.lib255 import *
 
 def page():
-    role_bool = isinstance(market1.current_account, Customer)
-    current_account = market1.current_account
-    profile_image_url = current_account.image  
-    username = current_account.name 
-    money = current_account.money
-    if role_bool: coupon_list = current_account.coupon_list 
+    role_bool = isinstance(market1.current_user, Customer)
+    current_user = market1.current_user
+    profile_image_url = current_user.image  
+    username = current_user.name 
+    money = current_user.money
+    if role_bool: coupon_list = current_user.coupon_list 
 
     part_header = Component.Header(False)
     

@@ -22,8 +22,6 @@ class Admin(Account):
         if(isinstance(request, RequestedProduct)):
             request.update_status("Approve")
             seller = super().market.get_account(request.seller.id)
-            print(f"add to {seller.name}")
-            seller.add_product(request.product)
             super().market.add_product(request.product)
 
     def reject_product(self, request):

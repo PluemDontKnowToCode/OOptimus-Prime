@@ -41,3 +41,15 @@ To run this project locally, ensure you have Python installed. Then, follow thes
       │── Seller.json
    
       │── UnImproveProduct.json
+      
+## Features
+
+- **User Authentication**: Users can register, log in, and log out.
+- **Profile Management**: Users can update their profile information, including username and profile image.
+- **Product Management**: Sellers can add new products, and admins can approve or reject product requests.
+- **Shopping Cart**: Customers can add products to their cart, view cart details, and proceed to checkout.
+- **Coupon Management**: Admins can create and delete coupons, and customers can apply coupons during checkout.
+- **Address Management**: Customers can add, update, and delete addresses.
+- **Transaction History**: Customers can view their transaction history.
+- **Category Browsing**: Users can browse products by categories.
+- **Responsive Design**: The application is designed to be responsive and user-friendly.

@@ -2,10 +2,10 @@ from fasthtml.common import *
 from backend.lib255 import *
 from Component import *
 from _main  import *
-# cart = market1.get_customer_cart(market1.current_account.id)["data"]
+# cart = market1.get_customer_cart(market1.current_user.id)["data"]
 
 def Page():
-    cart = market1.get_customer_cart(market1.current_account.id)
+    cart = market1.get_customer_cart(market1.current_user.id)
     cart.update_self()
     unable_list = cart.get_unavailable_product
     page = Title("Cart - Teerawee Shop"), Main(

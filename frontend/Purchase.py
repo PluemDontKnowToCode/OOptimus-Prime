@@ -4,9 +4,9 @@ import Component
 import frontend._main as _main 
 
 def PurchasePage():
-    coupon = market1.current_account.get_coupon()
-    cart = market1.get_customer_cart(market1.current_account.id)
-    address = market1.current_account.get_address()
+    coupon = market1.current_user.get_coupon()
+    cart = market1.get_customer_cart(market1.current_user.id)
+    address = market1.current_user.get_address()
     
     pop_up_script = """
         const openButton = document.getElementById("#purchase_button")
@@ -58,15 +58,15 @@ def PurchasePage():
     zip_code = ""
     phone = ""
 
-    if(market1.current_account.selected_address != None):
-        a = market1.current_account.selected_address.to_json()
+    if(market1.current_user.selected_address != None):
+        a = market1.current_user.selected_address.to_json()
         district = a['district']
         province = a['province']
         zip_code = a['zip_code']
         phone = a['phone']
     s_coupon = ""
-    if(market1.current_account.selected_coupon != None):
-        s_coupon = market1.current_account.selected_coupon.id
+    if(market1.current_user.selected_coupon != None):
+        s_coupon = market1.current_user.selected_coupon.id
     page = Title("Cart - Teerawee Shop"), Main(
         Component.Header(False),
         Component.TitleHeader("Purchase"),
@@ -249,7 +249,7 @@ def ResultPage(result):
 
 def AddressCard(a):
     temp = Address(a['district'],a["province"],a["zip_code"],a["phone"])
-    if(temp.is_equal(market1.current_account.selected_address)):
+    if(temp.is_equal(market1.current_user.selected_address)):
         return Card(
                     Div(
                         Div(f"district : {a['district']}",Style="color: #ffffff"),
@@ -330,13 +330,13 @@ def CouponCard(Id,discount, order_min,start_date, end_date,product_count = 0):
     return card
 
 def get_discount_value():
-    if(market1.current_account.selected_coupon != None):
-        return market1.current_account.selected_coupon.discount_percent / 100
+    if(market1.current_user.selected_coupon != None):
+        return market1.current_user.selected_coupon.discount_percent / 100
     return 0
 
 def SetUpCouponButton(Id : str):
-    if(market1.current_account.selected_coupon != None):
-        if(market1.current_account.selected_coupon.id == Id):
+    if(market1.current_user.selected_coupon != None):
+        if(market1.current_user.selected_coupon.id == Id):
             return Button(
                 "USED",
                 id=f"button_{Id}",

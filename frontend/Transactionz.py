@@ -51,7 +51,7 @@ def create_card(count, date, data, net_price):
     return res
 
 def Page():
-    transaction_list = market1.get_transaction_list()
+    transaction_list = market1.get_user_transaction_list()
 
     card = []
     if len(transaction_list) > 0:

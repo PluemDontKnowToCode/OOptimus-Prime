@@ -5,9 +5,7 @@ from backend.RequestedProduct import *
 class Seller(Account):
     def __init__(self, id= '', name = "", username = "", password ="", money = 10000 ,address = [],image = "user_imgpng.png",selling_product = [], market = None):
         super().__init__(id, name,username, password, money,address, image, market)
-        self.__selling_product = selling_product
     
-
     @property
     def selling_product(self):
         all_request = self.market.requested_list
@@ -29,9 +27,5 @@ class Seller(Account):
         r = RequestedProduct(product, self)
         self.market.add_requested(r)
         return "success"
-    
-    def add_product(self, product : Product):
-        self.__selling_product.append(product)
-        return "Seller Add Complete"
 
 

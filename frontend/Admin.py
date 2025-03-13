@@ -7,7 +7,7 @@ from datetime import datetime
 dotenv.load_dotenv()
 
 def Page():
-    requested = market1.current_account.get_requested_product()
+    requested = market1.current_user.get_requested_product()
     coupon_list = market1.coupon_list
     page = Title("Admin - Teerawee Shop"), Main(
         Component.Header(False, False, "Admin"),

@@ -38,8 +38,6 @@ class Market():
         self.__coupon_list = []
         self.__category_list = []
         self.__requested_list = []
-        #make it private nah
-        self.__exist_id = []
 
     @property
     def account_list(self):
@@ -53,7 +51,7 @@ class Market():
     def coupon_list(self):
         return self.__coupon_list
     @property
-    def current_account(self):
+    def current_user(self):
         return self.__current_user
     
     @property
@@ -68,58 +66,68 @@ class Market():
     def selected_category(self):
         return self.__selected_category
     
-    def update_image(self, new_image_url):
-        if isinstance(self.current_account, Customer):
-            self.current_account.image = new_image_url
-            # Save the updated account information to the database or file
-            self.save_account(self.current_account)
-
-    def save_account(self, account):
-        # Implement the logic to save the account information to the database or file
-        pass
-
-    def add_address(self, district, province, zip_code, phone_number):
-        if isinstance(self.current_account, Customer):
-            # Check if any field is empty
-            if not district or not province or not zip_code or not phone_number:
-                return {'success': False, 'message': 'All fields are required.'}
-            
-            # Check if the address already exists
-            for address in self.current_account.address_list:
-                if address.district == district and address.province == province and address.zip_code == zip_code and address.phone_number == phone_number:
-                    return {'success': False, 'message': 'Address already exists.'}
-            
-            new_address = Address(district=district, province=province, zip_code=zip_code, phone_number=phone_number)
-            self.current_account.address_list.append(new_address)
-            return {'success': True}
-
-    def delete_address(self, district):
-        self.current_account.address_list[:] = [address for address in self.current_account.address_list if address.district != district]
-    
-    def update_address(self, old_district, new_district, new_province, new_zip_code, new_phone_number):
-        for address in self.current_account.address_list:
-            if address.district == old_district:
-                address.district = new_district
-                address.province = new_province
-                address.zip_code = new_zip_code
-                address.phone_number = new_phone_number
-                break
-
-    def update_selected_category(self, category):
-        if isinstance(category, Category):
-            self.__selected_category = category
-            return "Update Category Success"
-        return "Update Category Failed"
-    
-    def update_current_user(self, user : Account):
-        if isinstance(user , Account):
-            self.__current_user = user
-
-    def change_username(self, new_name):
-        if isinstance(self.__current_user, Account):
-            self.__current_user.rename(new_name)
+    def get_account(self, user_id): 
+        for i in self.__customer_list + self.__seller_list + self.__admin_list:
+            # print(i.name)
+            if i.equal(user_id):
+                return i
         return None
-        
+    
+    def get_product(self, product_id):
+        for i in self.__product_list:
+            if i.equal(product_id): 
+                return i
+        return None
+    def get_coupon(self, coupon_id):
+        for i in self.__coupon_list:
+            if i.equal(coupon_id): 
+                return i
+        return None
+    
+    def get_category(self, name):
+        for i in self.__category_list:
+            if(name == i.name):
+                return i
+        return None
+
+    def get_customer_cart(self,customer_id):
+        customer = self.get_account(customer_id)
+        if isinstance(customer, Customer):
+            return customer.cart
+    
+    
+    def get_requested(self, id):
+        if isinstance(id, str):
+            for i in self.requested_list:
+                if i.product.id == id:
+                    return i
+                
+        return None
+    
+    def get_product_detail(self, product): return product.detail
+    
+    def get_product_image(self, p_id):
+        res = None
+        if self.get_product(p_id): res = self.get_product(p_id).image
+        elif self.get_requested(p_id): res = self.get_requested(p_id).image
+        return res
+    
+    def is_product_approve(self, p_id):
+        return isinstance(self.get_product(p_id), Product)
+    
+    def view_product_detail(self, product_id):
+        product = self.get_product(product_id)
+        if not product:
+            product = self.get_requested(product_id).product
+        return self.get_product_detail(product)
+    
+    def search(self, name):
+        return [p.to_json() for p in self.__product_list if name.lower() in p.name.lower()]
+    
+    def get_user_transaction_list(self):
+        if not self.__current_user: return
+        if isinstance(self.__current_user, Customer): 
+            return self.__current_user.get_transaction_list()
     def generate_id(self, state):
         var = [[self.__product_list, 'P'], [self.__customer_list, 'A'], [self.__seller_list, 'S'], [self.__admin_list, 'M'], [self.__coupon_list, 'C']]
         now_list, now_char = var[state]
@@ -158,9 +166,6 @@ class Market():
         if not p1: return
         for i in self.__customer_list:  
             if i.equal(u_id): i.add_to_cart(p1, amount); return "Product was added to cart"
-
-    def add_category(self, name):
-        self.__category_list.append(Category(name))
     
     def add_category(self, name, product : Product):
         if(isinstance(product , Product)):
@@ -180,8 +185,8 @@ class Market():
         p.add_comment(comment)
         # return "Done"
         
-    def add_coupon_to_account(self, coupon_id):
-        res = self.is_have_coupon(coupon_id)
+    def add_coupon_to_current_user(self, coupon_id):
+        res = self.is_current_user_have_coupon(coupon_id)
         if isinstance(res, str): return
         if not res:
             self.__current_user.add_coupon(self.get_coupon(coupon_id))
@@ -203,7 +208,7 @@ class Market():
         price = cart.calculate_price()
         
         if(coupon != None):
-            if(self.get_coupon(coupon.id)):
+            if(self.get_coupon(coupon.id) and coupon.id == self.current_user.selected_coupon.id):
                 if not (coupon.check_condition(cart)):
                     return "Coupon Condition Not Met"
                 discountPercent = coupon.discount_percent
@@ -231,109 +236,17 @@ class Market():
         customer.clear_cart()
         
         return "success"
-    
-    def get_account(self, user_id): 
-        for i in self.__customer_list + self.__seller_list + self.__admin_list:
-            # print(i.name)
-            if i.equal(user_id):
-                return i
-        return None
-    
-    def get_product(self, product_id):
-        for i in self.__product_list:
-            if i.equal(product_id): 
-                return i
-        return None
-    def get_coupon(self, coupon_id):
-        for i in self.__coupon_list:
-            if i.equal(coupon_id): 
-                return i
-        return None
-    
-    def get_category(self, name):
-        for i in self.__category_list:
-            if(name == i.name):
-                return i
-        return None
-
-    def get_customer_cart(self,customer_id):
-        customer = self.get_account(customer_id)
-        if isinstance(customer, Customer):
-            return customer.cart
-    
-    def get_customer_cart_product(self, customer):
-        res = []
-        # print(customer.cart_product)
-        for p in customer.cart_items:
-            res.append(p)
-        return res
-    
-    def get_requested(self, id):
-        if isinstance(id, str):
-            for i in self.requested_list:
-                if i.product.id == id:
-                    return i
-                
-        return None
-    
-    def get_product_detail(self, product): return product.detail
-    
-    def get_product_image(self, p_id):
-        res = None
-        if self.get_product(p_id): res = self.get_product(p_id).image
-        elif self.get_requested(p_id): res = self.get_requested(p_id).image
-        return res
-    
-    def is_product_approve(self, p_id):
-        return isinstance(self.get_product(p_id), Product)
-    
-    def get_requested_image(self, p_id):
-        return self.get_requested(p_id).product.image
-    
-    def view_product_detail(self, product_id):
-        product = self.get_product(product_id)
-        if not product:
-            product = self.get_requested(product_id).product
-        return self.get_product_detail(product)
-    
-    def search(self, name):
-        return [p.to_json() for p in self.__product_list if name.lower() in p.name.lower()]
-    
-    def get_transaction_list(self):
-        if not self.__current_user: return
-        if isinstance(self.__current_user, Customer): 
-            return self.__current_user.get_transaction_list()
-    
     # def search(self, name , tag):
     #     return [p.to_json() for p in self.__product_list if name.lower() in p.name.lower()]
     
     #search by category
-    def search_by_category(self, tag_name):
-        selected = self.get_category(tag_name)
-        if selected:
-            return selected.get_product_list()
+    def search_by_category(self, category):
+        self.update_selected_category(category)
+        if category:
+            return category.get_product_list()
         return "Not Found"
-    
-    @property
-    def update_product(self):
-        pjson = open(file_path + '/Product.json', 'w')
-        t1 = """{\n\t\t"data" : [\n\t\t\t"""
-        pass
-    
-    def clear_current_account(self):
-        self.__current_user = None
 
-    def list_for_verify_user(self, name, role):
-        res = None
-        if "admin" in name.lower(): res = self.__admin_list
-        elif role == "customer": res = self.__customer_list
-        elif role == "seller": res = self.__seller_list
-        return res
-
-    def request_to_self_verify(self, account, name, password):
-        return account.self_verify(name, password)
-
-    def list_for_verify_user(self, name, role):
+    def get_list_for_verify_user(self, name, role):
         res = None
         if "admin" in name.lower(): res = self.__admin_list
         elif role == "customer": res = self.__customer_list
@@ -344,21 +257,13 @@ class Market():
         return account.self_verify(name, password)
     
     def verify_user(self, name, password, role):
-        list1 = self.list_for_verify_user(name, role)
-        list1 = self.list_for_verify_user(name, role)
+        list1 = self.get_list_for_verify_user(name, role)
         
         for i in list1:
             if self.request_to_self_verify(i, name, password): return i
-            if self.request_to_self_verify(i, name, password): return i
         return None
     
-    def validate_login(self, name: str, password: str, role: str):
-        acc = self.verify_user(name, password, role)
-        if not acc: return Redirect('/login')
-        self.update_current_user(acc)
-        return Redirect('/')
-    
-    def is_have_coupon(self, coupon_id):
+    def is_current_user_have_coupon(self, coupon_id):
         acc = self.__current_user
         if isinstance(acc, Customer):
             if len(acc.coupon_list) == 0: return False
@@ -390,6 +295,58 @@ class Market():
             if i.username == username and i.password == password:
                 return True
         return False
+    
+    def update_user_image(self, new_image_url):
+        if isinstance(self.current_user, Customer):
+            self.current_user.image = new_image_url
+            # Save the updated account information to the database or file
+            self.save_account(self.current_user)
+
+    def save_account(self, account):
+        # Implement the logic to save the account information to the database or file
+        pass
+
+    def add_user_address(self, district, province, zip_code, phone_number):
+        if isinstance(self.current_user, Customer):
+            # Check if any field is empty
+            if not district or not province or not zip_code or not phone_number:
+                return 'All fields are required.'
+            
+            # Check if the address already exists
+            for address in self.current_user.address_list:
+                if address.district == district and address.province == province and address.zip_code == zip_code and address.phone_number == phone_number:
+                    return 'Address already exists.'
+            
+            new_address = Address(district=district, province=province, zip_code=zip_code, phone_number=phone_number)
+            self.current_user.address_list.append(new_address)
+            return 'success'
+
+    def delete_address(self, district):
+        self.current_user.address_list[:] = [address for address in self.current_user.address_list if address.district != district]
+    
+    def update_address(self, old_district, new_district, new_province, new_zip_code, new_phone_number):
+        for address in self.current_user.address_list:
+            if address.district == old_district:
+                address.district = new_district
+                address.province = new_province
+                address.zip_code = new_zip_code
+                address.phone_number = new_phone_number
+                break
+
+    def update_selected_category(self, category):
+        if isinstance(category, Category):
+            self.__selected_category = category
+            return "Update Category Success"
+        return "Update Category Failed"
+    
+    def update_current_user(self, user : Account):
+        if isinstance(user , Account):
+            self.__current_user = user
+
+    def change_username(self, new_name):
+        if isinstance(self.__current_user, Account):
+            self.__current_user.rename(new_name)
+        return None
 #endregion
 
 def create_json(list1, list2):
@@ -510,7 +467,7 @@ for i in get_all_coupon():
 market1.update_current_user(market1.get_account('A000001'))
 
 # p = market1.get_product("P000001")
-# market1.current_account.cart.add_item(p, 1)
+# market1.current_user.cart.add_item(p, 1)
 
 # for i in get_all_account():
 #     market1.add_account(i)

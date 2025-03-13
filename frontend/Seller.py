@@ -10,8 +10,8 @@ from backend.lib255 import *
 
 
 def Page():
-    my_product = market1.current_account.selling_product
-    requested = market1.current_account.get_requested_product()
+    my_product = market1.current_user.selling_product
+    requested = market1.current_user.get_requested_product()
     page = Title("Seller -Teerawee Shop"), Main(
         Component.Header(False, False, "Seller"),
         Grid(
