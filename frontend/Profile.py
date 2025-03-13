@@ -39,9 +39,9 @@ def page():
             "Address",
             type="button",
             onclick="window.location.href = '/address'",
-            style="margin-top: 10px; width: 100%; background-color: green; color: white;"
+            style="margin-top: 10px; width: 100%;"
         ) if role_bool else Div(),
-        style="display: flex; flex-direction: column; gap: 10px; width: 250px; padding: 10px; border-right: solid 1px #ccc; height: 100vh; background-color: #121212;"
+        style="display: flex; flex-direction: column; gap: 10px; width: 250px; padding: 10px; border-right: solid 1px #ccc; height: 100vh;"
     )
 
     content_area = Div(
@@ -103,7 +103,7 @@ def page():
                     onchange="updateProfileImage(event)",
                     style="display: none;"
                 ),
-                style="border: solid; padding: 20px; display: flex; flex-direction: column; align-items: center; gap: 10px; background-color: #121212;"
+                style="border: solid; padding: 20px; display: flex; flex-direction: column; align-items: center; gap: 10px;"
             ),
             id="profileContent",
             style="display: block;"
@@ -132,9 +132,9 @@ def page():
                             "Use",
                             type="button",
                             onclick="window.location.href='http://localhost:3000/cart';",
-                            style="margin-top: 10px; padding: 10px; border: none; background-color: #007bff; color: white; border-radius: 5px; cursor: pointer;"
+                            style="margin-top: 10px; padding: 10px; border: none; border-radius: 5px; cursor: pointer;"
                         ),
-                        style="margin-top: 10px; padding: 20px; border: 1px solid #ccc; background-color: #2c214e;; color: #121212; border-radius: 10px; width: 300px; box-shadow: 2px 2px 10px rgba(0,0,0,0.1);"
+                        style="margin-top: 10px; padding: 20px; border: 1px solid #ccc; border-radius: 10px; width: 300px; box-shadow: 2px 2px 10px rgba(0,0,0,0.1);"
                     ) for coupon in coupon_list
                 ],
                 id="couponContent",

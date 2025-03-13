@@ -27,7 +27,7 @@ def page():
             Input(type="text", name="zip_code", placeholder="Zip Code", style="margin-top: 10px; padding: 5px; width: 100%;"),
             Input(type="text", name="phone_number", placeholder="Phone Number", style="margin-top: 10px; padding: 5px; width: 100%;"),
             Button("Add Address", type="submit", style="margin-top: 10px; padding: 10px; background-color: green; color: white; border: none; cursor: pointer;"),
-            style="display: flex; flex-direction: column; gap: 10px; width: 300px; padding: 10px; border: 1px solid #ccc; background-color: #fff; color: #121212; border-radius: 5px;"
+            style="display: flex; flex-direction: column; gap: 10px; width: 300px; padding: 10px; border: 1px solid #ccc; border-radius: 5px;"
         ),
         method="post",
         action="/address/add",
@@ -51,7 +51,7 @@ def page():
                 ),
                 
                 
-                style="margin-top: 10px; padding: 10px; border: 1px solid #ccc; background-color: #fff; color: #121212; border-radius: 5px; width: 300px;"  # Adjusted width for the cards
+                style="margin-top: 10px; padding: 10px; border: 1px solid #ccc; border-radius: 5px; width: 300px;"  # Adjusted width for the cards
             ) for address in sorted(address_list, key=lambda x: x.district)  
         ],
         id="addressContent",
@@ -122,3 +122,4 @@ def page():
     )
     
     return page
+
