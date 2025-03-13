@@ -13,15 +13,13 @@ def page():
 
     part_header = Component.Header(False)
 
-    # Add the "X" button to navigate back to the profile page
     back_button = Button(
         "Back",
         type="button",
         onclick="window.location.href = '/profile'",
-        style="position: absolute; top: 20px; right: 20px; background-color: blue; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer;"
+        style="position: absolute; top: 10px; right: 20px; background-color: blue; color: white; border: none; padding: 20px; border-radius: 20px; cursor: pointer;"
     )
 
-    # Form for adding new addresses
     add_address_form = Form(
         Div(
             Input(type="text", name="district", placeholder="District", style="margin-top: 10px; padding: 5px; width: 100%;"),
@@ -54,17 +52,17 @@ def page():
                 
                 
                 style="margin-top: 10px; padding: 10px; border: 1px solid #ccc; background-color: #fff; color: #121212; border-radius: 5px; width: 300px;"  # Adjusted width for the cards
-            ) for address in sorted(address_list, key=lambda x: x.district)  # Sorting by district (you can adjust this to another field if needed)
+            ) for address in sorted(address_list, key=lambda x: x.district)  
         ],
         id="addressContent",
-        style="display: flex; flex-direction: row; gap: 20px; margin-top: 20px; flex-wrap: wrap;"  # Ensure cards wrap in a row
+        style="display: flex; flex-direction: row; gap: 20px; margin-top: 20px; flex-wrap: wrap;"
     ) if role_bool else Div()
 
     main_content = Div(
-        back_button,  # Add the back button to the main content
-        add_address_form,  # Add the form for adding new addresses
+        back_button,
+        add_address_form,
         address_content,
-        style="flex-grow: 1; padding: 20px; background-color: #121212; position: relative;"
+        style="flex-grow: 1; padding: 20px; position: relative;"
     )
 
     script = ("""

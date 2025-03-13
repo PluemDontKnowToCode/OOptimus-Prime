@@ -109,16 +109,13 @@ async def update_profile_image(request: Request):
     if not base64_str or not filename:
         return JSONResponse({'success': False, 'message': 'No file uploaded.'})
     
-    # Decode the base64 string and save the file
     file_location = f"static/profile_images/{filename}"
     try:
-        # Ensure the directory exists
         os.makedirs(os.path.dirname(file_location), exist_ok=True)
 
         with open(file_location, "wb") as f:
             f.write(base64.b64decode(base64_str))
         
-        # Update the profile image URL
         image_url = f"/profile_images/{filename}"
         market1.update_image(image_url)
         return JSONResponse({'success': True, 'image_url': image_url})

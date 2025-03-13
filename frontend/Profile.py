@@ -147,7 +147,7 @@ def page():
     main_content = Div(
         left_menu,
         content_area,
-        style="display: flex; height: 100vh; background-color: #121212;"
+        style="display: flex; height: 100vh;"
     )
 
     script = ("""
@@ -212,14 +212,11 @@ def page():
             return;
         }
 
-        // Display the selected image before uploading
         var reader = new FileReader();
         reader.onload = function(e) {
             document.getElementById('profileImage').src = e.target.result;
         };
         reader.readAsDataURL(file);
-
-        // Convert the image to base64 and send it to the server
         reader.onloadend = function() {
             var base64String = reader.result.replace("data:", "").replace(/^.+,/, "");
 
