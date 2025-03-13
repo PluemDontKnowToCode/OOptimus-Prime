@@ -77,7 +77,7 @@ def login_process(name: str, password: str, role: str):
 
 @app.get('/logout')
 def logout():
-    market1.update_current_user(None)
+    market1.clear_current_user()
     return Redirect('/')
 
 @app.get('/register')

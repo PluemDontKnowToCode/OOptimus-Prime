@@ -46,7 +46,8 @@ class Account(Object):
     @property
     def coupon_list(self):
         return self.__coupon_list
-    
+    def update_image(self, url):
+        self.__image = url
     def update_money(self, amount):
         self.__money += amount
 

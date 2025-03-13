@@ -298,7 +298,7 @@ class Market():
     
     def update_user_image(self, new_image_url):
         if isinstance(self.current_user, Customer):
-            self.current_user.image = new_image_url
+            self.current_user.update_image(new_image_url)
             # Save the updated account information to the database or file
             self.save_account(self.current_user)
 
@@ -313,13 +313,7 @@ class Market():
                 return 'All fields are required.'
             
             # Check if the address already exists
-            for address in self.current_user.address_list:
-                if address.district == district and address.province == province and address.zip_code == zip_code and address.phone_number == phone_number:
-                    return 'Address already exists.'
-            
-            new_address = Address(district=district, province=province, zip_code=zip_code, phone_number=phone_number)
-            self.current_user.address_list.append(new_address)
-            return 'success'
+            return self.current_user.add_address(district, province, zip_code, phone_number)
 
     def delete_address(self, district):
         self.current_user.address_list[:] = [address for address in self.current_user.address_list if address.district != district]
@@ -339,13 +333,16 @@ class Market():
             return "Update Category Success"
         return "Update Category Failed"
     
-    def update_current_user(self, user : Account):
+    def update_current_user(self, user):
         if isinstance(user , Account):
             self.__current_user = user
+            
+    def clear_current_user(self):
+        self.__current_user = None
 
     def change_username(self, new_name):
         if isinstance(self.__current_user, Account):
-            self.__current_user.rename(new_name)
+            return self.__current_user.rename(new_name)
         return None
 #endregion
 

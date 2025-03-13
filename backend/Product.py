@@ -12,7 +12,6 @@ class Product(Object):
         self.__category = category
         self.__comment_list = comment_list
         self.__stock = int(stock)
-        self.__market = market
         super().__init__(id)
 
     
@@ -72,7 +71,7 @@ class Product(Object):
             res = "Done"
         return res
     
-    def update_stock(self, a):
-        self.__stock += a
+    def update_stock(self, amount):
+        self.__stock += amount
         
     def is_greater_than_me(self, amount): return amount > self.__stock
