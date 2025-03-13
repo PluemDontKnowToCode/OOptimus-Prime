@@ -41,7 +41,7 @@ def page():
             onclick="window.location.href = '/address'",
             style="margin-top: 10px; width: 100%;"
         ) if role_bool else Div(),
-        style="display: flex; flex-direction: column; gap: 10px; width: 250px; padding: 10px; border-right: solid 1px #ccc; height: 100vh;"
+        style="display: flex; flex-direction: column; gap: 10px; width: 250px; padding: 10px; border-right: solid 1px #ccc; height: 100vh;background-color: #555555;"
     )
 
     content_area = Div(
