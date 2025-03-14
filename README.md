@@ -1,5 +1,6 @@
+from **https://github.com/PluemDontKnowToCode/OOptimus-Prime.git**
 # OOptimus-Prime
-OOP project
+CE-KMITL 1D OOP project
 
 ## Getting Started
 
