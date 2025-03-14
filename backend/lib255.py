@@ -300,11 +300,7 @@ class Market():
         if isinstance(self.current_user, Customer):
             self.current_user.update_image(new_image_url)
             # Save the updated account information to the database or file
-            self.save_account(self.current_user)
-
-    def save_account(self, account):
-        # Implement the logic to save the account information to the database or file
-        pass
+            return "success"
 
     def add_user_address(self, district, province, zip_code, phone_number):
         if isinstance(self.current_user, Customer):
