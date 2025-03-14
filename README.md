@@ -19,15 +19,15 @@ To run this project locally, ensure you have Python installed. Then, follow thes
    cd OOptimus-Prime
    python -u ./_main.py
    ```
-   or run ***run.bat*** in project to start then go to **localhost:3000**
+   or run ***run.bat*** in **OOptimus-Prime/frontend/run.bat** to start then go to **localhost:3000**
 
 4. **Data File**
 
    this project didn't connect to any backend so all data come from following json file
    ## Data File Structure
-
-   The following structure represents the organization of JSON data files:
    
+   The following structure represents the organization of JSON data files:
+   ```bash
    jsonData
    
       │── Account.json
@@ -41,7 +41,8 @@ To run this project locally, ensure you have Python installed. Then, follow thes
       │── Seller.json
    
       │── UnImproveProduct.json
-      
+      ```
+   **Note admin username must have "admin" in it**
 ## Features
 
 - **User Authentication**: Users can register, log in, and log out.
